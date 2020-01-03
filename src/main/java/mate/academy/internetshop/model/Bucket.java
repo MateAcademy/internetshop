@@ -31,4 +31,8 @@ public class Bucket {
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
+
+    public void addItem(Item item){
+        items.add(item);
+    }
 }

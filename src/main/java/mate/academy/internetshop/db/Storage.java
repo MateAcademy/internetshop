@@ -1,4 +1,4 @@
-package mate.academy.internetshop.bd;
+package mate.academy.internetshop.db;
 
 import java.util.ArrayList;
 import java.util.List;
