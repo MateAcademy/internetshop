@@ -3,7 +3,7 @@ package mate.academy.internetshop.model;
 import java.util.List;
 
 public class Bucket {
-//TODO: має бути посилання на юзера
+
     private Long id;
     private List<Item> items;
     private Long orderId;
@@ -32,7 +32,7 @@ public class Bucket {
         this.orderId = orderId;
     }
 
-    public void addItem(Item item){
+    public void addItem(Item item) {
         items.add(item);
     }
 }

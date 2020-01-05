@@ -1,38 +1,66 @@
 package mate.academy.internetshop.dao.impl;
 
-import java.util.NoSuchElementException;
+import java.util.List;
+import java.util.Optional;
 
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.db.Storage;
+import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Item;
+import mate.academy.internetshop.service.idgenerators.ItemIdGenerator;
 
+@Dao
 public class ItemDaoImpl implements ItemDao {
     @Override
     public Item create(Item item) {
-        return null;
+        item.setId(ItemIdGenerator.getId());
+        Storage.items.add(item);
+        return item;
     }
 
     @Override
-    public Item get(Long id) {
+    public Optional<Item> get(long id) {
         return Storage.items
                 .stream()
                 .filter(i -> i.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Can't find Item with id" + id));
+                .findFirst();
+    }
+
+    @Override
+    public List<Item> getAllItems() {
+        return Storage.items;
     }
 
     @Override
     public Item update(Item item) {
-        return null;
+        for (int i = 0; i < Storage.items.size(); i++) {
+            if (item.getId().equals(Storage.items.get(i).getId())) {
+                Storage.items.remove(i);
+            }
+        }
+        Storage.items.add(item);
+        return item;
     }
 
     @Override
-    public void delete(Long id) {
-
+    public boolean delete(Long id) {
+        for (int i = 0; i < Storage.items.size(); i++) {
+            if (id.equals(Storage.items.get(i).getId())) {
+                Storage.items.remove(i);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
-    public void delete(Item item) {
-
+    public boolean delete(Item item) {
+        for (int i = 0; i < Storage.items.size(); i++) {
+            if (item.equals(Storage.items.get(i))) {
+                Storage.items.remove(i);
+                return true;
+            }
+        }
+        return false;
     }
 }
