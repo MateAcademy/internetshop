@@ -21,14 +21,14 @@ public class AnnotatedClassMap {
 
     static {
         classMap.put(UserDao.class, Factory.getUserDao());
-        classMap.put(OrderDao.class, Factory.getUserDao());
-        classMap.put(ItemDao.class, Factory.getUserDao());
-        classMap.put(BucketDao.class, Factory.getUserDao());
+        classMap.put(OrderDao.class, Factory.getOrderDao());
+        classMap.put(ItemDao.class, Factory.getItemDao());
+        classMap.put(BucketDao.class, Factory.getBucketDao());
 
-        classMap.put(UserService.class, Factory.getUserDao());
-        classMap.put(OrderService.class, Factory.getUserDao());
-        classMap.put(ItemService.class, Factory.getUserDao());
-        classMap.put(BucketService.class, Factory.getUserDao());
+        classMap.put(UserService.class, Factory.getUserService());
+        classMap.put(OrderService.class, Factory.getOrderService());
+        classMap.put(ItemService.class, Factory.getItemService());
+        classMap.put(BucketService.class, Factory.getBucketService());
     }
 
     public static Object getImplementation(Class interfaceClass) {
