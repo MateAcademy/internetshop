@@ -15,9 +15,9 @@ import mate.academy.internetshop.service.BucketService;
 public class BucketServiceImpl implements BucketService {
 
     @Inject
-    private BucketDao bucketDao;
+    private static BucketDao bucketDao;
     @Inject
-    private ItemDao itemDao;
+    private static ItemDao itemDao;
 
     @Override
     public void addItem(Bucket bucket, Item item) {
@@ -42,7 +42,7 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public List<Item> getAllItems(Bucket bucket) {
-        return bucket.getItems();
+        return bucketDao.get(bucket.getId()).get().getItems();
     }
 
     @Override
