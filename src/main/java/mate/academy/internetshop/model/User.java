@@ -10,6 +10,15 @@ public class User {
     private Order order;
     private Bucket bucket;
     private List<Order> orderList;
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public List<Order> getOrderList() {
         return orderList;
