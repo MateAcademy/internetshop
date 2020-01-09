@@ -1,16 +1,21 @@
 package mate.academy.internetshop.model;
 
-import java.util.List;
 import java.util.Objects;
 
 public class User {
 
     private Long id;
     private String name;
-    private Order order;
-    private Bucket bucket;
-    private List<Order> orderList;
     private String email;
+
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
@@ -20,20 +25,8 @@ public class User {
         this.email = email;
     }
 
-    public List<Order> getOrderList() {
-        return orderList;
-    }
-
-    public void setOrderList(List<Order> orderList) {
-        this.orderList = orderList;
-    }
-
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -44,20 +37,9 @@ public class User {
         this.name = name;
     }
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public Bucket getBucket() {
-        return bucket;
-    }
-
-    public void setBucket(Bucket bucket) {
-        this.bucket = bucket;
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", name='" + name + '\'' + ", email='" + email + '\'' + '}';
     }
 
     @Override
@@ -69,14 +51,12 @@ public class User {
             return false;
         }
         User user = (User) o;
-        return Objects.equals(id, user.id)
-                && Objects.equals(name, user.name)
-                && Objects.equals(order, user.order)
-                && Objects.equals(bucket, user.bucket);
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name)
+                && Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, order, bucket);
+        return Objects.hash(id, name, email);
     }
 }

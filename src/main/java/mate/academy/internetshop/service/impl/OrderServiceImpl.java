@@ -2,8 +2,10 @@ package mate.academy.internetshop.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import mate.academy.internetshop.dao.OrderDao;
+import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
 import mate.academy.internetshop.model.Item;
@@ -21,15 +23,16 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(List<Item> items, User user) {
-        Order newOrder = new Order();
-        newOrder.setUser(user);
-        newOrder.setItems(items);
-        return orderDao.create(newOrder);
+        Order order = new Order(user).setItems(items);
+        Storage.orders.add(order);
+        return order;
     }
 
     @Override
     public List<Order> getUserOrders(User user) {
-        return user.getOrderList();
+        return Storage.orders.stream()
+                .filter(x -> x.getUserId().equals(user.getId()))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -67,8 +67,6 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public void deleteItem(Bucket bucket, Item item) {
-        List<Item> items = getAllItems(bucket);
-        items.remove(item);
-        bucket.setItems(items);
+        bucket.getItems().remove(item);
     }
 }
