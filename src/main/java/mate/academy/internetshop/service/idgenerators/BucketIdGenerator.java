@@ -6,7 +6,7 @@ package mate.academy.internetshop.service.idgenerators;
 public class BucketIdGenerator {
     private static long id = 1;
 
-    public static long getId() {
+    public static long getGeneratedId() {
         return id++;
     }
 }

@@ -11,13 +11,13 @@ import java.util.List;
 /**
  * @author Sergey Klunniy
  */
-public class InjectorAdvanced {
-    private static final String PROJACT_MAIN_PACKAGE = "mate.academy.internetshop";
+public class Injector {
+    private static final String PROJECT_MAIN_PACKAGE = "mate.academy.internetshop";
     private static List<Class> classes = new ArrayList<>();
 
     static {
         try {
-            classes.addAll(getClasses(PROJACT_MAIN_PACKAGE));
+            classes.addAll(getClasses(PROJECT_MAIN_PACKAGE));
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }

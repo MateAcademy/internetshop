@@ -7,13 +7,11 @@ import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Item;
-import mate.academy.internetshop.service.idgenerators.ItemIdGenerator;
 
 @Dao
 public class ItemDaoImpl implements ItemDao {
     @Override
     public Item create(Item item) {
-        item.setId(ItemIdGenerator.getId());
         Storage.items.add(item);
         return item;
     }

@@ -5,12 +5,12 @@
          version="3.1">
 
     <servlet>
-        <servlet-name>index</servlet-name>
+        <servlet-name>indexServlet</servlet-name>
         <servlet-class>mate.academy.internetshop.controller.IndexController</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>index</servlet-name>
+        <servlet-name>indexServlet</servlet-name>
         <url-pattern>/index</url-pattern>
     </servlet-mapping>
 </web-app>

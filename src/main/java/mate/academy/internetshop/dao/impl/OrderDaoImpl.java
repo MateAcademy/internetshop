@@ -17,7 +17,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Order create(Order order) {
-        order.setId(OrderIdGenerator.getId());
+        order.setId(OrderIdGenerator.getGeneratedId());
         Storage.orders.add(order);
         return order;
     }

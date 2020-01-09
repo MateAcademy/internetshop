@@ -2,6 +2,8 @@ package mate.academy.internetshop.service;
 
 import mate.academy.internetshop.model.User;
 
+import java.util.List;
+
 /**
  * @author Sergey Klunniy
  */
@@ -15,4 +17,6 @@ public interface UserService {
     boolean delete(Long userId);
 
     boolean delete(User user);
+
+    List<User> getAll();
 }

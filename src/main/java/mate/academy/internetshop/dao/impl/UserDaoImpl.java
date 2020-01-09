@@ -15,7 +15,7 @@ import mate.academy.internetshop.service.idgenerators.UserIdGenerator;
 public class UserDaoImpl implements UserDao {
     @Override
     public User create(User user) {
-        user.setId(UserIdGenerator.getId());
+        user.setId(UserIdGenerator.getGeneratedId());
         Storage.users.add(user);
         return user;
     }

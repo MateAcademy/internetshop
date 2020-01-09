@@ -28,7 +28,7 @@ public class Factory {
 
     private static UserService userService;
     private static OrderService orderService;
-    private static ItemService itemService;
+    private static ItemService getItemService;
     private static BucketService bucketService;
 
     public static UserDao getUserDao() {
@@ -73,11 +73,11 @@ public class Factory {
         return orderService;
     }
 
-    public static ItemService getItemService() {
-        if (itemService == null) {
-            itemService = new ItemServiceImpl();
+    public static ItemService getGetItemService() {
+        if (getItemService == null) {
+            getItemService = new ItemServiceImpl();
         }
-        return itemService;
+        return getItemService;
     }
 
     public static BucketService getBucketService() {

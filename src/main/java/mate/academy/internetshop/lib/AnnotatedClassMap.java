@@ -27,7 +27,7 @@ public class AnnotatedClassMap {
 
         classMap.put(UserService.class, Factory.getUserService());
         classMap.put(OrderService.class, Factory.getOrderService());
-        classMap.put(ItemService.class, Factory.getItemService());
+        classMap.put(ItemService.class, Factory.getGetItemService());
         classMap.put(BucketService.class, Factory.getBucketService());
     }
 

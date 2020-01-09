@@ -12,7 +12,7 @@ import mate.academy.internetshop.service.idgenerators.BucketIdGenerator;
 public class BucketDaoImpl implements BucketDao {
     @Override
     public Bucket create(Bucket bucket) {
-        bucket.setId(BucketIdGenerator.getId());
+//        bucket.setId(BucketIdGenerator.getGeneratedId());
         Storage.buckets.add(bucket);
         return bucket;
     }
@@ -20,14 +20,14 @@ public class BucketDaoImpl implements BucketDao {
     @Override
     public Optional<Bucket> get(Long bucketId) {
         return Storage.buckets
-                .stream().filter(b -> b.getId().equals(bucketId))
+                .stream().filter(b -> b.getUserId().equals(bucketId))
                 .findFirst();
     }
 
     @Override
     public Bucket update(Bucket bucket) {
         for (int i = 0; i < Storage.buckets.size(); i++) {
-            if (bucket.getId().equals(Storage.buckets.get(i).getId())) {
+            if (bucket.getUserId().equals(Storage.buckets.get(i).getUserId())) {
                 Storage.buckets.remove(i);
             }
         }
@@ -38,7 +38,7 @@ public class BucketDaoImpl implements BucketDao {
     @Override
     public boolean delete(Long bucketId) {
         for (int i = 0; i < Storage.buckets.size(); i++) {
-            if (bucketId.equals(Storage.buckets.get(i).getId())) {
+            if (bucketId.equals(Storage.buckets.get(i).getUserId())) {
                 Storage.buckets.remove(i);
                 return true;
             }
