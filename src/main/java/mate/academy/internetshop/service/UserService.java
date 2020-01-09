@@ -1,7 +1,5 @@
 package mate.academy.internetshop.service;
 
-import java.util.Optional;
-
 import mate.academy.internetshop.model.User;
 
 /**
