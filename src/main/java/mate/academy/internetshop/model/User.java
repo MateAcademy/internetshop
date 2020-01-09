@@ -13,7 +13,7 @@ public class User {
         this.email = email;
     }
 
-    public void setId(Long id) {
+    public void setUserId(Long id) {
         this.id = id;
     }
 

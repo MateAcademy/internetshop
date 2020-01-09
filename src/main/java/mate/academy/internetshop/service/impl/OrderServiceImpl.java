@@ -52,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public boolean delete(Long orderId) {
-        return orderDao.delete(orderId);
+        return orderDao.deleteById(orderId);
     }
 
     @Override

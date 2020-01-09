@@ -1,5 +1,6 @@
 package mate.academy.internetshop.dao.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import mate.academy.internetshop.dao.BucketDao;
@@ -10,6 +11,23 @@ import mate.academy.internetshop.service.idgenerators.BucketIdGenerator;
 
 @Dao
 public class BucketDaoImpl implements BucketDao {
+
+    @Override
+    public boolean deleteById(Long entityId) {
+        for (int i = 0; i < Storage.buckets.size(); i++) {
+            if (entityId.equals(Storage.buckets.get(i).getId())) {
+                Storage.buckets.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public List<Bucket> getAll() {
+        return Storage.buckets;
+    }
+
     @Override
     public Bucket create(Bucket bucket) {
         bucket.setId(BucketIdGenerator.getId());
@@ -33,17 +51,6 @@ public class BucketDaoImpl implements BucketDao {
         }
         Storage.buckets.add(bucket);
         return bucket;
-    }
-
-    @Override
-    public boolean delete(Long bucketId) {
-        for (int i = 0; i < Storage.buckets.size(); i++) {
-            if (bucketId.equals(Storage.buckets.get(i).getId())) {
-                Storage.buckets.remove(i);
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override

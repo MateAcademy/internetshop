@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import mate.academy.internetshop.dao.ItemDao;
-import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
 import mate.academy.internetshop.model.Item;
@@ -12,13 +11,9 @@ import mate.academy.internetshop.service.ItemService;
 
 @Service
 public class ItemServiceImpl implements ItemService {
+
     @Inject
     private static ItemDao itemDao;
-
-    @Override
-    public List<Item> getAllItems() {
-        return Storage.items;
-    }
 
     @Override
     public Item create(Item item) {
@@ -26,8 +21,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Optional<Item> get(Long id) {
-        return itemDao.get(id);
+    public Optional<Item> get(Long itemId) {
+        return itemDao.get(itemId);
     }
 
     @Override
@@ -36,8 +31,13 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void delete(Long id) {
-        itemDao.delete(id);
+    public List<Item> getAllItems() {
+        return itemDao.getAll();
+    }
+
+    @Override
+    public void deleteByID(Long itemId) {
+        itemDao.deleteById(itemId);
     }
 
     @Override

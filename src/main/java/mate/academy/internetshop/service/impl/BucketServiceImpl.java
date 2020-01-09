@@ -20,6 +20,36 @@ public class BucketServiceImpl implements BucketService {
     private static ItemDao itemDao;
 
     @Override
+    public Bucket create(Bucket bucket) {
+        return bucketDao.create(bucket);
+    }
+
+    @Override
+    public Optional<Bucket> get(Long bucketId) {
+        return bucketDao.get(bucketId);
+    }
+
+    @Override
+    public Bucket update(Bucket bucket) {
+        return bucketDao.update(bucket);
+    }
+
+    @Override
+    public boolean delete(Long bucketId) {
+        return bucketDao.deleteById(bucketId);
+    }
+
+    @Override
+    public boolean delete(Bucket bucket) {
+        return bucketDao.delete(bucket);
+    }
+
+    @Override
+    public void deleteItem(Bucket bucket, Item item) {
+        bucket.getItems().remove(item);
+    }
+
+    @Override
     public void addItem(Bucket bucket, Item item) {
         System.out.println("item has some ID");
         System.out.println("bucket has some ID");
@@ -36,37 +66,14 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public void create(Bucket bucket) {
-        bucketDao.create(bucket);
+    public void clear(Bucket bucket) {
+        Bucket tempBucket = bucketDao.get(bucket.getId()).get();
+        tempBucket.getItems().clear();
+        bucketDao.update(tempBucket);
     }
 
     @Override
     public List<Item> getAllItems(Bucket bucket) {
         return bucketDao.get(bucket.getId()).get().getItems();
-    }
-
-    @Override
-    public Optional<Bucket> get(Long id) {
-        return bucketDao.get(id);
-    }
-
-    @Override
-    public Bucket update(Bucket bucket) {
-        return bucketDao.update(bucket);
-    }
-
-    @Override
-    public boolean delete(Long bucketId) {
-        return bucketDao.delete(bucketId);
-    }
-
-    @Override
-    public boolean delete(Bucket bucket) {
-        return bucketDao.delete(bucket);
-    }
-
-    @Override
-    public void deleteItem(Bucket bucket, Item item) {
-        bucket.getItems().remove(item);
     }
 }

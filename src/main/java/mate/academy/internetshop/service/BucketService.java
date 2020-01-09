@@ -7,14 +7,7 @@ import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.model.Item;
 
 public interface BucketService {
-
-    void addItem(Bucket bucket, Item item);
-
-    Bucket addItem(Long bucketId, Long itemId);
-
-    void create(Bucket bucket);
-
-    List<Item> getAllItems(Bucket bucket);
+    Bucket create(Bucket bucket);
 
     Optional<Bucket> get(Long bucketId);
 
@@ -25,4 +18,13 @@ public interface BucketService {
     boolean delete(Bucket bucket);
 
     void deleteItem(Bucket bucket, Item item);
+
+    void addItem(Bucket bucket, Item item);
+
+    Bucket addItem(Long bucketId, Long itemId);
+
+    void clear(Bucket bucket);
+
+    List<Item> getAllItems(Bucket bucket);
+
 }

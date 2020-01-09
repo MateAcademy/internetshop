@@ -19,16 +19,10 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public Optional<Item> get(long id) {
-        return Storage.items
-                .stream()
-                .filter(i -> i.getId().equals(id))
+    public Optional<Item> get(Long index) {
+        return Storage.items.stream()
+                .filter(x -> x.getId().equals(index))
                 .findFirst();
-    }
-
-    @Override
-    public List<Item> getAllItems() {
-        return Storage.items;
     }
 
     @Override
@@ -43,24 +37,24 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public boolean delete(Long id) {
-        for (int i = 0; i < Storage.items.size(); i++) {
-            if (id.equals(Storage.items.get(i).getId())) {
-                Storage.items.remove(i);
-                return true;
-            }
+    public boolean deleteById(Long entityId) {
+        Optional optionalItem = Optional.ofNullable(Storage.items
+                .stream()
+                .filter(i -> i.getId().equals(entityId))
+                .findFirst());
+        if (optionalItem.isPresent()) {
+            return Storage.items.remove(optionalItem.get());
         }
         return false;
     }
 
     @Override
     public boolean delete(Item item) {
-        for (int i = 0; i < Storage.items.size(); i++) {
-            if (item.equals(Storage.items.get(i))) {
-                Storage.items.remove(i);
-                return true;
-            }
-        }
-        return false;
+        return Storage.items.remove(item);
+    }
+
+    @Override
+    public List<Item> getAll() {
+        return Storage.items;
     }
 }
