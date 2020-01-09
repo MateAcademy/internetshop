@@ -63,24 +63,6 @@
                     <linkXRef>false</linkXRef>
                 </configuration>
             </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <outputDirectory>${basedir}</outputDirectory>
-                    <finalName>internet-shop</finalName>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <archive>
-                        <manifest>
-                            <mainClass>mate.academy.internetshop.Main</mainClass>
-                        </manifest>
-                    </archive>
-
-                </configuration>
-            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
