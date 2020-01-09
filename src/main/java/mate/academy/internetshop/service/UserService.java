@@ -10,7 +10,7 @@ import mate.academy.internetshop.model.User;
 public interface UserService {
     User create(User user);
 
-    Optional<User> get(Long idUser);
+    User get(Long idUser);
 
     User update(User user);
 

@@ -17,7 +17,7 @@ public interface OrderService {
 
     Order create(Order order);
 
-    Optional<Order> get(Long orderId);
+    Order get(Long orderId);
 
     Order update(Order order);
 

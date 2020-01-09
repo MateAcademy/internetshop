@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> get(Long idUser) {
-        return userDao.get(idUser);
+    public User get(Long idUser) {
+        return userDao.get(idUser).get();
     }
 
     @Override

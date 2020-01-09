@@ -21,8 +21,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Optional<Item> get(Long itemId) {
-        return itemDao.get(itemId);
+    public Item get(Long itemId) {
+        return itemDao.get(itemId).get();
     }
 
     @Override
