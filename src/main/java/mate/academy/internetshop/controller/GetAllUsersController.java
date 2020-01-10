@@ -22,7 +22,10 @@ public class GetAllUsersController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         List<User> users = userService.getAll();
+        User user = new User("Setgei" , "s.klunniy@gmail.com");
+        users.add(user);
         req.setAttribute("greeting", "mates");
+        req.setAttribute("users", users);
         req.getRequestDispatcher("/WEB-INF/views/allUsers.jsp").forward(req, resp);
     }
 }

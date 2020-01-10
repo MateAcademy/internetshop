@@ -1,5 +1,7 @@
 package mate.academy.internetshop.model;
 
+import mate.academy.internetshop.service.idgenerators.UserIdGenerator;
+
 import java.util.Objects;
 
 public class User {
@@ -13,8 +15,8 @@ public class User {
     public User(String name, String email) {
         this.name = name;
         this.email = email;
+        id = UserIdGenerator.getGeneratedId();
     }
-
 
     public void setId(Long id) {
         this.id = id;
