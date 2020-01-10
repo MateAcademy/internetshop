@@ -14,10 +14,10 @@ public class Item {
     }
 
     public Item(String name, Double price, String description) {
+        super();
         this.name = name;
         this.price = price;
         this.description = description;
-        id = ItemIdGenerator.getGeneratedId();
     }
 
     public Long getId() {

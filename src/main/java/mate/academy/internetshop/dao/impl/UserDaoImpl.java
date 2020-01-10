@@ -25,6 +25,7 @@ public class UserDaoImpl implements UserDao {
         return Storage.users
                 .stream().filter(b -> b.getId().equals(idUser))
                 .findFirst();
+        //.orElseThrow(()->new NoSuchElementException("Can't find user with id: " + idUser ));
     }
 
     @Override
@@ -40,13 +41,24 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean delete(Long userId) {
-        for (int i = 0; i < Storage.users.size(); i++) {
-            if (userId.equals(Storage.users.get(i).getId())) {
-                Storage.users.remove(i);
+
+         Optional <User> optUser = get(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            if (Storage.users.remove(user)) {
                 return true;
             }
         }
-        return false;
+
+            return false;
+
+//        for (int i = 0; i < Storage.users.size(); i++) {
+//            if (userId.equals(Storage.users.get(i).getId())) {
+//                Storage.users.remove(i);
+//                return true;
+//            }
+//        }
+//        return false;
     }
 
     @Override

@@ -8,6 +8,7 @@ import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Sergey Klunniy
@@ -25,7 +26,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User get(Long idUser) {
-        return userDao.get(idUser).get();
+        Optional<User> optUser = userDao.get(idUser);
+        if (optUser.isPresent()) {
+            return optUser.get();
+        }
+        return null;
     }
 
     @Override

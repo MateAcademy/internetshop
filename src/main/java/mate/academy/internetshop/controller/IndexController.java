@@ -1,7 +1,5 @@
 package mate.academy.internetshop.controller;
 
-import mate.academy.internetshop.lib.Injector;
-
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

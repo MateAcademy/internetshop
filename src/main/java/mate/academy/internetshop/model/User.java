@@ -2,20 +2,25 @@ package mate.academy.internetshop.model;
 
 import mate.academy.internetshop.service.idgenerators.UserIdGenerator;
 
-import java.util.Objects;
-
 public class User {
 
     private Long id;
     private String name;
+    private String surname;
     private String email;
+    private String login;
+    private String password;
 
-    public User() {}
+    public User() {
+    }
 
-    public User(String name, String email) {
+    public User(String name, String surname, String email, String login, String password) {
+        super();
         this.name = name;
+        this.surname = surname;
         this.email = email;
-        id = UserIdGenerator.getGeneratedId();
+        this.login = login;
+        this.password = password;
     }
 
     public void setId(Long id) {
@@ -42,26 +47,36 @@ public class User {
         this.name = name;
     }
 
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", name='" + name + '\'' + ", email='" + email + '\'' + '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name)
-                && Objects.equals(email, user.email);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, email);
+        return "User{" + "id=" + id + ", name='" + name + '\''
+                + ", surname='" + surname + '\''
+                + ", email='" + email + '\''
+                + ", login='" + login + '\''
+                + ", password='" + password + '\'' + '}';
     }
 }
