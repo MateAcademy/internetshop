@@ -22,6 +22,7 @@ public class GetAllUsersController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         List<User> users = userService.getAll();
-        super.doGet(req, resp);
+        req.setAttribute("greeting", "mates");
+        req.getRequestDispatcher("/WEB-INF/views/allUsers.jsp").forward(req, resp);
     }
 }

@@ -13,15 +13,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class IndexController extends HttpServlet {
 
-    static {
-        System.out.println("IndexController is loader!!!");
-            try {
-                Injector.injectDependency();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {

@@ -8,9 +8,30 @@
         <servlet-name>indexServlet</servlet-name>
         <servlet-class>mate.academy.internetshop.controller.IndexController</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>indexServlet</servlet-name>
         <url-pattern>/index</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>getAllOrdersServlet</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.GetAllOldersController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getAllOrdersServlet</servlet-name>
+        <url-pattern>/servlet/getAllOrders</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>getAllUsersServlet</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.GetAllUsersController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getAllUsersServlet</servlet-name>
+        <url-pattern>/servlet/getAllUsers</url-pattern>
+    </servlet-mapping>
+
+    <listener>
+        <listener-class>mate.academy.internetshop.controller.InjectInitializer</listener-class>
+    </listener>
 </web-app>

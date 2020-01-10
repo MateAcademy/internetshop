@@ -36,7 +36,7 @@ public class Main {
 
     static {
         try {
-            System.out.println("IndexController in Main");
+            System.out.println("Inject in Main");
             Injector.injectDependency();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -44,30 +44,30 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        //Створили товар і додали його у наш магазин
-        Item item = new Item();
-        item.setName("iPhone 11");
-        itemService.create(item);
-
-        //Зареєстрували користувача в нашій системі
-        User user = new User("Sergei", "mate@gmail.com");
-        userService.create(user);
-
-        //Користувач почав купувати наші товари і додавати їх у корзину
-        BucketService bucketService = new BucketServiceImpl();
-        Bucket bucket = new Bucket(user.getId());
-        bucketService.create(bucket);
-        bucketService.addItem(bucket.getUserId(), item.getId());
-
-        //Користувач вибрав все необхыдны йому товари
-        //і натиснув кнопку "Оформити замовлення"
-        OrderService orderService = new OrderServiceImpl();
-        orderService.completeOrder(bucket);
-        bucketService.delete(bucket.getUserId());
-
-        //Користувач хоче подивитись історію своїх покупок
-        List<Order> allOrdersForUser = orderService.getAllOrdersForUser(user.getId());
-        System.out.println(allOrdersForUser);
+//        //Створили товар і додали його у наш магазин
+//        Item item = new Item();
+//        item.setName("iPhone 11");
+//        itemService.create(item);
+//
+//        //Зареєстрували користувача в нашій системі
+//        User user = new User("Sergei", "mate@gmail.com");
+//        userService.create(user);
+//
+//        //Користувач почав купувати наші товари і додавати їх у корзину
+//        BucketService bucketService = new BucketServiceImpl();
+//        Bucket bucket = new Bucket(user.getId());
+//        bucketService.create(bucket);
+//        bucketService.addItem(bucket.getUserId(), item.getId());
+//
+//        //Користувач вибрав все необхыдны йому товари
+//        //і натиснув кнопку "Оформити замовлення"
+//        OrderService orderService = new OrderServiceImpl();
+//        orderService.completeOrder(bucket);
+//        bucketService.delete(bucket.getUserId());
+//
+//        //Користувач хоче подивитись історію своїх покупок
+//        List<Order> allOrdersForUser = orderService.getAllOrdersForUser(user.getId());
+//        System.out.println(allOrdersForUser);
 
     }
 }
