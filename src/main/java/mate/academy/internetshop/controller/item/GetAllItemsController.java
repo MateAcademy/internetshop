@@ -1,8 +1,7 @@
-package mate.academy.internetshop.controller;
+package mate.academy.internetshop.controller.item;
 
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Item;
-import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.ItemService;
 
 import javax.servlet.ServletException;

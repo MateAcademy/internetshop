@@ -1,4 +1,4 @@
-package mate.academy.internetshop.controller;
+package mate.academy.internetshop.controller.older;
 
 import javax.servlet.http.HttpServlet;
 

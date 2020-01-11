@@ -1,4 +1,4 @@
-package mate.academy.internetshop.controller;
+package mate.academy.internetshop.controller.user;
 
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.User;
@@ -20,22 +20,31 @@ public class RegistrationUserController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/registerUser.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        System.out.println("Мы после регистрации в сервлете RegistrationUserController");
-
+        req.setCharacterEncoding("UTF-8");
         User newUser = new User();
         newUser.setName(req.getParameter("user_name"));
         newUser.setSurname(req.getParameter("user_surname"));
         newUser.setEmail(req.getParameter("email"));
+        newUser.setPhone(req.getParameter("phone"));
         newUser.setLogin(req.getParameter("login"));
-        newUser.setPassword(req.getParameter("psw"));
 
-        userService.create(newUser);
-        resp.sendRedirect(req.getContextPath() + "/servlet/getAllUsers");
+        String password = req.getParameter("psw");
+        String repeatPassword = req.getParameter("psw2");
+        if (password.equals(repeatPassword)) {
+            newUser.setPassword(password);
+            userService.create(newUser);
+            resp.sendRedirect(req.getContextPath() + "/servlet/show-all-users");
+        } else {
+            req.setAttribute("error", "Your password not equals, enter new password:");
+            req.getRequestDispatcher("/WEB-INF/views/registerUser.jsp").forward(req, resp);
+        }
+
+
+
     }
 }

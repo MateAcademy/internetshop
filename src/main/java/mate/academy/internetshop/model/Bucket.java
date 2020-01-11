@@ -11,9 +11,11 @@ public class Bucket {
     private Long userId;
     private List<Item> items = new ArrayList<>();
 
+    public Bucket() {this.id = BucketIdGenerator.getGeneratedId();}
+
     public Bucket(Long id) {
+        super();
         this.userId = id;
-        this.id = BucketIdGenerator.getGeneratedId();
     }
 
     public void setId(Long id) {
@@ -26,6 +28,18 @@ public class Bucket {
 
     public List<Item> getItems() {
         return items;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     public void addItem(Item item) {

@@ -1,10 +1,8 @@
-package mate.academy.internetshop.controller;
+package mate.academy.internetshop.controller.item;
 
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Item;
-import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.ItemService;
-import mate.academy.internetshop.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -26,15 +24,19 @@ public class RegistrationItemController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        System.out.println("Мы после регистрации в сервлете addItem.jsp");
-
+        req.setCharacterEncoding("UTF-8");
         Item item = new Item();
-        item.setName(req.getParameter("item_name"));
-        item.setPrice(Double.valueOf(req.getParameter("item_price")));
-        item.setDescription(req.getParameter("item_description"));
+        String name =req.getParameter("item_name"); item.setName(name);
+        Double price = Double.valueOf(req.getParameter("item_price")); item.setPrice(price);
+        String description = req.getParameter("item_description"); item.setDescription(description);
 
         itemService.create(item);
-        resp.sendRedirect(req.getContextPath() + "/servlet/getAllItems");
+
+        req.setAttribute("name", name);
+        req.setAttribute("price", price);
+        req.setAttribute("description", description);
+        req.getRequestDispatcher("/WEB-INF/views/showNewItem.jsp").forward(req, resp);
+//        resp.sendRedirect(req.getContextPath() + "/servlet/showNewItem");
+//        resp.sendRedirect(req.getContextPath() + "/servlet/getAllItems");
     }
 }

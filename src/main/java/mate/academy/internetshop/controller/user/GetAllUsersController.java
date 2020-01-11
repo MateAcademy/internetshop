@@ -1,4 +1,4 @@
-package mate.academy.internetshop.controller;
+package mate.academy.internetshop.controller.user;
 
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.User;

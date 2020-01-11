@@ -12,9 +12,7 @@ import mate.academy.internetshop.service.ItemService;
 import mate.academy.internetshop.service.OrderService;
 import mate.academy.internetshop.service.UserService;
 import mate.academy.internetshop.service.impl.BucketServiceImpl;
-import mate.academy.internetshop.service.impl.ItemServiceImpl;
 import mate.academy.internetshop.service.impl.OrderServiceImpl;
-import mate.academy.internetshop.service.impl.UserServiceImpl;
 
 import java.util.List;
 
@@ -50,7 +48,7 @@ public class Main {
         itemService.create(item);
 
         //Зареєстрували користувача в нашій системі
-        User user = new User("Sergei", "kl", "mate@gmail.com", "ava", "555");
+        User user = new User("Sergei", "kl", "mate@gmail.com", "0501430700", "ava", "555");
         userService.create(user);
 
         //Користувач почав купувати наші товари і додавати їх у корзину

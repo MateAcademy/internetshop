@@ -10,6 +10,7 @@ import mate.academy.internetshop.model.Item;
 
 @Dao
 public class ItemDaoImpl implements ItemDao {
+
     @Override
     public Item create(Item item) {
         Storage.items.add(item);
@@ -17,7 +18,7 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public Optional<Item> get(long id) {
+    public Optional<Item> get(Long id) {
         return Storage.items
                 .stream()
                 .filter(i -> i.getId().equals(id))
@@ -25,9 +26,11 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public List<Item> getAllItems() {
+    public List<Item> getAll() {
         return Storage.items;
     }
+
+
 
     @Override
     public Item update(Item item) {
@@ -41,9 +44,9 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean deleteById(Long entityId) {
         for (int i = 0; i < Storage.items.size(); i++) {
-            if (id.equals(Storage.items.get(i).getId())) {
+            if (entityId.equals(Storage.items.get(i).getId())) {
                 Storage.items.remove(i);
                 return true;
             }
@@ -62,3 +65,4 @@ public class ItemDaoImpl implements ItemDao {
         return false;
     }
 }
+

@@ -1,5 +1,6 @@
 package mate.academy.internetshop.dao.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import mate.academy.internetshop.dao.OrderDao;
@@ -14,6 +15,17 @@ import mate.academy.internetshop.service.idgenerators.OrderIdGenerator;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
+
+    @Override
+    public boolean deleteById(Long entityId) {
+        for (int i = 0; i < Storage.orders.size(); i++) {
+            if (entityId.equals(Storage.orders.get(i).getId())) {
+                Storage.orders.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public Order create(Order order) {
@@ -41,18 +53,12 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public boolean delete(Long orderId) {
-        for (int i = 0; i < Storage.orders.size(); i++) {
-            if (orderId.equals(Storage.orders.get(i).getId())) {
-                Storage.orders.remove(i);
-                return true;
-            }
-        }
-        return false;
+    public boolean delete(Order order) {
+        return Storage.orders.remove(order);
     }
 
     @Override
-    public boolean delete(Order order) {
-        return Storage.orders.remove(order);
+    public List<Order> getAll() {
+        return Storage.orders;
     }
 }

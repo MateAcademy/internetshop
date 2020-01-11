@@ -24,4 +24,6 @@ public interface BucketService {
     boolean delete(Bucket bucket);
 
     void deleteItem(Bucket bucket, Item item);
+
+    public List<Bucket> getAll();
 }

@@ -20,6 +20,11 @@ public class BucketServiceImpl implements BucketService {
     private static ItemDao itemDao;
 
     @Override
+    public List<Bucket> getAll() {
+        return bucketDao.getAll();
+    }
+
+    @Override
     public void addItem(Bucket bucket, Item item) {
         System.out.println("item has some ID");
         System.out.println("bucket has some ID");
@@ -51,7 +56,11 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public Bucket get(Long id) {
-        return bucketDao.get(id).get();
+        Optional<Bucket> optBucket = bucketDao.get(id);
+        if (optBucket.isPresent()) {
+           return optBucket.get();
+        }
+        return null;
     }
 
     @Override
@@ -61,7 +70,7 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public boolean delete(Long bucketId) {
-        return bucketDao.delete(bucketId);
+        return bucketDao.deleteById(bucketId);
     }
 
     @Override

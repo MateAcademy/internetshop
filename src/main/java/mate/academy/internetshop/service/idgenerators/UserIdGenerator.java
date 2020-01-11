@@ -4,7 +4,7 @@ package mate.academy.internetshop.service.idgenerators;
  * @author Sergey Klunniy
  */
 public class UserIdGenerator {
-    private static long id = 1;
+    private static Long id = 1L;
 
     public static long getGeneratedId() {
         return id++;
