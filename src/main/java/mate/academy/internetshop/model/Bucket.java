@@ -14,7 +14,7 @@ public class Bucket {
     public Bucket() {this.id = BucketIdGenerator.getGeneratedId();}
 
     public Bucket(Long id) {
-        super();
+        this();
         this.userId = id;
     }
 
@@ -48,10 +48,6 @@ public class Bucket {
 
     @Override
     public String toString() {
-        return "Bucket{"
-                + "id=" + id
-                + ", userId=" + userId
-                + ", items=" + items
-                + '}';
+        return "Bucket{" + "id=" + id + ", userId=" + userId + ", items=" + items + '}';
     }
 }

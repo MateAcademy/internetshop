@@ -25,5 +25,6 @@ public class ShowAllItemsController extends HttpServlet {
 
         req.setAttribute("items", items);
         req.getRequestDispatcher("/WEB-INF/views/showAllItems.jsp").forward(req, resp);
+
     }
 }

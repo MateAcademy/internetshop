@@ -25,9 +25,11 @@
     </style>
 </head>
 <body bgcolor="#5f9ea0">
+<center>
 Hello ${greeting} , Welcome to the ALL ITEMS PAGE !
 
 <!--Users: ${users}-->
+    <hr>
 
 <table border="1">
     <tr>
@@ -53,5 +55,6 @@ Hello ${greeting} , Welcome to the ALL ITEMS PAGE !
 <form action="/servlet/mainController">
     <p><button class="new">BACK TO HOME</button></p>
 </form>
+</center>
 </body>
 </html>

@@ -24,7 +24,9 @@
     </style>
 </head>
 <body bgcolor="#5f9ea0">
-ALL ITEMS LIST:
+<center>
+<b>ALL ITEMS LIST:</b>
+<hr>
 
 <table border="1">
     <tr>
@@ -48,5 +50,6 @@ ALL ITEMS LIST:
 <form action="/servlet/mainController">
     <p><button class="new">BACK TO HOME</button></p>
 </form>
+</center>
 </body>
 </html>

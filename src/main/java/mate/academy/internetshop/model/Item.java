@@ -14,7 +14,7 @@ public class Item {
     }
 
     public Item(String name, Double price, String description) {
-        super();
+        this();
         this.name = name;
         this.price = price;
         this.description = description;

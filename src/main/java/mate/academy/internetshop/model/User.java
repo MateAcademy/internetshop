@@ -17,7 +17,7 @@ public class User {
     }
 
     public User(String name, String surname, String email, String phone, String login, String password) {
-        super();
+        this();
         this.name = name;
         this.surname = surname;
         this.email = email;

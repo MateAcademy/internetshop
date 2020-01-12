@@ -15,11 +15,11 @@
 
     <servlet>
         <servlet-name>getAllOrdersServlet</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.older.GetAllOldersController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.order.GetAllOrdersController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>getAllOrdersServlet</servlet-name>
-        <url-pattern>/servlet/getAllOrders</url-pattern>
+        <url-pattern>/servlet/orders</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -123,5 +123,14 @@
     <servlet-mapping>
         <servlet-name>deleteItemsInBucketsController</servlet-name>
         <url-pattern>/servlet/deleteItemsInBucketsController</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>deleteOrderController</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.order.DeleteOrderController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deleteOrderController</servlet-name>
+        <url-pattern>/servlet/deleteOrder</url-pattern>
     </servlet-mapping>
 </web-app>

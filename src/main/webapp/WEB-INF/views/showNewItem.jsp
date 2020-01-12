@@ -19,14 +19,14 @@
 </style>
 <body  bgcolor="#5f9ea0">
 
-ADDED ITEM:
+<b>ADDED ITEM:</b>
 <p>
 Item name: ${name} <p>
 Item price: ${price} <p>
 Item description: ${description}
 
     <form action="/servlet/addItem"><p><button class="new">Add new items</button></p></form>
-    <form action="/servlet/getAllItems"><p><button class="new">All items</button></p></form>
+    <form action="/servlet/getAllItems"><p><button class="new">Show all items</button></p></form>
     <form action="/servlet/mainController"><p><button class="new">BACK TO HOME</button></p></form>
 </body>
 </html>

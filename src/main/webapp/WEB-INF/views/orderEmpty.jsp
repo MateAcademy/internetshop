@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <html>
 <head>
-    <title>Show bucket empty list</title>
+    <title>Show all Orders</title>
     <style type="text/css">
         button.new {
             background: -moz-linear-gradient(#00BBD6, #EBFFFF);
@@ -24,22 +24,23 @@
 </head>
 <body bgcolor="#5f9ea0">
 <center>
-<b>ITEM IN YOUR BUCKET:</b>
-<hr>
-<table border="1">
-    <tr>
-        <td>Item Name</td>
-        <td>Item Prise</td>
-        <td>Item description</td>
-        <td><span class="colortext">delete</span></td>
-    </tr>
-</table>
-<form action="/servlet/showAllItems">
-    <p><button class="new">Add item in your bucket</button></p>
-</form>
-<form action="/servlet/mainController">
-    <p><button class="new">BACK TO HOME</button></p>
-</form>
+    <b>ALL ORDERS LIST:</b>
+    <hr>
+
+    <table border="1">
+        <tr>
+            <td>Order ID</td>
+            <td>Items</td>
+            <td><span class="colortext">DELETE ORDER</span></td>
+        </tr>
+
+    </table>
+
+    <form action="/servlet/mainController">
+        <p><button class="new">BACK TO HOME</button></p>
+    </form>
 </center>
+
+
 </body>
 </html>

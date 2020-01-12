@@ -18,8 +18,24 @@ import mate.academy.internetshop.service.OrderService;
  */
 @Service
 public class OrderServiceImpl implements OrderService {
+
     @Inject
     private static OrderDao orderDao;
+
+    @Override
+    public List<Order> getAll() {
+        return orderDao.getAll();
+    }
+
+    @Override
+    public Order create(Order order) {
+        return orderDao.create(order);
+    }
+
+    @Override
+    public Order get(Long orderId) {
+        return orderDao.get(orderId).get();
+    }
 
     @Override
     public Order completeOrder(List<Item> items, User user) {
@@ -40,16 +56,6 @@ public class OrderServiceImpl implements OrderService {
         return Storage.orders.stream()
                 .filter(x -> x.getUserId().equals(userId))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public Order create(Order order) {
-        return orderDao.create(order);
-    }
-
-    @Override
-    public Order get(Long orderId) {
-        return orderDao.get(orderId).get();
     }
 
     @Override

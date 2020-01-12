@@ -23,12 +23,13 @@ public class ShowAllBuckets extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Bucket bucket = bucketService.get(1L);
-
-        if (bucket==null) {
+        if (bucket == null) {
             req.getRequestDispatcher("/WEB-INF/views/emptyBucket.jsp").forward(req, resp);
         } else {
             List<Item> items = bucket.getItems();
             req.setAttribute("items", items);
+            req.setAttribute("bucket", bucket);
+            req.setAttribute("bucketService", bucketService);
             req.getRequestDispatcher("/WEB-INF/views/showBucket.jsp").forward(req, resp);
         }
     }

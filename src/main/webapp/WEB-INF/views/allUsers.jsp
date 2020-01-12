@@ -31,8 +31,9 @@
     </style>
 </head>
 <body  bgcolor="#5f9ea0">
+<center>
 Hello ${greeting} , Welcome to the ALL USERS LIST :
-
+<hr>
 <!--Users: ${users}-->
 
 <table border="1" class="shrift">
@@ -64,6 +65,6 @@ Hello ${greeting} , Welcome to the ALL USERS LIST :
 
 </form>
 <form action="/servlet/mainController"><p><button class="new">MAIN MENU</button></p></form>
-
+</center>
 </body>
 </html>

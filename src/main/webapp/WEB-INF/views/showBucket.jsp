@@ -1,3 +1,5 @@
+<%@ page import="mate.academy.internetshop.service.BucketService" %>
+<%@ page import="mate.academy.internetshop.model.Bucket" %>
 <jsp:useBean id="items" scope="request" type="java.util.List<mate.academy.internetshop.model.Item>"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
@@ -24,7 +26,9 @@
     </style>
 </head>
 <body bgcolor="#5f9ea0">
-ITEM IN YOUR BUCKET:
+<center>
+<b>ITEMS IN YOUR BUCKET:</b>
+<hr>
 
 <table border="1">
     <tr>
@@ -42,11 +46,15 @@ ITEM IN YOUR BUCKET:
         </tr>
     </c:forEach>
 </table>
-<form action="">
+<form action="/servlet/orders">
     <p><button class="new">CHECKOUT</button></p>
 </form>
+
+
+
 <form action="/servlet/mainController">
     <p><button class="new">BACK TO HOME</button></p>
 </form>
+</center>
 </body>
 </html>
