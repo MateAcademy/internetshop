@@ -1,14 +1,14 @@
 package mate.academy.internetshop.service.impl;
 
+import java.util.List;
+import java.util.Optional;
+
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
-
-import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Sergey Klunniy

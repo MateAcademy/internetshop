@@ -1,16 +1,16 @@
 package mate.academy.internetshop.controller.item;
 
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.ItemService;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * @author Sergey Klunniy
@@ -24,11 +24,11 @@ public class AddToBucket extends HttpServlet {
     private static ItemService itemService;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         Long id = Long.valueOf(req.getParameter("item_id"));
         Item item = itemService.get(id);
-
-        if (bucketService.get(1L) == null ) {
+        if (bucketService.get(1L) == null) {
             Bucket bucket = new Bucket();
             bucket.addItem(item);
             bucketService.create(bucket);

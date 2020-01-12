@@ -6,14 +6,11 @@ import java.util.Optional;
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Dao;
-import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
-import mate.academy.internetshop.service.idgenerators.OrderIdGenerator;
 
 /**
  * @author Sergey Klunniy
  */
-
 @Dao
 public class OrderDaoImpl implements OrderDao {
 

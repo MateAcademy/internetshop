@@ -1,5 +1,6 @@
 package mate.academy.internetshop;
 
+import java.util.List;
 import mate.academy.internetshop.dao.BucketDao;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Injector;
@@ -14,8 +15,6 @@ import mate.academy.internetshop.service.UserService;
 import mate.academy.internetshop.service.impl.BucketServiceImpl;
 import mate.academy.internetshop.service.impl.OrderServiceImpl;
 
-import java.util.List;
-
 /**
  * @author Sergey Klunniy
  */
@@ -25,7 +24,6 @@ public class Main {
     @Inject
     private static BucketDao bucketDao;
 
-    //Створили наші сервіси
     @Inject
     private static ItemService itemService;
 

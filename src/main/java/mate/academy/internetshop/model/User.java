@@ -16,7 +16,8 @@ public class User {
         id = UserIdGenerator.getGeneratedId();
     }
 
-    public User(String name, String surname, String email, String phone, String login, String password) {
+    public User(String name, String surname, String email, String phone,
+                String login, String password) {
         this();
         this.name = name;
         this.surname = surname;

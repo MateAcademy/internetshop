@@ -45,7 +45,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean deleteById(Long entityId) {
-        Optional <User> optUser = get(entityId);
+        Optional<User> optUser = get(entityId);
         if (optUser.isPresent()) {
             User user = optUser.get();
             if (Storage.users.remove(user)) {

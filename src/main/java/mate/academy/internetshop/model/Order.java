@@ -1,9 +1,9 @@
 package mate.academy.internetshop.model;
 
-import mate.academy.internetshop.service.idgenerators.OrderIdGenerator;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import mate.academy.internetshop.service.idgenerators.OrderIdGenerator;
 
 public class Order {
     private Long id;

@@ -2,7 +2,6 @@ package mate.academy.internetshop.dao.impl;
 
 import java.util.List;
 import java.util.Optional;
-
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Dao;
@@ -29,8 +28,6 @@ public class ItemDaoImpl implements ItemDao {
     public List<Item> getAll() {
         return Storage.items;
     }
-
-
 
     @Override
     public Item update(Item item) {

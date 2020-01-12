@@ -1,14 +1,14 @@
 package mate.academy.internetshop.controller.user;
 
-import mate.academy.internetshop.lib.Inject;
-import mate.academy.internetshop.model.User;
-import mate.academy.internetshop.service.UserService;
-
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import mate.academy.internetshop.lib.Inject;
+import mate.academy.internetshop.model.User;
+import mate.academy.internetshop.service.UserService;
 
 /**
  * @author Sergey Klunniy
@@ -19,12 +19,14 @@ public class RegistrationUserController extends HttpServlet {
     private static UserService userService;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         req.getRequestDispatcher("/WEB-INF/views/registerUser.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         String password = req.getParameter("psw");
         String repeatPassword = req.getParameter("psw2");

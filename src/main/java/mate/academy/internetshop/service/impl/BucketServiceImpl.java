@@ -58,7 +58,7 @@ public class BucketServiceImpl implements BucketService {
     public Bucket get(Long id) {
         Optional<Bucket> optBucket = bucketDao.get(id);
         if (optBucket.isPresent()) {
-           return optBucket.get();
+            return optBucket.get();
         }
         return null;
     }
