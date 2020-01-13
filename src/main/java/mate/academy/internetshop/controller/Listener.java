@@ -8,11 +8,11 @@ import mate.academy.internetshop.lib.Injector;
 /**
  * @author Sergey Klunniy
  */
-public class InjectInitializer implements ServletContextListener {
+public class Listener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         try {
-            System.out.println("Inject in InjectInitializer");
+            System.out.println("Inject in Listener");
             Injector.injectDependency();
         } catch (IllegalAccessException e) {
             e.printStackTrace();

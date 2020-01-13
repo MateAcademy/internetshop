@@ -4,14 +4,9 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <servlet>
-        <servlet-name>indexServlet</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.IndexController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>indexServlet</servlet-name>
-        <url-pattern>/index</url-pattern>
-    </servlet-mapping>
+    <listener>
+        <listener-class>mate.academy.internetshop.controller.Listener</listener-class>
+    </listener>
 
     <servlet>
         <servlet-name>getAllOrdersServlet</servlet-name>
@@ -31,14 +26,10 @@
         <url-pattern>/servlet/show-all-users</url-pattern>
     </servlet-mapping>
 
-    <listener>
-        <listener-class>mate.academy.internetshop.controller.InjectInitializer</listener-class>
-    </listener>
-
     <servlet>
-    <servlet-name>registration</servlet-name>
-    <servlet-class>mate.academy.internetshop.controller.user.RegistrationUserController</servlet-class>
-</servlet>
+        <servlet-name>registration</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.user.RegistrationUserController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>registration</servlet-name>
         <url-pattern>/servlet/registration</url-pattern>
@@ -82,7 +73,7 @@
 
     <servlet>
         <servlet-name>mainController</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.MainController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.IndexController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>mainController</servlet-name>

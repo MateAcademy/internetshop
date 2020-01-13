@@ -67,6 +67,10 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findByEmail(String email) {
-        return Storage.users.stream().filter(o -> o.getEmail().equals(email)).findFirst().get();
+        return Storage.users.stream()
+                .filter(o -> o.getEmail().equals(email))
+                .findFirst().orElseThrow(()
+                        -> new NoSuchElementException("Can't find user with email: "
+                + email));
     }
 }

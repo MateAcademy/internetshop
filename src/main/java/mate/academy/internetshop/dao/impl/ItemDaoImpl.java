@@ -53,13 +53,7 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public boolean delete(Item item) {
-        for (int i = 0; i < Storage.items.size(); i++) {
-            if (item.equals(Storage.items.get(i))) {
-                Storage.items.remove(i);
-                return true;
-            }
-        }
-        return false;
+        return Storage.items.remove(item);
     }
 }
 

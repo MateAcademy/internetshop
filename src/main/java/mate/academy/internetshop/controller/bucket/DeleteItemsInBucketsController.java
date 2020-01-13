@@ -17,6 +17,9 @@ import mate.academy.internetshop.service.ItemService;
  * @author Sergey Klunniy
  */
 public class DeleteItemsInBucketsController extends HttpServlet {
+
+    private final Long bucketId = 1L;
+
     @Inject
     private static BucketService bucketService;
 
@@ -26,9 +29,9 @@ public class DeleteItemsInBucketsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String s =  req.getParameter("item_id");
-        Long id = Long.valueOf(s);
-        Bucket bucket = bucketService.get(1L);
+        String stringItemId =  req.getParameter("item_id");
+        Long id = Long.valueOf(stringItemId);
+        Bucket bucket = bucketService.get(bucketId);
         List<Item> items = bucket.getItems();
         Item item = itemService.get(id);
         items.remove(item);
