@@ -1,8 +1,8 @@
 package mate.academy.internetshop.service;
 
-import mate.academy.internetshop.model.User;
-
 import java.util.List;
+
+import mate.academy.internetshop.model.User;
 
 /**
  * @author Sergey Klunniy

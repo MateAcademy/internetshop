@@ -14,10 +14,10 @@ public class Item {
     }
 
     public Item(String name, Double price, String description) {
+        this();
         this.name = name;
         this.price = price;
         this.description = description;
-        id = ItemIdGenerator.getGeneratedId();
     }
 
     public Long getId() {
@@ -54,11 +54,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                '}';
+        return "Item{" + "id=" + id + ", name='" + name + '\''
+                + ", price=" + price + ", description='" + description + '\'' + '}';
     }
 }

@@ -2,7 +2,6 @@ package mate.academy.internetshop.dao.impl;
 
 import java.util.List;
 import java.util.Optional;
-
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Dao;
@@ -10,6 +9,7 @@ import mate.academy.internetshop.model.Item;
 
 @Dao
 public class ItemDaoImpl implements ItemDao {
+
     @Override
     public Item create(Item item) {
         Storage.items.add(item);
@@ -17,7 +17,7 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public Optional<Item> get(long id) {
+    public Optional<Item> get(Long id) {
         return Storage.items
                 .stream()
                 .filter(i -> i.getId().equals(id))
@@ -25,7 +25,7 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public List<Item> getAllItems() {
+    public List<Item> getAll() {
         return Storage.items;
     }
 
@@ -41,9 +41,9 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean deleteById(Long entityId) {
         for (int i = 0; i < Storage.items.size(); i++) {
-            if (id.equals(Storage.items.get(i).getId())) {
+            if (entityId.equals(Storage.items.get(i).getId())) {
                 Storage.items.remove(i);
                 return true;
             }
@@ -53,12 +53,7 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public boolean delete(Item item) {
-        for (int i = 0; i < Storage.items.size(); i++) {
-            if (item.equals(Storage.items.get(i))) {
-                Storage.items.remove(i);
-                return true;
-            }
-        }
-        return false;
+        return Storage.items.remove(item);
     }
 }
+

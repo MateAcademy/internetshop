@@ -11,6 +11,8 @@ import mate.academy.internetshop.model.User;
  * @author Sergey Klunniy
  */
 public interface OrderService {
+    public List<Order> getAll();
+
     public  Order completeOrder(Bucket bucket);
 
     Order completeOrder(List<Item> items, User user);
