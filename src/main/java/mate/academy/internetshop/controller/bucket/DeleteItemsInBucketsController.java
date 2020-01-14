@@ -18,7 +18,7 @@ import mate.academy.internetshop.service.ItemService;
  */
 public class DeleteItemsInBucketsController extends HttpServlet {
 
-    private final Long bucketId = 1L;
+    private final Long userId = 1L;
 
     @Inject
     private static BucketService bucketService;
@@ -31,7 +31,7 @@ public class DeleteItemsInBucketsController extends HttpServlet {
             throws ServletException, IOException {
         String stringItemId =  req.getParameter("item_id");
         Long id = Long.valueOf(stringItemId);
-        Bucket bucket = bucketService.get(bucketId);
+        Bucket bucket = bucketService.get(userId);
         List<Item> items = bucket.getItems();
         Item item = itemService.get(id);
         items.remove(item);

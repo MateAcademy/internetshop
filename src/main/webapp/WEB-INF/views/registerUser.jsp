@@ -21,6 +21,7 @@
             color: red; /* Красный цвет выделения */
         }
     </style>
+    <style type="text/css"><%@include file="/WEB-INF/styles/bootstrap.min.css" %></style>
 </head>
 <body bgcolor="#5f9ea0">
 <h4>
@@ -28,32 +29,32 @@
 </h4>
     Let's create a new User!
     <form action="/servlet/registration" method="post">
-        <div class="container">
+   <!--     <div class="container"> -->
             <h3>Register form:</h3>
             <hr>
             <label for="user_name"><b>Name</b></label>
-            <input type="text" placeholder="Enter name" name="user_name" required>
+            <input type="text" class="form-control" placeholder="Enter name" name="user_name" required>
             <br>
             <label for="user_surname"><b>Surname</b></label>
-            <input type="text" placeholder="Enter curname" name="user_surname" required>
+            <input type="text" class="form-control" placeholder="Enter curname" name="user_surname" required>
             <br>
             <label for="email"><b>Email</b></label>
-            <input type="email" placeholder="Enter email" name="email" required>
+            <input type="email" class="form-control" placeholder="Enter email" name="email" required>
             <br>
             <label for="phone"><b>Phone</b></label>
-            <input type="phone" placeholder="Enter phone" name="phone" required>
+            <input type="phone" class="form-control" placeholder="Enter phone" name="phone" required>
             <br>
             <label for="login"><b>Login</b></label>
-            <input type="text" placeholder="Enter login" name="login" required>
+            <input type="text" class="form-control" placeholder="Enter login" name="login" required>
             <br>
             <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter password" name="psw" required>
+            <input type="password" class="form-control" placeholder="Enter password" name="psw" required>
             <br>
             <label for="psw2"><b>Repeat Password</b></label>
-            <input type="password" placeholder="Enter password" name="psw2" required>
+            <input type="password" class="form-control" placeholder="Enter password" name="psw2" required>
             <hr>
-            <button type="submit" class="new">Register</button>
-        </div>
+            <button type="submit" class="form-control" class="new">Register</button>
+     <!--   </div> -->
 
     </form>
     <form action="/servlet/mainController"><p><button class="new">MAIN MENU</button></p></form>
