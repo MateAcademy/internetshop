@@ -35,24 +35,53 @@ public class GetAllOrdersController extends HttpServlet {
         Long userId = (Long) req.getSession(true).getAttribute("userId");
         Bucket bucket = bucketService.getByUserId(userId);
 
-        List<Item> list = bucket.getItems();
-        Order order = new Order(userId, list);
-        List<Order> orderList = orderService.getAll();
-        if (orderList.size() == 0) {
-            orderService.create(order);
-            bucketService.delete(bucket.getId());
-            List<Order> orderList2 = orderService.getAll();
-
-            req.setAttribute("orders", orderList2);
-            req.getRequestDispatcher("/WEB-INF/views/order.jsp").forward(req, resp);
-
-        } else if (orderList.size() != 0) {
+//        if (bucket == null) {
+//            List<Order> listOrdersWhenBucketNull = orderService.getAll();
+//            if (listOrdersWhenBucketNull.size() == 0) {
+//                req.getRequestDispatcher("/WEB-INF/views/orderEmpty.jsp").forward(req, resp);
+//            } else {
+//                req.setAttribute("orders", listOrdersWhenBucketNull);
+//                req.getRequestDispatcher("/WEB-INF/views/order.jsp").forward(req, resp);
+//            }
+//        } else if (bucket != null) {
+            List<Item> listItemFromBucket = bucket.getItems();
+        if (listItemFromBucket.size() != 0) {
+            Order order = new Order(userId, listItemFromBucket);
+            bucketService.delete(userId);
             orderService.update(order);
-            bucketService.delete(bucket.getId());
-            List<Order> orderList2 = orderService.getAll();
-            req.setAttribute("orders", orderList2);
-            req.getRequestDispatcher("/WEB-INF/views/order.jsp").forward(req, resp);
-
         }
-    }
-}
+
+            List<Order> orderList = orderService.getAll();
+
+        req.setAttribute("orders", orderList);
+        req.getRequestDispatcher("/WEB-INF/views/order.jsp").forward(req, resp);
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//            if (orderList.size() == 0) {
+//                orderService.create(order);
+//                bucketService.delete(userId);
+//                List<Order> orderList2 = orderService.getAll();
+//
+//
+//
+//            } else if (orderList.size() != 0) {
+//                orderService.update(order);
+//                bucketService.delete(userId);
+//                List<Order> orderList2 = orderService.getAll();
+//                req.setAttribute("orders", orderList2);
+//                req.getRequestDispatcher("/WEB-INF/views/order.jsp").forward(req, resp);
+            }
+        }
+//    }
+//}
