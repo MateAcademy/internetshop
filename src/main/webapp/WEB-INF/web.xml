@@ -5,6 +5,15 @@
          version="3.1">
 
     <servlet>
+        <servlet-name>CreateOrderController</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.order.CreateOrderController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CreateOrderController</servlet-name>
+        <url-pattern>/servlet/createOrder</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>addToBucket</servlet-name>
         <servlet-class>mate.academy.internetshop.controller.item.AddItemToBucketController</servlet-class>
     </servlet>

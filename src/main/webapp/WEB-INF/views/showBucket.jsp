@@ -46,7 +46,7 @@
         </tr>
     </c:forEach>
 </table>
-<form action="/servlet/orders">
+<form action="/servlet/createOrder">  <!-- orders -->
     <p><button class="new">CHECKOUT</button></p>
 </form>
 

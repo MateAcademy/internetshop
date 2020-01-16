@@ -28,8 +28,8 @@ public class BucketServiceImpl implements BucketService {
     public Bucket getByUserId(Long userId) {
         if (bucketDao.getByUserId(userId).isPresent()) {
             return bucketDao.getByUserId(userId).get();
-        }else
-            return new Bucket(userId);
+        }
+        return new Bucket(userId);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public Bucket create(Bucket bucket) {
-       return bucketDao.create(bucket);
+        return bucketDao.create(bucket);
     }
 
     @Override
