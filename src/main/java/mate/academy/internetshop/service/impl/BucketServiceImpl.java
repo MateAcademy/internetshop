@@ -26,14 +26,15 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public Bucket getByUserId(Long userId) {
-        return bucketDao.getByUserId(userId).orElse(create(new Bucket(userId)));
+        if (bucketDao.getByUserId(userId).isPresent()) {
+            return bucketDao.getByUserId(userId).get();
+        }else
+            return new Bucket(userId);
     }
 
     @Override
     public void addItem(Bucket bucket, Item item) {
-        System.out.println("item has some ID");
-        System.out.println("bucket has some ID");
-        bucket.getItems().add(item);
+        bucket.addItem(item);
         bucketDao.update(bucket);
     }
 

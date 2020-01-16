@@ -5,6 +5,15 @@
          version="3.1">
 
     <servlet>
+        <servlet-name>addToBucket</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.item.AddItemToBucketController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addToBucket</servlet-name>
+        <url-pattern>/servlet/addToBucket</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>loginController</servlet-name>
         <servlet-class>mate.academy.internetshop.controller.LoginController</servlet-class>
         <load-on-startup>1</load-on-startup>
@@ -106,15 +115,6 @@
     <servlet-mapping>
         <servlet-name>showAllItems</servlet-name>
         <url-pattern>/servlet/showAllItems</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>addToBucket</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.item.AddItemToBucketController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>addToBucket</servlet-name>
-        <url-pattern>/servlet/addToBucket</url-pattern>
     </servlet-mapping>
 
     <servlet>

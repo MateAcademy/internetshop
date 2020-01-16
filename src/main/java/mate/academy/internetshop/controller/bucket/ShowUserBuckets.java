@@ -30,12 +30,8 @@ public class ShowUserBuckets extends HttpServlet {
         Long userId = (Long) req.getSession(true).getAttribute("userId");
 
         Bucket bucket = bucketService.getByUserId(userId);
-        if (bucket == null) {
-            req.getRequestDispatcher("/WEB-INF/views/emptyBucket.jsp").forward(req, resp);
-        } else {
-            List<Item> items = bucket.getItems();
-            req.setAttribute("items", items);
-            req.getRequestDispatcher("/WEB-INF/views/showBucket.jsp").forward(req, resp);
-        }
+        List<Item> items = bucket.getItems();
+        req.setAttribute("items", items);
+        req.getRequestDispatcher("/WEB-INF/views/showBucket.jsp").forward(req, resp);
     }
 }

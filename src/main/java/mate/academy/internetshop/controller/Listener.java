@@ -27,9 +27,9 @@ public class Listener implements ServletContextListener {
             System.out.println("Inject in Listener");
             Injector.injectDependency();
             User user = new User("Slavik", "Fedorov", "fed.urist@dn.ua",
-                    "+3050888888", "a","1");
+                    "+3050888888", "ava","1");
             User user2 = new User("Sergei", "Klunniy", "ava_inet@mail.ru",
-                    "+30501430700", "ava","1");
+                    "+30501430700", "a","1");
             userService.create(user);
             userService.create(user2);
 

@@ -12,15 +12,6 @@ public class User {
     private String login;
     private String password;
     private String token;
-    private Bucket bucket;
-
-    public Bucket getBucket() {
-        return bucket;
-    }
-
-    public void setBucket(Bucket bucket) {
-        this.bucket = bucket;
-    }
 
     public String getToken() {
         return token;
