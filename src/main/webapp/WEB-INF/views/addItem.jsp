@@ -26,13 +26,13 @@ Let's add a new Item!
         <hr>
         <h5>
         <label for="item_name"><b>item_name :</b></label>
-        <input type="text" placeholder="Enter item name" name="item_name" required>
+        <input type="text" id="item_name" placeholder="Enter item name" name="item_name" required>
         <br>
         <label for="item_price"><b>item_price :</b></label>
-        <input type="text" placeholder="Enter price" name="item_price" required>
+        <input type="text" id="item_price" placeholder="Enter price" name="item_price" required>
         <br>
         <label for="item_description"><b>item_description</b></label>
-        <input type="text" placeholder="Enter description" name="item_description" required>
+        <input type="text" id="item_description" placeholder="Enter description" name="item_description" required>
         </h5>
         <p> By creating an account you agree to our <a href="#">Terms & Privasy</a>.</p>
 

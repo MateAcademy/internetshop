@@ -4,6 +4,34 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+    <servlet>
+        <servlet-name>loginController</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.LoginController</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>loginController</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>registration</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.user.RegistrationUserController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>registration</servlet-name>
+        <url-pattern>/registration</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>auth-filter</filter-name>
+        <filter-class>mate.academy.internetshop.web.filters.AuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>auth-filter</filter-name>
+        <url-pattern>/servlet/*</url-pattern>
+    </filter-mapping>
+
     <listener>
         <listener-class>mate.academy.internetshop.controller.Listener</listener-class>
     </listener>
@@ -24,15 +52,6 @@
     <servlet-mapping>
         <servlet-name>getAllUsersServlet</servlet-name>
         <url-pattern>/servlet/show-all-users</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>registration</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.user.RegistrationUserController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>registration</servlet-name>
-        <url-pattern>/servlet/registration</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -91,7 +110,7 @@
 
     <servlet>
         <servlet-name>addToBucket</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.item.AddToBucket</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.item.AddItemToBucketController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>addToBucket</servlet-name>
@@ -100,7 +119,7 @@
 
     <servlet>
         <servlet-name>showAllBuckets</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.bucket.ShowAllBuckets</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.bucket.ShowUserBuckets</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>showAllBuckets</servlet-name>
@@ -125,4 +144,5 @@
         <servlet-name>deleteOrderController</servlet-name>
         <url-pattern>/servlet/deleteOrder</url-pattern>
     </servlet-mapping>
+
 </web-app>

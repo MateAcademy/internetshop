@@ -25,6 +25,11 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
+    public Bucket getByUserId(Long userId) {
+        return bucketDao.getByUserId(userId).orElse(create(new Bucket(userId)));
+    }
+
+    @Override
     public void addItem(Bucket bucket, Item item) {
         System.out.println("item has some ID");
         System.out.println("bucket has some ID");
@@ -45,8 +50,8 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public void create(Bucket bucket) {
-        bucketDao.create(bucket);
+    public Bucket create(Bucket bucket) {
+       return bucketDao.create(bucket);
     }
 
     @Override
