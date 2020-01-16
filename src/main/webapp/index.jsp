@@ -29,11 +29,15 @@
     </style>
 </head>
 <body style="background-attachment: fixed" topmargin="0" >
-<h2>MAIN MENU:</h2>
 
-<form action="/servlet/registration"><p><button class="new">Register</button></p></form>
+<h2>MAIN MENU:</h2>
+<h4>
+    <span class="colortext"> ${error}</span>
+</h4>
+<form action="/login"><p><button class="new">Authentication</button></p></form>
+<form action="/registration"><p><button class="new">Register</button></p></form>
 <form action="/servlet/addItem"><p><button class="new">Add item</button></p></form>
-<form action="/servlet/registration"><p><button class="new">Add user</button></p></form>
+<form action="/registration"><p><button class="new">Add user</button></p></form>
 <form action="/servlet/showAllItems"><p><button class="new">Show all items</button></p></form>
 <form action="servlet/show-all-users"><p><button class="new">Show all users</button></p></form>
 <form action="/servlet/showAllBuckets"><p><button class="new">Show buckets</button></p></form>

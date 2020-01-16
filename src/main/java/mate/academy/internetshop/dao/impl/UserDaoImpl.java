@@ -9,6 +9,8 @@ import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.User;
 
+import javax.naming.AuthenticationException;
+
 /**
  * @author Sergey Klunniy
  */
@@ -69,6 +71,25 @@ public class UserDaoImpl implements UserDao {
     public Optional<User> findByEmail(String email) {
         return Storage.users.stream()
                 .filter(o -> o.getEmail().equals(email))
+                .findFirst();
+    }
+
+    @Override
+    public User login(String login, String password)
+            throws AuthenticationException {
+        Optional<User> user = Storage.users.stream()
+                .filter(u -> u.getLogin().equals(login))
+                .findFirst();
+        if (user.isEmpty() || !user.get().getPassword().equals(password)) {
+            throw new AuthenticationException("incorrect username or password");
+        }
+        return user.get();
+    }
+
+    @Override
+    public Optional<User> getByToken(String token) {
+        return Storage.users.stream()
+                .filter(u -> u.getToken().equals(token))
                 .findFirst();
     }
 }

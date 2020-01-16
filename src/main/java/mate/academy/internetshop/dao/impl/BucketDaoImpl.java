@@ -12,16 +12,24 @@ import mate.academy.internetshop.model.Bucket;
 public class BucketDaoImpl implements BucketDao {
 
     @Override
+    public Optional<Bucket> getByUserId(Long userId) {
+        return Storage.buckets
+                .stream()
+                .filter(i -> i.getUserId().equals(userId))
+                .findFirst();
+    }
+
+    @Override
     public Bucket create(Bucket bucket) {
         Storage.buckets.add(bucket);
         return bucket;
     }
 
     @Override
-    public Optional<Bucket> get(Long userId) {
+    public Optional<Bucket> get(Long id) {
         return Storage.buckets
                 .stream()
-                .filter(i -> i.getUserId().equals(userId))
+                .filter(i -> i.getId().equals(id))
                 .findFirst();
     }
 

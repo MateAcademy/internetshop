@@ -7,11 +7,13 @@ import mate.academy.internetshop.model.Item;
 
 public interface BucketService {
 
+    Bucket getByUserId(Long userId);
+
     void addItem(Bucket bucket, Item item);
 
     Bucket addItem(Long bucketId, Long itemId);
 
-    void create(Bucket bucket);
+    Bucket create(Bucket bucket);
 
     List<Item> getAllItems(Bucket bucket);
 

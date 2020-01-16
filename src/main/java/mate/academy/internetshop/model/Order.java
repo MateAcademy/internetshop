@@ -18,7 +18,6 @@ public class Order {
         this();
         this.userId = userId;
         this.items = items;
-        System.out.println(id + " из конструктора Ордер");
     }
 
     public List<Item> getItems() {

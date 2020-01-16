@@ -1,4 +1,4 @@
-<jsp:useBean id="items" scope="request" type="java.util.List<mate.academy.internetshop.model.Order>"/>
+<jsp:useBean id="orders" scope="request" type="java.util.List<mate.academy.internetshop.model.Order>"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
@@ -33,11 +33,11 @@
             <td>Items</td>
             <td><span class="colortext">DELETE ORDER</span></td>
         </tr>
-        <c:forEach var="item" items="${items}">
+        <c:forEach var="order" items="${orders}">
             <tr>
-                <td><c:out value="${item.id}"/></td>
-                <td><c:out value="${item.items}"/></td>
-                <td><a href="/servlet/deleteOrder?item_id=${item.id}"><span class="colortext">DELETE</span></a></td>
+                <td><c:out value="${order.id}"/></td>
+                <td><c:out value="${order.items}"/></td>
+                <td><a href="/servlet/deleteOrder?order_id=${order.id}"><span class="colortext">DELETE</span></a></td>
             </tr>
         </c:forEach>
     </table>

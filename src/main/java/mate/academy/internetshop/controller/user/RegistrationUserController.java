@@ -2,9 +2,7 @@ package mate.academy.internetshop.controller.user;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.User;
@@ -39,6 +37,13 @@ public class RegistrationUserController extends HttpServlet {
             newUser.setLogin(req.getParameter("login"));
             newUser.setPassword(password);
             userService.create(newUser);
+
+            HttpSession session = req.getSession(true);
+            session.setAttribute("userId", newUser.getId());
+
+            Cookie cookie = new Cookie("MATE", newUser.getToken());
+            resp.addCookie(cookie);
+
             resp.sendRedirect(req.getContextPath() + "/servlet/show-all-users");
         } else {
             req.setAttribute("error", "Your password not equals, enter new password:");
