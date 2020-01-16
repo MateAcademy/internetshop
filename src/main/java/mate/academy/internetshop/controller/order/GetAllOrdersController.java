@@ -33,7 +33,6 @@ public class GetAllOrdersController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long userId = (Long) req.getSession(true).getAttribute("userId");
-        Bucket bucket = bucketService.getByUserId(userId);
 
         List<Order> orderList = orderService.getAll();
         req.setAttribute("orders", orderList);
