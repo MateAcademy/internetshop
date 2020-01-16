@@ -48,7 +48,7 @@ Hello login page :)
     </div>
 
     <div class="container signin">
-        <p>Don't have an account? <a href="#">Sign up</a>.</p>
+        <p>Don't have an account? <a href="/registration">Sign up</a>.</p>
     </div>
 </form>
 

@@ -41,7 +41,7 @@ public class LoginController extends HttpServlet {
 
             Cookie cookie = new Cookie("MATE", user.getToken());
             resp.addCookie(cookie);
-            resp.sendRedirect(req.getContextPath() + "/");
+            resp.sendRedirect(req.getContextPath() + "/index.jsp");
 
         } catch (AuthenticationException e) {
             req.setAttribute("errorMsg", "Incorrect login or password");
