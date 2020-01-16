@@ -24,28 +24,31 @@ public class Listener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         try {
-            System.out.println("Inject in Listener");
             Injector.injectDependency();
-            User user = new User("Slavik", "Fedorov", "fed.urist@dn.ua",
-                    "+3050888888", "ava","1");
-            User user2 = new User("Sergei", "Klunniy", "ava_inet@mail.ru",
-                    "+30501430700", "a","1");
-            userService.create(user);
-            userService.create(user2);
-
-            Item item = new Item("apple", 35.0,"from Ukraine");
-            Item item2 = new Item("grapes", 40.0,"from Russia");
-            Item item3 = new Item("bread", 15.0,"from USA");
-            itemService.create(item);
-            itemService.create(item2);
-            itemService.create(item3);
+            initializeDb();
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
 
+    }
+
+    private void initializeDb() {
+        User user = new User("Slavik", "Fedorov", "fed.urist@dn.ua",
+                "+3050888888", "ava","1");
+        User user2 = new User("Sergei", "Klunniy", "ava_inet@mail.ru",
+                "+30501430700", "a","1");
+        userService.create(user);
+        userService.create(user2);
+
+        Item item = new Item("apple", 35.0,"from Ukraine");
+        Item item2 = new Item("grapes", 40.0,"from Russia");
+        Item item3 = new Item("bread", 15.0,"from USA");
+        itemService.create(item);
+        itemService.create(item2);
+        itemService.create(item3);
     }
 }

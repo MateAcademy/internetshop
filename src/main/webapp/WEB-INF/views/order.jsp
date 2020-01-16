@@ -37,7 +37,7 @@
             <tr>
                 <td><c:out value="${order.id}"/></td>
                 <td><c:out value="${order.items}"/></td>
-                <td><a href="/servlet/deleteOrder?item_id=${item.id}"><span class="colortext">DELETE</span></a></td>
+                <td><a href="/servlet/deleteOrder?order_id=${order.id}"><span class="colortext">DELETE</span></a></td>
             </tr>
         </c:forEach>
     </table>

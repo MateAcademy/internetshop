@@ -27,7 +27,10 @@ public class BucketDaoImpl implements BucketDao {
 
     @Override
     public Optional<Bucket> get(Long id) {
-        return Optional.empty();
+        return Storage.buckets
+                .stream()
+                .filter(i -> i.getId().equals(id))
+                .findFirst();
     }
 
     @Override
