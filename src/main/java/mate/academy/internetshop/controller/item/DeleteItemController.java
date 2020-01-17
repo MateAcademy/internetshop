@@ -23,8 +23,6 @@ public class DeleteItemController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        Long userId = (Long) req.getSession(true).getAttribute("userId");
-
         String itemId =  req.getParameter("item_id");
         Long itemIdL = Long.valueOf(itemId);
         logger.info("delete item in bd " + itemService.get(itemIdL).getName());
