@@ -12,11 +12,14 @@ import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.ItemService;
+import org.apache.log4j.Logger;
 
 /**
  * @author Sergey Klunniy
  */
 public class DeleteItemsInBucketsController extends HttpServlet {
+
+    private static final Logger logger = Logger.getLogger(DeleteItemsInBucketsController.class);
 
     @Inject
     private static BucketService bucketService;
@@ -35,6 +38,7 @@ public class DeleteItemsInBucketsController extends HttpServlet {
         List<Item> items = bucket.getItems();
         Item item = itemService.get(id);
         items.remove(item);
+        logger.info("delete item in bucket " + item.getName());
         bucketService.update(bucket);
 
         req.setAttribute("items", items);

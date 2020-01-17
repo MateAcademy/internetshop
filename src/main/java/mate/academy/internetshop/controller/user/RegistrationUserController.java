@@ -7,11 +7,14 @@ import javax.servlet.http.*;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
+import org.apache.log4j.Logger;
 
 /**
  * @author Sergey Klunniy
  */
 public class RegistrationUserController extends HttpServlet {
+
+    private static final Logger logger = Logger.getLogger(RegistrationUserController.class);
 
     @Inject
     private static UserService userService;
@@ -43,9 +46,10 @@ public class RegistrationUserController extends HttpServlet {
 
             Cookie cookie = new Cookie("MATE", newUser.getToken());
             resp.addCookie(cookie);
-
+            logger.info("registration new user");
             resp.sendRedirect(req.getContextPath() + "/servlet/show-all-users");
         } else {
+            logger.warn("registration error new user!");
             req.setAttribute("error", "Your password not equals, enter new password:");
             req.getRequestDispatcher("/WEB-INF/views/registerUser.jsp").forward(req, resp);
         }

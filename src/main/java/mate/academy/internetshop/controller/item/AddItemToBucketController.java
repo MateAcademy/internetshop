@@ -12,11 +12,14 @@ import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.ItemService;
 import mate.academy.internetshop.service.UserService;
+import org.apache.log4j.Logger;
 
 /**
  * @author Sergey Klunniy
  */
 public class AddItemToBucketController extends HttpServlet {
+
+    private static final Logger logger = Logger.getLogger(AddItemToBucketController.class);
 
     @Inject
     private static BucketService bucketService;
@@ -36,6 +39,7 @@ public class AddItemToBucketController extends HttpServlet {
 
         Bucket bucket = bucketService.getByUserId(userId);
         bucketService.addItem(bucket, item);
+        logger.info("add item to bucket " + item.getName() );
 
         resp.sendRedirect(req.getContextPath() + "/servlet/showAllItems");
     }
