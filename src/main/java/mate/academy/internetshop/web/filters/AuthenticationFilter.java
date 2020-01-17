@@ -3,6 +3,7 @@ package mate.academy.internetshop.web.filters;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
+import org.apache.log4j.Logger;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -16,11 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-
 /**
  * @author Sergey Klunniy
  */
 public class AuthenticationFilter implements Filter {
+
+    private static Logger logger = Logger.getLogger(AuthenticationFilter.class);
 
     @Inject
     private static UserService userService;
@@ -43,6 +45,7 @@ public class AuthenticationFilter implements Filter {
             if (cookie.getName().equals("MATE")) {
                 Optional<User> user = userService.getByToken(cookie.getValue());
                 if (user.isPresent()) {
+                    logger.info("User " + user.get().getLogin() + " was authenticated");
                     chain.doFilter(req, resp);
                     return;
                 }

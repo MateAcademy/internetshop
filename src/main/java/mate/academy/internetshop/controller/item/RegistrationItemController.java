@@ -9,11 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.service.ItemService;
+import org.apache.log4j.Logger;
 
 /**
  * @author Sergey Klunniy
  */
 public class RegistrationItemController extends HttpServlet {
+
+    private static final Logger logger = Logger.getLogger(RegistrationItemController.class);
 
     @Inject
     private static ItemService itemService;
@@ -37,6 +40,7 @@ public class RegistrationItemController extends HttpServlet {
         item.setDescription(description);
 
         itemService.create(item);
+        logger.info("Add to bd new item " + item.getName());
 
         req.setAttribute("name", name);
         req.setAttribute("price", price);
