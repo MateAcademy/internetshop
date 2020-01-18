@@ -45,7 +45,7 @@ public class AuthenticationFilter implements Filter {
             if (cookie.getName().equals("MATE")) {
                 Optional<User> user = userService.getByToken(cookie.getValue());
                 if (user.isPresent()) {
-                    logger.info("User " + user.get().getLogin() + " was authenticated");
+
                     chain.doFilter(req, resp);
                     return;
                 }

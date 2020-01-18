@@ -23,7 +23,6 @@ public class GetAllItemsController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         List<Item> items = itemService.getAllItems();
-
         req.setAttribute("greeting", "mates");
         req.setAttribute("items", items);
         req.getRequestDispatcher("/WEB-INF/views/allItems.jsp").forward(req, resp);
