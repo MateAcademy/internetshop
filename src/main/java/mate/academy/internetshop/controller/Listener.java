@@ -6,10 +6,13 @@ import javax.servlet.ServletContextListener;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Injector;
 import mate.academy.internetshop.model.Item;
+import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.ItemService;
 import mate.academy.internetshop.service.UserService;
 import org.apache.log4j.Logger;
+
+import mate.academy.internetshop.model.Role;
 
 /**
  * @author Sergey Klunniy
@@ -44,10 +47,14 @@ public class Listener implements ServletContextListener {
     private void initializeDb() {
         User user = new User("Slavik", "Fedorov", "fed.urist@dn.ua",
                 "+3050888888", "ava","1");
+        user.addRole(new Role(Role.RoleName.USER));
+
         User user2 = new User("Sergei", "Klunniy", "ava_inet@mail.ru",
-                "+30501430700", "a","1");
+                "+30501430700", "ava","2");
+        user2.addRole(new Role(Role.RoleName.USER));
+
         userService.create(user);
-        userService.create(user2);
+//        userService.create(user2);
         logger.info("user and user2 was added in db");
 
         Item item = new Item("apple", 35.0,"from Ukraine");

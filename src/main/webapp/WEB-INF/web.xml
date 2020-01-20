@@ -154,4 +154,32 @@
         <url-pattern>/servlet/deleteOrder</url-pattern>
     </servlet-mapping>
 
+    <filter>
+        <filter-name>authorizationFilter</filter-name>
+        <filter-class>mate.academy.internetshop.web.filters.AuthorizationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>authorizationFilter</filter-name>
+        <url-pattern>/servlet/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>injectDataController</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.InjectDataController</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>injectDataController</servlet-name>
+        <url-pattern>/inject</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>logoutController</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.LogoutController</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>logoutController</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -45,12 +45,12 @@ public class LoginController extends HttpServlet {
             Cookie cookie = new Cookie("MATE", user.getToken());
             logger.info("user login " + user.getLogin());
             resp.addCookie(cookie);
-            resp.sendRedirect(req.getContextPath() + "/index");
+            resp.sendRedirect(req.getContextPath() + "/servlet/mainController");
 
         } catch (AuthenticationException e) {
             logger.warn("user didn't authentication + " + e);
             req.setAttribute("errorMsg", "Incorrect login or password");
-            req.getRequestDispatcher("/WEB  -INF/views/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
         }
     }
 }
