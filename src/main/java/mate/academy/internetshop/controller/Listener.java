@@ -46,16 +46,32 @@ public class Listener implements ServletContextListener {
 
     private void initializeDb() {
         User user = new User("Slavik", "Fedorov", "fed.urist@dn.ua",
-                "+3050888888", "ava","1");
+                "+3050888888", "user1","1");
         user.addRole(new Role(Role.RoleName.USER));
 
-        User user2 = new User("Sergei", "Klunniy", "ava_inet@mail.ru",
-                "+30501430700", "ava","2");
+        User user2 = new User("Roma", "Bakumenko", "ava_inet@mail.ru",
+                "+30501430700", "user2","2");
         user2.addRole(new Role(Role.RoleName.USER));
 
+        User user3 = new User();
+        user3.setName("Dmitriy");
+        user3.setSurname("Zelentkiy");
+        user3.addRole(Role.of("USER"));
+        user3.setLogin("user3");
+        user3.setPassword("3");
+
+        User admin = new User();
+        admin.setName("Sergiy");
+        admin.setSurname("Klunniy");
+        admin.addRole(Role.of("ADMIN"));
+        admin.setLogin("admin");
+        admin.setPassword("1");
+
         userService.create(user);
-//        userService.create(user2);
-        logger.info("user and user2 was added in db");
+        userService.create(user2);
+        userService.create(user3);
+        userService.create(admin);
+        logger.info("4 users was added in db");
 
         Item item = new Item("apple", 35.0,"from Ukraine");
         Item item2 = new Item("grapes", 40.0,"from Russia");
