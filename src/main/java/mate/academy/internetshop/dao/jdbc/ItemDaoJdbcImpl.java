@@ -42,7 +42,7 @@ public class ItemDaoJdbcImpl implements ItemDao {
         try (Connection connection = DbConnector.connect()) {
             Statement statement = connection.createStatement();
             String sql = String.format("DELETE FROM shop.items WHERE item_id =%d", item.getId());
-            statement.execute(sql);
+            statement.executeUpdate(sql);
             logger.info("delete item in bd susses : " + item.getName());
             return true;
         } catch (SQLException e) {
@@ -57,7 +57,7 @@ public class ItemDaoJdbcImpl implements ItemDao {
             String sql = String.format("INSERT INTO shop.items (name, price, description)"
                     + " VALUES ('%s', '%s', '%s')", item.getName(), item.getPrice(), item.getDescription());
             Statement statement = connection.createStatement();
-            statement.execute(sql);
+            statement.executeUpdate(sql);
             logger.info("create item in bd susses : " + item.getName());
         } catch (SQLException e) {
             logger.error("Can't create item in bd" , e);
@@ -113,7 +113,7 @@ public class ItemDaoJdbcImpl implements ItemDao {
         try (Connection connection = DbConnector.connect()) {
             Statement statement = connection.createStatement();
             String sql = String.format("DELETE FROM shop.items WHERE item_id =%d ", itemId);
-            statement.execute(sql);
+            statement.executeUpdate(sql);
             logger.info("deleteById item in bd susses, id= " + itemId);
             return true;
         } catch (SQLException e) {
