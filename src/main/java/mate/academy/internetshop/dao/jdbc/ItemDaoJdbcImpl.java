@@ -24,52 +24,56 @@ public class ItemDaoJdbcImpl implements ItemDao {
 
     @Override
     public Item update(Item item) {
-        try (Connection connection = DbConnector.connect()) {
-            String sql = String.format(java.util.Locale.ROOT,"UPDATE shop.items SET name='%s', " +
-                    "price=%.2f, description='%s' WHERE item_id=%d", item.getName(), item.getPrice(),
+        try (Connection connection = DbConnector.connect();
+             Statement statement = connection.createStatement()
+        ) {
+            String sql = String.format(java.util.Locale.ROOT, "UPDATE shop.items SET name='%s', " +
+                            "price=%.2f, description='%s' WHERE item_id=%d", item.getName(), item.getPrice(),
                     item.getDescription(), item.getId());
-            Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
             logger.info("update item in bd susses : " + item.getName());
         } catch (SQLException e) {
-            logger.error("Can't update item in bd" , e);
+            logger.error("Can't update item in bd", e);
         }
         return item;
     }
 
     @Override
     public boolean delete(Item item) {
-        try (Connection connection = DbConnector.connect()) {
-            Statement statement = connection.createStatement();
+        try (Connection connection = DbConnector.connect();
+             Statement statement = connection.createStatement()
+        ) {
             String sql = String.format("DELETE FROM shop.items WHERE item_id =%d", item.getId());
             statement.executeUpdate(sql);
             logger.info("delete item in bd susses : " + item.getName());
             return true;
         } catch (SQLException e) {
-            logger.error("Can't delete item in bd" , e);
+            logger.error("Can't delete item in bd", e);
             return false;
         }
     }
 
     @Override
     public Item create(Item item) {
-        try (Connection connection = DbConnector.connect()) {
+        try (Connection connection = DbConnector.connect();
+         Statement statement = connection.createStatement()
+        ) {
             String sql = String.format("INSERT INTO shop.items (name, price, description)"
                     + " VALUES ('%s', '%s', '%s')", item.getName(), item.getPrice(), item.getDescription());
-            Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
             logger.info("create item in bd susses : " + item.getName());
         } catch (SQLException e) {
-            logger.error("Can't create item in bd" , e);
+            logger.error("Can't create item in bd", e);
         }
         return item;
     }
 
     @Override
     public Optional<Item> get(Long id) {
-        try (Connection connection = DbConnector.connect()) {
-            Statement statement = connection.createStatement();
-            String sql = String.format("SELECT * FROM shop.items WHERE item_id =%d ",  id);
+        try (Connection connection = DbConnector.connect();
+             Statement statement = connection.createStatement()
+        ) {
+            String sql = String.format("SELECT * FROM shop.items WHERE item_id =%d ", id);
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 Item itemFromDB = new Item(
@@ -89,8 +93,9 @@ public class ItemDaoJdbcImpl implements ItemDao {
     @Override
     public List<Item> getAll() {
         List<Item> itemList = new ArrayList<>();
-        try (Connection connection = DbConnector.connect()) {
-            Statement statement = connection.createStatement();
+        try (Connection connection = DbConnector.connect();
+             Statement statement = connection.createStatement()
+        ) {
             String sql = "SELECT * FROM shop.items";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -110,8 +115,9 @@ public class ItemDaoJdbcImpl implements ItemDao {
 
     @Override
     public boolean deleteById(Long itemId) {
-        try (Connection connection = DbConnector.connect()) {
-            Statement statement = connection.createStatement();
+        try (Connection connection = DbConnector.connect();
+             Statement statement = connection.createStatement()
+        ) {
             String sql = String.format("DELETE FROM shop.items WHERE item_id =%d ", itemId);
             statement.executeUpdate(sql);
             logger.info("deleteById item in bd susses, id= " + itemId);
