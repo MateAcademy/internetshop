@@ -4,6 +4,7 @@ import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.util.DbConnector;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,23 +20,19 @@ import java.util.Optional;
 @Dao
 public class ItemDaoJdbcImpl implements ItemDao {
 
-    public static void main(String[] args) {
-        ItemDaoJdbcImpl itemDaoJdbc = new ItemDaoJdbcImpl();
-        Item item = new Item(15L, "яблоко", 55., "США");
-        itemDaoJdbc.update(item);
-    }
+    private static Logger logger = Logger.getLogger(ItemDaoJdbcImpl.class);
 
     @Override
     public Item update(Item item) {
         try (Connection connection = DbConnector.connect()) {
-
-            String sql = String.format("UPDATE shop.items SET name='%s', price=" + item.getPrice() + ", description='%s' WHERE item_id=%d",
-                    item.getName(), item.getDescription(), item.getId());
+            String sql = String.format(java.util.Locale.ROOT,"UPDATE shop.items SET name='%s', " +
+                    "price=%.2f, description='%s' WHERE item_id=%d", item.getName(), item.getPrice(),
+                    item.getDescription(), item.getId());
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
-
+            logger.info("update item in bd susses : " + item.getName());
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Can't update item in bd" , e);
         }
         return item;
     }
@@ -44,12 +41,12 @@ public class ItemDaoJdbcImpl implements ItemDao {
     public boolean delete(Item item) {
         try (Connection connection = DbConnector.connect()) {
             Statement statement = connection.createStatement();
-            String name = item.getName();
-            String sql = "DELETE FROM shop.items WHERE item_id =" + item.getId();
+            String sql = String.format("DELETE FROM shop.items WHERE item_id =%d", item.getId());
             statement.execute(sql);
+            logger.info("delete item in bd susses : " + item.getName());
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Can't delete item in bd" , e);
             return false;
         }
     }
@@ -61,8 +58,9 @@ public class ItemDaoJdbcImpl implements ItemDao {
                     + " VALUES ('%s', '%s', '%s')", item.getName(), item.getPrice(), item.getDescription());
             Statement statement = connection.createStatement();
             statement.execute(sql);
+            logger.info("create item in bd susses : " + item.getName());
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Can't create item in bd" , e);
         }
         return item;
     }
@@ -71,7 +69,8 @@ public class ItemDaoJdbcImpl implements ItemDao {
     public Optional<Item> get(Long id) {
         try (Connection connection = DbConnector.connect()) {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM shop.items WHERE item_id = " + id + "");
+            String sql = String.format("SELECT * FROM shop.items WHERE item_id =%d ",  id);
+            ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 Item itemFromDB = new Item(
                         resultSet.getLong("item_id"),
@@ -81,9 +80,9 @@ public class ItemDaoJdbcImpl implements ItemDao {
                 return Optional.of(itemFromDB);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn("Can't get item in bd, id=" + id + ",  e.printStackTrace():" + e);
         }
-
+        logger.info("get Optional<item> in bd susses, id= " + id);
         return Optional.empty();
     }
 
@@ -92,7 +91,8 @@ public class ItemDaoJdbcImpl implements ItemDao {
         List<Item> itemList = new ArrayList<>();
         try (Connection connection = DbConnector.connect()) {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM shop.items");
+            String sql = "SELECT * FROM shop.items";
+            ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 Item itemFromDB = new Item(
                         resultSet.getLong("item_id"),
@@ -102,8 +102,9 @@ public class ItemDaoJdbcImpl implements ItemDao {
                 itemList.add(itemFromDB);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Can't getAll item in bd" + e);
         }
+        logger.info("getAll List<Item> in bd susses");
         return itemList;
     }
 
@@ -111,11 +112,12 @@ public class ItemDaoJdbcImpl implements ItemDao {
     public boolean deleteById(Long itemId) {
         try (Connection connection = DbConnector.connect()) {
             Statement statement = connection.createStatement();
-            String sql = "DELETE FROM shop.items WHERE item_id = " + itemId;
+            String sql = String.format("DELETE FROM shop.items WHERE item_id =%d ", itemId);
             statement.execute(sql);
+            logger.info("deleteById item in bd susses, id= " + itemId);
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn("Can't deleteById in bd, itemID= " + itemId);
             return false;
         }
     }
