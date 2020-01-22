@@ -1,0 +1,1 @@
+insert into items (name, price, description) VALUES ('telephone', 25, 'Germany');
