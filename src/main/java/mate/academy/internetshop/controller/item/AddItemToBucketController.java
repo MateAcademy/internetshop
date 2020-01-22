@@ -39,7 +39,7 @@ public class AddItemToBucketController extends HttpServlet {
 
         Bucket bucket = bucketService.getByUserId(userId);
         bucketService.addItem(bucket, item);
-        logger.info("add item to bucket " + item.getName() );
+        logger.info("of item to bucket " + item.getName() );
 
         resp.sendRedirect(req.getContextPath() + "/servlet/showAllItems");
     }
