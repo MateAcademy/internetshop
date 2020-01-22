@@ -19,11 +19,17 @@ import java.util.Optional;
 @Dao
 public class ItemDaoJdbcImpl implements ItemDao {
 
+    public static void main(String[] args) {
+        ItemDaoJdbcImpl itemDaoJdbc = new ItemDaoJdbcImpl();
+        Item item = new Item(15L, "яблоко", 55., "США");
+        itemDaoJdbc.update(item);
+    }
+
     @Override
     public Item update(Item item) {
         try (Connection connection = DbConnector.connect()) {
 
-            String sql = String.format("UPDATE shop.items SET name='%s', price="+item.getPrice() +", description='%s' WHERE item_id=%d",
+            String sql = String.format("UPDATE shop.items SET name='%s', price=" + item.getPrice() + ", description='%s' WHERE item_id=%d",
                     item.getName(), item.getDescription(), item.getId());
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
