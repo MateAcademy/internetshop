@@ -87,8 +87,9 @@ public class AuthorizationFilter implements Filter {
     }
 
     private boolean verifyRole(User user, Role.RoleName roleName) {
-        return user.getRoles().stream().anyMatch(r -> r.getRoleName().equals(roleName));
-    }
+//TODO: это пока не работает, нужно исправить
+//        return user.getRoles().stream().anyMatch(r -> r.getRoleName().equals(roleName));
+  return false;  }
 
     private void processDenied(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {

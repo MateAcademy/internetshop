@@ -19,7 +19,8 @@ public class User {
     private String login;
     private String password;
     private String token;
-    private Set<Role> roles = new HashSet<>();
+//    private Set<Role> roles = new HashSet<>();
+    private String roles;
 
     public User() {
         id = UserIdGenerator.getGeneratedId();
@@ -27,18 +28,30 @@ public class User {
 
     public User(String name, String surname, String email, String phone,
                 String login, String password) {
-        this();
+//        this();
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.phone = phone;
         this.login = login;
         this.password = password;
+        token = name + surname;
     }
 
-    public void addRole(Role role) {
-        roles.add(role);
+    public User(Long id, String name, String surname, String email,
+                String phone, String login, String password, String token, String roles) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.phone = phone;
+        this.login = login;
+        this.password = password;
+        this.token = token;
+        this.roles = roles;
     }
+
+//    public void addRole(Role role) { roles.add(role); }
 
     @Override
     public String toString() {

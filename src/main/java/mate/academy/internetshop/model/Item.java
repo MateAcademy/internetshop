@@ -14,7 +14,14 @@ public class Item {
     }
 
     public Item(String name, Double price, String description) {
-        this();
+//        this();
+        this.name = name;
+        this.price = price;
+        this.description = description;
+    }
+
+    public Item(Long id, String name, Double price, String description) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
