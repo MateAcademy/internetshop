@@ -48,11 +48,23 @@ public class OrderServiceImpl implements OrderService {
     public  Order completeOrder(Bucket bucket) {
         Order order = new Order(bucket.getUserId(), bucket.getItems());
         Storage.orders.add(order);
+
+
+
+
+
+
+
+
+
+
+
         return order;
     }
 
     @Override
-    public List<Order> getAllOrdersForUser(Long userId) {
+    public List<Order> getAllOrdersForUser(User user) {
+        orderDao.getAllOrdersForUser(user);
         return Storage.orders.stream()
                 .filter(x -> x.getUserId().equals(userId))
                 .collect(Collectors.toList());

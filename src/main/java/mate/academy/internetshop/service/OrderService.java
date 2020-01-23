@@ -17,7 +17,8 @@ public interface OrderService {
 
     Order completeOrder(List<Item> items, User user);
 
-    List<Order> getAllOrdersForUser(Long userId);
+//    List<Order> getAllOrdersForUser(Long userId);
+//    List<Order> getAllOrdersForUser(User user); у богдана
 
     Order create(Order order);
 

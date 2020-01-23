@@ -11,7 +11,6 @@ import mate.academy.internetshop.model.Order;
 /**
  * @author Sergey Klunniy
  */
-@Dao
 public class OrderDaoImpl implements OrderDao {
 
     @Override
