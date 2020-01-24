@@ -140,4 +140,5 @@ INSERT INTO `shop`.`items` (`item_id`, `name`, `price`, `description`) VALUES ('
 
 INSERT INTO `shop`.`orders_items` (`orders_items_id`, `item_id`, `order_id`) VALUES ('1', '1', '1');
 INSERT INTO `shop`.`orders_items` (`orders_items_id`, `item_id`, `order_id`) VALUES ('2', '2', '1');
+INSERT INTO `shop`.`orders_items` (`orders_items_id`, `item_id`, `order_id`) VALUES ('3', '1', '2');
 
