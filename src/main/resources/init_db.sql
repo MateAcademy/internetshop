@@ -127,3 +127,17 @@ VALUES ('Serge', 'Klunniy', 'ava@gmail.com', '555', 'ava', '1', 'rrr-ttt');
 
 INSERT INTO `shop`.`users` (`name`, `surname`,`email`, `phone`,`login`, `password`, `token`)
 VALUES ('Serge2', 'Klunniy2', 'ava2@gmail.com', '555', 'admin', '1', 'rrr-ttt');
+
+INSERT INTO `shop`.`orders` (`order_id`, `user_id`) VALUES ('1', '2');
+INSERT INTO `shop`.`orders` (`order_id`, `user_id`) VALUES ('2', '2');
+INSERT INTO `shop`.`orders` (`order_id`, `user_id`) VALUES ('3', '3');
+
+INSERT INTO `shop`.`roles` (`role_id`, `role_name`) VALUES ('1', 'ADMIN');
+INSERT INTO `shop`.`roles` (`role_id`, `role_name`) VALUES ('2', 'USER');
+
+INSERT INTO `shop`.`items` (`item_id`, `name`, `price`, `description`) VALUES ('1', 'laptop', '12000', 'Ukraine');
+INSERT INTO `shop`.`items` (`item_id`, `name`, `price`, `description`) VALUES ('2', 'ipad', '23000', 'USA');
+
+INSERT INTO `shop`.`orders_items` (`orders_items_id`, `item_id`, `order_id`) VALUES ('1', '1', '1');
+INSERT INTO `shop`.`orders_items` (`orders_items_id`, `item_id`, `order_id`) VALUES ('2', '2', '1');
+
