@@ -11,6 +11,5 @@ import org.apache.log4j.Logger;
 public class RoleDaoJdbcImpl implements RoleDao {
     private static Logger logger = Logger.getLogger(RoleDaoJdbcImpl.class);
 
-//    public R
 
 }

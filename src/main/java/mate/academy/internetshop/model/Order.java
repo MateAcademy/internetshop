@@ -1,11 +1,9 @@
 package mate.academy.internetshop.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
-import mate.academy.internetshop.service.idgenerators.OrderIdGenerator;
 
 @Getter
 @Setter

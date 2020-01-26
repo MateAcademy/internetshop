@@ -4,14 +4,14 @@ import mate.academy.internetshop.controller.exceptions.AuthenticationException;
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.dao.impl.UserDaoImpl;
 import mate.academy.internetshop.lib.Dao;
+import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
+
 import mate.academy.internetshop.util.DbConnector;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Sergey Klunniy
@@ -20,31 +20,75 @@ import java.util.Optional;
 public class UserDaoJdbcImpl implements UserDao {
 
     public static void main(String[] args) {
-        UserDaoImpl userDao = new UserDaoImpl();
-//        userDao.create(new User("Sergey", "Fedorov", "sf@gmail.com", "+380501430700", "ava",
-//                "1"));
-        System.out.println(userDao.getAll());
+        UserDaoJdbcImpl userDao = new UserDaoJdbcImpl();
+        userDao.create(new User("Oleg", "Fedorov", "sf@gmail.com", "+380501430700",
+                "ava", "1", "TTT-ttt"));
     }
 
     private static Logger logger = Logger.getLogger(UserDaoJdbcImpl.class);
 
     @Override
     public User create(User user) {
-        try (Connection connection = DbConnector.connect()) {
-            String sql = String.format("INSERT INTO shop.users (name, surname, email, phone, " +
-                            "login, password, token)" + " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')", user.getName(),
-                    user.getSurname(), user.getEmail(), user.getPhone(), user.getLogin(), user.getPassword(),
-                    user.getToken());
-            Statement statement = connection.createStatement();
-            statement.execute(sql);
+
+        String sql = String.format("INSERT INTO shop.users (name, surname, email, phone, " +
+                "login, password, token) VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+        try (Connection connection = DbConnector.connect();
+             PreparedStatement stmt = connection.prepareStatement(sql)
+        ) {
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getSurname());
+            stmt.setString(3, user.getEmail());
+            stmt.setString(4, user.getPhone());
+            stmt.setString(5, user.getLogin());
+            stmt.setString(6, user.getPassword());
+            stmt.setString(7, user.getToken());
+            stmt.execute();
+            return user;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
+
     @Override
     public Optional<User> get(Long id) {
+        String sql = "SELECT * FROM shop.users INNER JOIN shop.users_roles ON users.user_id = users_roles.user_id" +
+                "INNER JOIN shop.roles ON users_roles.role_id = roles.role_id WHERE user_id = ?";
+        try (Connection connection = DbConnector.connect();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+
+            ResultSet resultSet = stmt.executeQuery();
+
+            Set<Role> roles = new HashSet<>();
+
+            User user = null;
+            while (resultSet.next()) {
+                 user = new User(
+                 resultSet.getLong("user_id"),
+                 resultSet.getString("name"),
+                 resultSet.getString("surname"),
+                 resultSet.getString("email"),
+                 resultSet.getString("phone"),
+                 resultSet.getString("login"),
+                 resultSet.getString("password"),
+                 resultSet.getString("token"));
+
+                String role = resultSet.getString("role_name");
+                Long roleId = resultSet.getLong("role_id");
+                Role roleByUser = new Role(roleId, role);
+
+                roles.add(roleByUser);
+            }
+            if (roles.size() != 0) {
+                user.setRoles(roles);
+            }
+            return Optional.of(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return Optional.empty();
     }
 
@@ -66,26 +110,26 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public List<User> getAll() {
         List<User> userList = new ArrayList<>();
-        try (Connection connection = DbConnector.connect()) {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM shop.users");
-            while (resultSet.next()) {
-                User userFromDb = new User(
-                        resultSet.getLong("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("surname"),
-                        resultSet.getString("email"),
-                        resultSet.getString("phone"),
-                        resultSet.getString("login"),
-                        resultSet.getString("password"),
-                        resultSet.getString("token"),
-                        resultSet.getString("roles"));
-                userList.add(userFromDb);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try (Connection connection = DbConnector.connect()) {
+//            Statement statement = connection.createStatement();
+//            ResultSet resultSet = statement.executeQuery("SELECT * FROM shop.users");
+//            while (resultSet.next()) {
+//                User userFromDb = new User(
+//                        resultSet.getLong("id"),
+//                        resultSet.getString("name"),
+//                        resultSet.getString("surname"),
+//                        resultSet.getString("email"),
+//                        resultSet.getString("phone"),
+//                        resultSet.getString("login"),
+//                        resultSet.getString("password"),
+//                        resultSet.getString("token"),
+//                        resultSet.getString("roles"));
+//                userList.add(userFromDb);
+//            }
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
         return userList;
     }

@@ -4,6 +4,7 @@ import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Basket;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
+import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.OrderService;
 import mate.academy.internetshop.service.UserService;
@@ -35,8 +36,10 @@ public class CreateOrderController extends HttpServlet {
         Basket basket = bucketService.getByUserId(userId);
 
         List<Item> listItemFromBucket = basket.getItems();
+
+        User user = userService.get(userId);
         if (listItemFromBucket.size() != 0) {
-            Order order = new Order(userId, listItemFromBucket);
+            Order order = new Order(user, listItemFromBucket);
             bucketService.delete(userId);
             orderService.update(order);
         }

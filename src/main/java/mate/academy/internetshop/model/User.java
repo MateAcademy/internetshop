@@ -1,12 +1,13 @@
 package mate.academy.internetshop.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import mate.academy.internetshop.service.idgenerators.UserIdGenerator;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@AllArgsConstructor
 @Getter
 @Setter
 public class User {
@@ -38,6 +39,11 @@ public class User {
         token = name + surname;
     }
 
+    public User(String name, String surname, String email, String phone, String login, String password, String token) {
+        this(name, surname, email, phone,login,password);
+        this.token = token;
+    }
+
     public void addRole(Role role) { roles.add(role); }
 
     @Override
@@ -49,9 +55,9 @@ public class User {
                 + ", password='" + password + '\'' + '}';
     }
 
-    public static void main(String[] args) {
-        User user = new User();
-        user.addRole(Role.of("ADMIN"));
-        System.out.println(user);
-    }
+//    public static void main(String[] args) {
+//        User user = new User();
+//        user.addRole(Role.of("ADMIN"));
+//        System.out.println(user);
+//    }
 }

@@ -1,9 +1,11 @@
 package mate.academy.internetshop.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import mate.academy.internetshop.dao.OrderDao;
+import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
@@ -18,9 +20,11 @@ import mate.academy.internetshop.service.OrderService;
  */
 @Service
 public class OrderServiceImpl implements OrderService {
-
     @Inject
     private static OrderDao orderDao;
+
+    @Inject
+    private static UserDao userDao;
 
     @Override
     public List<Order> getAll() {
@@ -39,34 +43,29 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(List<Item> items, User user) {
-        Order order = new Order(user.getId(), items);
+        Order order = new Order(user, items);
         Storage.orders.add(order);
         return order;
     }
 
     @Override
     public  Order completeOrder(Basket basket) {
-        Order order = new Order(basket.getUserId(), basket.getItems());
+        Optional<User> optUser = userDao.get(basket.getUserId());
+        User user = new User();
+        if (optUser.isPresent()) {
+            user = optUser.get();
+        } else {
+            user = null;
+        }
+        Order order = new Order(user, basket.getItems());
         Storage.orders.add(order);
-
-
-
-
-
-
-
-
-
-
-
         return order;
     }
 
     @Override
     public List<Order> getAllOrdersForUser(User user) {
-        orderDao.getAllOrdersForUser(user);
         return Storage.orders.stream()
-                .filter(x -> x.getUserId().equals(userId))
+                .filter(x -> x.equals(user))
                 .collect(Collectors.toList());
     }
 
