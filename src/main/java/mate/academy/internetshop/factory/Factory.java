@@ -1,11 +1,10 @@
 package mate.academy.internetshop.factory;
 
-import mate.academy.internetshop.dao.BucketDao;
+import mate.academy.internetshop.dao.BasketDao;
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.dao.UserDao;
-import mate.academy.internetshop.dao.impl.BucketDaoImpl;
-import mate.academy.internetshop.dao.impl.ItemDaoImpl;
+import mate.academy.internetshop.dao.impl.BasketDaoImpl;
 import mate.academy.internetshop.dao.impl.OrderDaoImpl;
 import mate.academy.internetshop.dao.impl.UserDaoImpl;
 import mate.academy.internetshop.dao.jdbc.ItemDaoJdbcImpl;
@@ -25,7 +24,7 @@ public class Factory {
     private static UserDao userDao;
     private static OrderDao orderDao;
     private static ItemDao itemDao;
-    private static BucketDao bucketDao;
+    private static BasketDao basketDao;
 
     private static UserService userService;
     private static OrderService orderService;
@@ -54,11 +53,11 @@ public class Factory {
         return itemDao;
     }
 
-    public static BucketDao getBucketDao() {
-        if (bucketDao == null) {
-            bucketDao = new BucketDaoImpl();
+    public static BasketDao getBasketDao() {
+        if (basketDao == null) {
+            basketDao = new BasketDaoImpl();
         }
-        return bucketDao;
+        return basketDao;
     }
 
     public static UserService getUserService() {

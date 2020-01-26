@@ -19,16 +19,16 @@ public class User {
     private String login;
     private String password;
     private String token;
-//    private Set<Role> roles = new HashSet<>();
-    private String roles;
+    private Set<Role> roles = new HashSet<>();
 
-    public User() {
-        id = UserIdGenerator.getGeneratedId();
+    public User() { }
+
+    public User(Long id) {
+        this.id = id;
     }
 
     public User(String name, String surname, String email, String phone,
                 String login, String password) {
-//        this();
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -38,29 +38,20 @@ public class User {
         token = name + surname;
     }
 
-    public User(Long id, String name, String surname, String email,
-                String phone, String login, String password, String token, String roles) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.phone = phone;
-        this.login = login;
-        this.password = password;
-        this.token = token;
-        this.roles = roles;
-    }
-
-//    public void addRole(Role role) { roles.add(role); }
+    public void addRole(Role role) { roles.add(role); }
 
     @Override
     public String toString() {
         return "User{" + "id=" + id
                 + ", name='" + name + '\''
                 + ", surname='" + surname + '\''
-                + ", email='" + email + '\''
-                + ", phone='" + phone + '\''
                 + ", login='" + login + '\''
                 + ", password='" + password + '\'' + '}';
+    }
+
+    public static void main(String[] args) {
+        User user = new User();
+        user.addRole(Role.of("ADMIN"));
+        System.out.println(user);
     }
 }

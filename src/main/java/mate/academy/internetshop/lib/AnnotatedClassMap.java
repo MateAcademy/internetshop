@@ -3,7 +3,7 @@ package mate.academy.internetshop.lib;
 import java.util.HashMap;
 import java.util.Map;
 
-import mate.academy.internetshop.dao.BucketDao;
+import mate.academy.internetshop.dao.BasketDao;
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.dao.UserDao;
@@ -23,7 +23,7 @@ public class AnnotatedClassMap {
         classMap.put(UserDao.class, Factory.getUserDao());
         classMap.put(OrderDao.class, Factory.getOrderDao());
         classMap.put(ItemDao.class, Factory.getItemDao());
-        classMap.put(BucketDao.class, Factory.getBucketDao());
+        classMap.put(BasketDao.class, Factory.getBasketDao());
 
         classMap.put(UserService.class, Factory.getUserService());
         classMap.put(OrderService.class, Factory.getOrderService());

@@ -5,17 +5,17 @@ import java.util.List;
 
 import mate.academy.internetshop.service.idgenerators.BucketIdGenerator;
 
-public class Bucket {
+public class Basket {
 
     private Long id;
     private Long userId;
     private List<Item> items = new ArrayList<>();
 
-    public Bucket() {
+    public Basket() {
         this.id = BucketIdGenerator.getGeneratedId();
     }
 
-    public Bucket(Long userId) {
+    public Basket(Long userId) {
         this();
         this.userId = userId;
     }
@@ -50,6 +50,6 @@ public class Bucket {
 
     @Override
     public String toString() {
-        return "Bucket{" + "id=" + id + ", userId=" + userId + ", items=" + items + '}';
+        return "Basket{" + "id=" + id + ", userId=" + userId + ", items=" + items + '}';
     }
 }

@@ -137,7 +137,7 @@
 
     <servlet>
         <servlet-name>showAllBuckets</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.bucket.ShowUserBuckets</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.basket.ShowUserBuckets</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>showAllBuckets</servlet-name>
@@ -146,7 +146,7 @@
 
     <servlet>
         <servlet-name>deleteItemsInBucketsController</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.bucket.DeleteItemsInBucketsController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.basket.DeleteItemsInBucketsController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>deleteItemsInBucketsController</servlet-name>

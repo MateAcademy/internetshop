@@ -2,7 +2,7 @@ package mate.academy.internetshop.service;
 
 import java.util.List;
 
-import mate.academy.internetshop.model.Bucket;
+import mate.academy.internetshop.model.Basket;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
 import mate.academy.internetshop.model.User;
@@ -13,7 +13,7 @@ import mate.academy.internetshop.model.User;
 public interface OrderService {
     public List<Order> getAll();
 
-    public  Order completeOrder(Bucket bucket);
+    public  Order completeOrder(Basket basket);
 
     Order completeOrder(List<Item> items, User user);
 

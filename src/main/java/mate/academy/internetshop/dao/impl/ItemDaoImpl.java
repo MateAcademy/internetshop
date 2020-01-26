@@ -5,9 +5,7 @@ import java.util.Optional;
 
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.db.Storage;
-import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Item;
-
 
 public class ItemDaoImpl implements ItemDao {
 
