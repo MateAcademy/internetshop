@@ -1,8 +1,6 @@
 package mate.academy.internetshop.dao.jdbc;
 
-import mate.academy.internetshop.controller.exceptions.AuthenticationException;
 import mate.academy.internetshop.dao.UserDao;
-import mate.academy.internetshop.dao.impl.UserDaoImpl;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
@@ -10,8 +8,15 @@ import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.util.DbConnector;
 import org.apache.log4j.Logger;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author Sergey Klunniy
@@ -21,8 +26,21 @@ public class UserDaoJdbcImpl implements UserDao {
 
     public static void main(String[] args) {
         UserDaoJdbcImpl userDao = new UserDaoJdbcImpl();
-        userDao.create(new User("Oleg", "Fedorov", "sf@gmail.com", "+380501430700",
-                "ava", "1", "TTT-ttt"));
+//TODO: нужно ли и роли добавлять сразу, когда юзера добавляем где токен берется
+//        userDao.create(new User("Oleg", "Fedorov", "sf@gmail.com", "+380501430700",
+//                "ava", "1", "TTT-ttt"));
+
+//        Optional<User> optUser2 = userDao.get(2L);
+//        if (optUser2.isPresent())
+//        System.out.println(optUser2.get());
+
+//        User user = new User(3L, "Oleg23", "Fedorov23", "sf@gmail.com", "+380501430700",
+//                "ava", "1", "TTT-ttt");
+//        userDao.update(user);
+
+//        userDao.delete(user);
+//        System.out.println(userDao.login("ava", "1"));
+//        System.out.println(userDao.getByToken("TTT-ttt"));
     }
 
     private static Logger logger = Logger.getLogger(UserDaoJdbcImpl.class);
@@ -46,35 +64,33 @@ public class UserDaoJdbcImpl implements UserDao {
             stmt.execute();
             return user;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Can't create user with login = " + user.getLogin());
         }
         return null;
     }
 
-
     @Override
-    public Optional<User> get(Long id) {
+    public Optional<User> get(Long userId) {
         String sql = "SELECT * FROM shop.users INNER JOIN shop.users_roles ON users.user_id = users_roles.user_id" +
-                "INNER JOIN shop.roles ON users_roles.role_id = roles.role_id WHERE user_id = ?";
+                " INNER JOIN shop.roles ON users_roles.role_id = roles.role_id WHERE users.user_id = ?";
         try (Connection connection = DbConnector.connect();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setLong(1, id);
+            stmt.setLong(1, userId);
 
             ResultSet resultSet = stmt.executeQuery();
-
             Set<Role> roles = new HashSet<>();
 
             User user = null;
             while (resultSet.next()) {
-                 user = new User(
-                 resultSet.getLong("user_id"),
-                 resultSet.getString("name"),
-                 resultSet.getString("surname"),
-                 resultSet.getString("email"),
-                 resultSet.getString("phone"),
-                 resultSet.getString("login"),
-                 resultSet.getString("password"),
-                 resultSet.getString("token"));
+                user = new User(
+                        resultSet.getLong("user_id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("surname"),
+                        resultSet.getString("email"),
+                        resultSet.getString("phone"),
+                        resultSet.getString("login"),
+                        resultSet.getString("password"),
+                        resultSet.getString("token"));
 
                 String role = resultSet.getString("role_name");
                 Long roleId = resultSet.getLong("role_id");
@@ -87,100 +103,156 @@ public class UserDaoJdbcImpl implements UserDao {
             }
             return Optional.of(user);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Can't get user with userId = " + userId);
         }
         return Optional.empty();
     }
 
     @Override
-    public User update(User entity) {
+    public User update(User user) {
+        String sql = "UPDATE shop.users SET name=?, surname=?, email=?, phone=?, " +
+                "login=?, password=?, token=? WHERE user_id = ?";
+
+        try (Connection connection = DbConnector.connect();
+             PreparedStatement stmt = connection.prepareStatement(sql)
+        ) {
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getSurname());
+            stmt.setString(3, user.getEmail());
+            stmt.setString(4, user.getPhone());
+            stmt.setString(5, user.getLogin());
+            stmt.setString(6, user.getPassword());
+            stmt.setString(7, user.getToken());
+            stmt.setLong(8, user.getId());
+            stmt.execute();
+            return user;
+        } catch (SQLException e) {
+            logger.error("Can't update user with id " + user.getId());
+        }
         return null;
     }
 
     @Override
-    public boolean deleteById(Long entityId) {
-        return false;
+    public boolean delete(User user) {
+        return deleteById(user.getId());
     }
 
     @Override
-    public boolean delete(User entity) {
+    public boolean deleteById(Long userId) {
+
+        String sql = "DELETE FROM shop.users WHERE user_id = ?";
+
+        try (Connection connection = DbConnector.connect();
+             PreparedStatement stmt = connection.prepareStatement(sql)
+        ) {
+            stmt.setLong(1, userId);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            logger.error("Can't delete user with id " + userId + e);
+        }
         return false;
     }
 
     @Override
     public List<User> getAll() {
+        String sql = "SELECT * FROM shop.users";
         List<User> userList = new ArrayList<>();
-//        try (Connection connection = DbConnector.connect()) {
-//            Statement statement = connection.createStatement();
-//            ResultSet resultSet = statement.executeQuery("SELECT * FROM shop.users");
-//            while (resultSet.next()) {
-//                User userFromDb = new User(
-//                        resultSet.getLong("id"),
-//                        resultSet.getString("name"),
-//                        resultSet.getString("surname"),
-//                        resultSet.getString("email"),
-//                        resultSet.getString("phone"),
-//                        resultSet.getString("login"),
-//                        resultSet.getString("password"),
-//                        resultSet.getString("token"),
-//                        resultSet.getString("roles"));
-//                userList.add(userFromDb);
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-
+        try (Connection connection = DbConnector.connect()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User userFromDb = new User(
+                        resultSet.getLong("user_id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("surname"),
+                        resultSet.getString("email"),
+                        resultSet.getString("phone"),
+                        resultSet.getString("login"),
+                        resultSet.getString("password"),
+                        resultSet.getString("token"));
+                userList.add(userFromDb);
+            }
+        } catch (SQLException e) {
+            logger.error("Can't getAll() users in DB ", e);
+        }
         return userList;
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
+        String sql = "SELECT * FROM shop.users WHERE email = ?";
+        User userFromDb = null;
+        try (Connection connection = DbConnector.connect()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                userFromDb = new User(
+                        resultSet.getLong("user_id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("surname"),
+                        resultSet.getString("email"),
+                        resultSet.getString("phone"),
+                        resultSet.getString("login"),
+                        resultSet.getString("password"),
+                        resultSet.getString("token"));
+            }
+            return Optional.of(userFromDb);
+        } catch (SQLException e) {
+            logger.error("Can't findByEmail() users in DB ", e);
+        }
         return Optional.empty();
     }
 
     @Override
     public User login(String login, String password) {
-        String query = "SELECT * FROM  users WHERE login = ? and password = ?;";
-
+        String query = "SELECT * FROM  shop.users WHERE login = ? and password = ?;";
+        User userFromDb = null;
         try (Connection connection = DbConnector.connect();
              PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, login);
             stmt.setString(2, password);
-            ResultSet rs = stmt.executeQuery(query);
+            ResultSet resultSet = stmt.executeQuery();
 
-            while (rs.next()) {
-                long userId = rs.getLong("user_id");
-                String name = rs.getString("name");
-                String surname = rs.getString("surname");
-                String token = rs.getString("token");
-                User user = new User(userId);
-                user.setName(name);
-                user.setSurname(surname);
-                user.setLogin(login);
-                user.setToken(token);
-                return user;
+            if (resultSet.next()) {
+                userFromDb = new User(
+                        resultSet.getLong("user_id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("surname"),
+                        resultSet.getString("email"),
+                        resultSet.getString("phone"),
+                        resultSet.getString("login"),
+                        resultSet.getString("password"),
+                        resultSet.getString("token"));
             }
         } catch (SQLException e) {
             logger.error("Can't get user by login =" + login, e);
         }
+//TODO: не получилось исключение бросить свое, юзера достает без роли
 //        throw new AuthenticationException("Can't get user by login =" + login);
-        return null;
+        return userFromDb;
     }
 
     @Override
     public Optional<User> getByToken(String token) {
-        String qery = "SELECT  FROM " + "users WHERE token = \'" + token + "\';";
-
-//        try (Statement stmt = connection.createStatement()) {
-//            ResultSet rs = stmt.executeQuery(qery);
-//            while (rs.next()) {
-//                long userId = rs.getLong("user_id");
-//                String name = rs.getString("name");
-//            }
-//
-//        }
-
-        return Optional.of(new User());
+        String sql = "SELECT * FROM shop.users WHERE token = ?";
+        User userFromDb = null;
+        try (Connection connection = DbConnector.connect()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, token);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                userFromDb = new User(
+                        resultSet.getLong("user_id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("login"),
+                        resultSet.getString("password"));
+            }
+            return Optional.of(userFromDb);
+        } catch (SQLException e) {
+            logger.error("Can't findByEmail() users in DB ", e);
+        }
+        return Optional.empty();
     }
 }

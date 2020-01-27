@@ -22,6 +22,12 @@ public class ItemDaoJdbcImpl implements ItemDao {
 
     private static Logger logger = Logger.getLogger(ItemDaoJdbcImpl.class);
 
+//    public static void main(String[] args) {
+//        ItemDaoJdbcImpl itemDaoJdbc = new ItemDaoJdbcImpl();
+//        Item item = new Item(4L,"TV", 500.90, " from USA");
+//        itemDaoJdbc.update(item);
+//    }
+
     @Override
     public Item update(Item item) {
         try (Connection connection = DbConnector.connect();

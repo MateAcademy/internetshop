@@ -24,6 +24,13 @@ public class User {
 
     public User() { }
 
+    public User(Long id, String name, String login, String password) {
+        this.id = id;
+        this.name = name;
+        this.login = login;
+        this.password = password;
+    }
+
     public User(Long id) {
         this.id = id;
     }
@@ -39,6 +46,17 @@ public class User {
         token = name + surname;
     }
 
+    public User(Long id, String name, String surname, String email, String phone, String login, String password, String token) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.phone = phone;
+        this.login = login;
+        this.password = password;
+        this.token = token;
+    }
+
     public User(String name, String surname, String email, String phone, String login, String password, String token) {
         this(name, surname, email, phone,login,password);
         this.token = token;
@@ -48,14 +66,20 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id
-                + ", name='" + name + '\''
-                + ", surname='" + surname + '\''
-                + ", login='" + login + '\''
-                + ", password='" + password + '\'' + '}';
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", token='" + token + '\'' +
+                ", roles=" + roles.toString() +
+                '}';
     }
 
-//    public static void main(String[] args) {
+    //    public static void main(String[] args) {
 //        User user = new User();
 //        user.addRole(Role.of("ADMIN"));
 //        System.out.println(user);

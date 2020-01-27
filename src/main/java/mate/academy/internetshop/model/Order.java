@@ -28,5 +28,18 @@ public class Order {
         return this;
     }
 
+    public Order(Long id, User user) {
+        this.id = id;
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", user=" + user +
+                ", items=" + items +
+                '}';
+    }
 }
 

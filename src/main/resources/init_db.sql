@@ -142,3 +142,46 @@ INSERT INTO `shop`.`orders_items` (`orders_items_id`, `item_id`, `order_id`) VAL
 INSERT INTO `shop`.`orders_items` (`orders_items_id`, `item_id`, `order_id`) VALUES ('2', '2', '1');
 INSERT INTO `shop`.`orders_items` (`orders_items_id`, `item_id`, `order_id`) VALUES ('3', '1', '2');
 
+ALTER TABLE `shop`.`baskets`
+DROP FOREIGN KEY `basket_fk_users`;
+ALTER TABLE `shop`.`baskets`
+ADD CONSTRAINT `basket_fk_users`
+  FOREIGN KEY (`user_id`)
+  REFERENCES `shop`.`users` (`user_id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE `shop`.`items_baskets`
+DROP FOREIGN KEY `basket_id_fk`;
+ALTER TABLE `shop`.`items_baskets`
+ADD CONSTRAINT `basket_id_fk`
+  FOREIGN KEY (`basket_id`)
+  REFERENCES `shop`.`baskets` (`basket_id`)
+  ON DELETE CASCADE;
+
+
+ALTER TABLE `shop`.`orders`
+DROP FOREIGN KEY `order_id_fk`;
+ALTER TABLE `shop`.`orders`
+ADD CONSTRAINT `order_id_fk`
+  FOREIGN KEY (`user_id`)
+  REFERENCES `shop`.`users` (`user_id`)
+  ON DELETE CASCADE;
+
+ALTER TABLE `shop`.`orders_items`
+DROP FOREIGN KEY `order_fk`;
+ALTER TABLE `shop`.`orders_items`
+ADD CONSTRAINT `order_fk`
+  FOREIGN KEY (`order_id`)
+  REFERENCES `shop`.`orders` (`order_id`)
+  ON DELETE CASCADE;
+
+ALTER TABLE `shop`.`users_roles`
+DROP FOREIGN KEY `user_id_fk`;
+ALTER TABLE `shop`.`users_roles`
+ADD CONSTRAINT `user_id_fk`
+  FOREIGN KEY (`user_id`)
+  REFERENCES `shop`.`users` (`user_id`)
+  ON DELETE CASCADE;
+
+

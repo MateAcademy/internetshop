@@ -42,4 +42,9 @@ public class Role {
     public static Role of(String roleName) {
        return new Role(RoleName.valueOf(roleName));
     }
+
+    @Override
+    public String toString() {
+        return "role=" + roleName;
+    }
 }
