@@ -15,6 +15,17 @@ public class Basket {
         this.id = BucketIdGenerator.getGeneratedId();
     }
 
+    public Basket(Long id, Long userId, List<Item> items) {
+        this.id = id;
+        this.userId = userId;
+        this.items = items;
+    }
+
+    public Basket(Long userId, List<Item> items) {
+        this.userId = userId;
+        this.items = items;
+    }
+
     public Basket(Long userId) {
         this();
         this.userId = userId;

@@ -24,50 +24,7 @@ import java.util.Set;
 @Dao
 public class UserDaoJdbcImpl implements UserDao {
 
-    public static void main(String[] args) {
-        UserDaoJdbcImpl userDao = new UserDaoJdbcImpl();
-//TODO: нужно ли и роли добавлять сразу, когда юзера добавляем где токен берется
-//        userDao.create(new User("Oleg", "Fedorov", "sf@gmail.com", "+380501430700",
-//                "ava", "1", "TTT-ttt"));
-
-//        Optional<User> optUser2 = userDao.get(2L);
-//        if (optUser2.isPresent())
-//        System.out.println(optUser2.get());
-
-//        User user = new User(3L, "Oleg23", "Fedorov23", "sf@gmail.com", "+380501430700",
-//                "ava", "1", "TTT-ttt");
-//        userDao.update(user);
-
-//        userDao.delete(user);
-//        System.out.println(userDao.login("ava", "1"));
-//        System.out.println(userDao.getByToken("TTT-ttt"));
-    }
-
     private static Logger logger = Logger.getLogger(UserDaoJdbcImpl.class);
-
-    @Override
-    public User create(User user) {
-
-        String sql = String.format("INSERT INTO shop.users (name, surname, email, phone, " +
-                "login, password, token) VALUES (?, ?, ?, ?, ?, ?, ?)");
-
-        try (Connection connection = DbConnector.connect();
-             PreparedStatement stmt = connection.prepareStatement(sql)
-        ) {
-            stmt.setString(1, user.getName());
-            stmt.setString(2, user.getSurname());
-            stmt.setString(3, user.getEmail());
-            stmt.setString(4, user.getPhone());
-            stmt.setString(5, user.getLogin());
-            stmt.setString(6, user.getPassword());
-            stmt.setString(7, user.getToken());
-            stmt.execute();
-            return user;
-        } catch (SQLException e) {
-            logger.error("Can't create user with login = " + user.getLogin());
-        }
-        return null;
-    }
 
     @Override
     public Optional<User> get(Long userId) {
@@ -106,6 +63,30 @@ public class UserDaoJdbcImpl implements UserDao {
             logger.error("Can't get user with userId = " + userId);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public User create(User user) {
+
+        String sql = String.format("INSERT INTO shop.users (name, surname, email, phone, " +
+                "login, password, token) VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+        try (Connection connection = DbConnector.connect();
+             PreparedStatement stmt = connection.prepareStatement(sql)
+        ) {
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getSurname());
+            stmt.setString(3, user.getEmail());
+            stmt.setString(4, user.getPhone());
+            stmt.setString(5, user.getLogin());
+            stmt.setString(6, user.getPassword());
+            stmt.setString(7, user.getToken());
+            stmt.execute();
+            return user;
+        } catch (SQLException e) {
+            logger.error("Can't create user with login = " + user.getLogin());
+        }
+        return null;
     }
 
     @Override

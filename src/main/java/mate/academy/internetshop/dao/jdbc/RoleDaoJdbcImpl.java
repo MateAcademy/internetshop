@@ -47,7 +47,6 @@ public class RoleDaoJdbcImpl implements RoleDao {
         return null;
     }
 
-    //TODO: сделать проверку можно если такая роль есть, то не вставлять повторно
     @Override
     public boolean setUserRole(User user) {
         String sql = "INSERT INTO shop.users_roles (user_id, role_id) VALUE (?, ?);";
@@ -80,12 +79,5 @@ public class RoleDaoJdbcImpl implements RoleDao {
             logger.error("Can't setAdminRole with userId = " + user.getId());
         }
         return false;
-    }
-
-    public static void main(String[] args) {
-        RoleDaoJdbcImpl roleDaoJdbc = new RoleDaoJdbcImpl();
-        User user = new User(4L);
-
-        System.out.println(roleDaoJdbc.setUserRole(user));
     }
 }
