@@ -25,7 +25,6 @@ public class Item {
     }
 
     public Item(String name, Double price, String description) {
-//        this();
         this.name = name;
         this.price = price;
         this.description = description;

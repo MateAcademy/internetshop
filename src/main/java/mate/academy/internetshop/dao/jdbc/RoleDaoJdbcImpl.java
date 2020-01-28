@@ -29,20 +29,16 @@ public class RoleDaoJdbcImpl implements RoleDao {
         try (Connection connection = DbConnector.connect();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, user.getId());
-
             ResultSet resultSet = stmt.executeQuery();
             Set<Role> roles = new HashSet<>();
-
             while (resultSet.next()) {
-
                 String role = resultSet.getString("role_name");
                 Role role1 = Role.of(role);
                 roles.add(role1);
             }
-
             return roles;
         } catch (SQLException e) {
-            logger.error("Can't getUserRole with userId = " + user.getId());
+            e.printStackTrace();
         }
         return null;
     }
@@ -55,11 +51,10 @@ public class RoleDaoJdbcImpl implements RoleDao {
         ) {
             stmt.setString(1, String.valueOf(user.getId()));
             stmt.setString(2, String.valueOf(2));
-
             stmt.execute();
             return true;
         } catch (SQLException e) {
-            logger.error("Can't setUserRole with userId = " + user.getId());
+            e.printStackTrace();
         }
         return false;
     }
@@ -72,11 +67,10 @@ public class RoleDaoJdbcImpl implements RoleDao {
         ) {
             stmt.setString(1, String.valueOf(user.getId()));
             stmt.setString(2, String.valueOf(1));
-
             stmt.execute();
             return true;
         } catch (SQLException e) {
-            logger.error("Can't setAdminRole with userId = " + user.getId());
+            e.printStackTrace();
         }
         return false;
     }

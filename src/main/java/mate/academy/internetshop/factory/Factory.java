@@ -7,6 +7,7 @@ import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.dao.impl.BasketDaoImpl;
 import mate.academy.internetshop.dao.impl.OrderDaoImpl;
 import mate.academy.internetshop.dao.impl.UserDaoImpl;
+import mate.academy.internetshop.dao.jdbc.BasketDaoJdbcImpl;
 import mate.academy.internetshop.dao.jdbc.ItemDaoJdbcImpl;
 import mate.academy.internetshop.dao.jdbc.OrderDaoJdbcImpl;
 import mate.academy.internetshop.dao.jdbc.UserDaoJdbcImpl;
@@ -56,7 +57,7 @@ public class Factory {
 
     public static BasketDao getBasketDao() {
         if (basketDao == null) {
-            basketDao = new BasketDaoImpl();
+            basketDao = new BasketDaoJdbcImpl();
         }
         return basketDao;
     }

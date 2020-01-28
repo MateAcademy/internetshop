@@ -11,7 +11,11 @@ import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.util.DbConnector;
 import org.apache.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -140,7 +144,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
                 items.add(item);
             }
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
         return items;
     }
@@ -156,7 +160,6 @@ public class OrderDaoJdbcImpl implements OrderDao {
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, order.getId());
             statement.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -164,12 +167,12 @@ public class OrderDaoJdbcImpl implements OrderDao {
 
     @Override
     public boolean deleteById(Long orderId) {
-           Optional<Order> optOrder = get(orderId);
+        Optional<Order> optOrder = get(orderId);
         if (optOrder.isPresent()) {
-        return delete(optOrder.get());
-    }
+            return delete(optOrder.get());
+        }
         return false;
-}
+    }
 
     @Override
     public boolean delete(Order order) {
@@ -181,8 +184,9 @@ public class OrderDaoJdbcImpl implements OrderDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            return false;
+            e.printStackTrace();
         }
+        return false;
     }
 
     @Override
@@ -191,33 +195,6 @@ public class OrderDaoJdbcImpl implements OrderDao {
         String sql = "SELECT * FROM shop.orders INNER JOIN shop.orders_items ON orders.order_id = orders_items.order_id;";
         try (Connection connection = DbConnector.connect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                       Long orderId = rs.getLong("order_id");
-                       Long userId = rs.getLong("user_id");
-                       Long itemId = rs.getLong("item_id");
-                List<Item> items = new ArrayList<>();
-                Item item = itemDao.get(itemId).get();
-                items.add(item);
-                       Order order = new Order(orderId, userDao.get(userId).get(), items);
-                       orders.add(order);
-            }
-
-            return orders;
-        } catch (SQLException e) {
-            logger.warn("Can't get all orders from db");
-        }
-        return null;
-    }
-
-    @Override
-    public List<Order> getAllOrdersForUser(User user) {
-        List<Order> orders = new ArrayList<>();
-        String sql = "SELECT * FROM shop.orders INNER JOIN shop.orders_items ON orders.order_id = orders_items.order_id WHERE user_id = ?;";
-        try (Connection connection = DbConnector.connect();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, user.getId());
-
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Long orderId = rs.getLong("order_id");
@@ -229,10 +206,34 @@ public class OrderDaoJdbcImpl implements OrderDao {
                 Order order = new Order(orderId, userDao.get(userId).get(), items);
                 orders.add(order);
             }
-
             return orders;
         } catch (SQLException e) {
-            logger.warn("Can't get all orders from db");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Order> getAllOrdersForUser(User user) {
+        List<Order> orders = new ArrayList<>();
+        String sql = "SELECT * FROM shop.orders INNER JOIN shop.orders_items ON orders.order_id = orders_items.order_id WHERE user_id = ?;";
+        try (Connection connection = DbConnector.connect();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, user.getId());
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Long orderId = rs.getLong("order_id");
+                Long userId = rs.getLong("user_id");
+                Long itemId = rs.getLong("item_id");
+                List<Item> items = new ArrayList<>();
+                Item item = itemDao.get(itemId).get();
+                items.add(item);
+                Order order = new Order(orderId, userDao.get(userId).get(), items);
+                orders.add(order);
+            }
+            return orders;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }

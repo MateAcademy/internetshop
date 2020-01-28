@@ -52,7 +52,6 @@ public class UserDaoJdbcImpl implements UserDao {
                 String role = resultSet.getString("role_name");
                 Long roleId = resultSet.getLong("role_id");
                 Role roleByUser = new Role(roleId, role);
-
                 roles.add(roleByUser);
             }
             if (roles.size() != 0) {
@@ -60,20 +59,17 @@ public class UserDaoJdbcImpl implements UserDao {
             }
             return Optional.of(user);
         } catch (SQLException e) {
-            logger.error("Can't get user with userId = " + userId);
+            e.printStackTrace();
         }
         return Optional.empty();
     }
 
     @Override
     public User create(User user) {
-
         String sql = String.format("INSERT INTO shop.users (name, surname, email, phone, " +
                 "login, password, token) VALUES (?, ?, ?, ?, ?, ?, ?)");
-
         try (Connection connection = DbConnector.connect();
-             PreparedStatement stmt = connection.prepareStatement(sql)
-        ) {
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getSurname());
             stmt.setString(3, user.getEmail());
@@ -84,7 +80,7 @@ public class UserDaoJdbcImpl implements UserDao {
             stmt.execute();
             return user;
         } catch (SQLException e) {
-            logger.error("Can't create user with login = " + user.getLogin());
+            e.printStackTrace();
         }
         return null;
     }
@@ -93,10 +89,8 @@ public class UserDaoJdbcImpl implements UserDao {
     public User update(User user) {
         String sql = "UPDATE shop.users SET name=?, surname=?, email=?, phone=?, " +
                 "login=?, password=?, token=? WHERE user_id = ?";
-
         try (Connection connection = DbConnector.connect();
-             PreparedStatement stmt = connection.prepareStatement(sql)
-        ) {
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getSurname());
             stmt.setString(3, user.getEmail());
@@ -108,7 +102,7 @@ public class UserDaoJdbcImpl implements UserDao {
             stmt.execute();
             return user;
         } catch (SQLException e) {
-            logger.error("Can't update user with id " + user.getId());
+            e.printStackTrace();
         }
         return null;
     }
@@ -120,17 +114,14 @@ public class UserDaoJdbcImpl implements UserDao {
 
     @Override
     public boolean deleteById(Long userId) {
-
         String sql = "DELETE FROM shop.users WHERE user_id = ?";
-
         try (Connection connection = DbConnector.connect();
-             PreparedStatement stmt = connection.prepareStatement(sql)
-        ) {
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, userId);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Can't delete user with id " + userId + e);
+            e.printStackTrace();
         }
         return false;
     }
@@ -181,7 +172,7 @@ public class UserDaoJdbcImpl implements UserDao {
             }
             return Optional.of(userFromDb);
         } catch (SQLException e) {
-            logger.error("Can't findByEmail() users in DB ", e);
+            e.printStackTrace();
         }
         return Optional.empty();
     }
@@ -195,7 +186,6 @@ public class UserDaoJdbcImpl implements UserDao {
             stmt.setString(1, login);
             stmt.setString(2, password);
             ResultSet resultSet = stmt.executeQuery();
-
             if (resultSet.next()) {
                 userFromDb = new User(
                         resultSet.getLong("user_id"),
@@ -208,10 +198,8 @@ public class UserDaoJdbcImpl implements UserDao {
                         resultSet.getString("token"));
             }
         } catch (SQLException e) {
-            logger.error("Can't get user by login =" + login, e);
+            e.printStackTrace();
         }
-//TODO: не получилось исключение бросить свое, юзера достает без роли
-//        throw new AuthenticationException("Can't get user by login =" + login);
         return userFromDb;
     }
 
@@ -232,7 +220,7 @@ public class UserDaoJdbcImpl implements UserDao {
             }
             return Optional.of(userFromDb);
         } catch (SQLException e) {
-            logger.error("Can't findByEmail() users in DB ", e);
+            e.printStackTrace();
         }
         return Optional.empty();
     }

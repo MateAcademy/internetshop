@@ -33,7 +33,7 @@ public class ItemDaoJdbcImpl implements ItemDao {
             statement.executeUpdate(sql);
             logger.info("update item in bd susses : " + item.getName());
         } catch (SQLException e) {
-            logger.error("Can't update item in bd", e);
+            e.printStackTrace();
         }
         return item;
     }
@@ -48,22 +48,22 @@ public class ItemDaoJdbcImpl implements ItemDao {
             logger.info("delete item in bd susses : " + item.getName());
             return true;
         } catch (SQLException e) {
-            logger.error("Can't delete item in bd", e);
-            return false;
+            e.printStackTrace();
         }
+        return false;
     }
 
     @Override
     public Item create(Item item) {
         try (Connection connection = DbConnector.connect();
-         Statement statement = connection.createStatement()
+             Statement statement = connection.createStatement()
         ) {
             String sql = String.format("INSERT INTO shop.items (name, price, description)"
                     + " VALUES ('%s', '%s', '%s')", item.getName(), item.getPrice(), item.getDescription());
             statement.executeUpdate(sql);
             logger.info("create item in bd susses : " + item.getName());
         } catch (SQLException e) {
-            logger.error("Can't create item in bd", e);
+           e.printStackTrace();
         }
         return item;
     }
@@ -84,7 +84,7 @@ public class ItemDaoJdbcImpl implements ItemDao {
                 return Optional.of(itemFromDB);
             }
         } catch (SQLException e) {
-            logger.warn("Can't get item in bd, id=" + id + ",  e.printStackTrace():" + e);
+            e.printStackTrace();
         }
         logger.info("get Optional<item> in bd susses, id= " + id);
         return Optional.empty();
@@ -107,7 +107,7 @@ public class ItemDaoJdbcImpl implements ItemDao {
                 itemList.add(itemFromDB);
             }
         } catch (SQLException e) {
-            logger.error("Can't getAll item in bd" + e);
+            e.printStackTrace();
         }
         logger.info("getAll List<Item> in bd susses");
         return itemList;
@@ -123,8 +123,8 @@ public class ItemDaoJdbcImpl implements ItemDao {
             logger.info("deleteById item in bd susses, id= " + itemId);
             return true;
         } catch (SQLException e) {
-            logger.warn("Can't deleteById in bd, itemID= " + itemId);
-            return false;
+            e.printStackTrace();
         }
+        return false;
     }
 }
