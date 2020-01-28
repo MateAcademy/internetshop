@@ -1,5 +1,6 @@
 package mate.academy.internetshop.dao.jdbc;
 
+import mate.academy.internetshop.controller.exceptions.DataProcessingException;
 import mate.academy.internetshop.dao.BasketDao;
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.dao.UserDao;
@@ -37,8 +38,8 @@ public class BasketDaoJdbcImpl implements BasketDao {
 
     @Override
     public Optional<Basket> getByUserId(Long userId) {
-        String sql = "SELECT * FROM shop.baskets INNER JOIN shop.items_baskets ON baskets.basket_id = items_baskets.basket_id " +
-                "WHERE user_id = ?;";
+        String sql = "SELECT * FROM shop.baskets INNER JOIN shop.items_baskets " +
+                "ON baskets.basket_id = items_baskets.basket_id WHERE user_id = ?;";
         try (Connection connection = DbConnector.connect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, userId);
@@ -56,9 +57,8 @@ public class BasketDaoJdbcImpl implements BasketDao {
             logger.info("Get all optional baskets from db");
             return Optional.of(basket);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't get all items from bucket by user id", e);
         }
-        return null;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class BasketDaoJdbcImpl implements BasketDao {
             }
             addItems(basket, basket.getItems());
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't create basket ", e);
         }
         return basket;
     }
@@ -96,7 +96,7 @@ public class BasketDaoJdbcImpl implements BasketDao {
             }
             logger.info("add items in baskets");
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't changed in basket list items ", e);
         }
     }
 
@@ -133,9 +133,8 @@ public class BasketDaoJdbcImpl implements BasketDao {
             Basket basket = new Basket(basketId, user.getId(), itemsFromBd);
             return Optional.of(basket);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't get basket by basket id ", e);
         }
-        return Optional.empty();
     }
 
     @Override
@@ -149,7 +148,7 @@ public class BasketDaoJdbcImpl implements BasketDao {
             deleteAllItems(basket);
             addItems(basket, basket.getItems());
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't update basket ", e);
         }
         return basket;
     }
@@ -161,7 +160,7 @@ public class BasketDaoJdbcImpl implements BasketDao {
             statement.setLong(1, basket.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't delete all items in basket ", e);
         }
     }
 
@@ -184,9 +183,8 @@ public class BasketDaoJdbcImpl implements BasketDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't delete basket ", e);
         }
-        return false;
     }
 
     private void deleteItems(Basket basket, List<Item> items) {
@@ -213,8 +211,7 @@ public class BasketDaoJdbcImpl implements BasketDao {
             }
             return baskets;
         } catch (SQLException e) {
-           e.printStackTrace();
+            throw new DataProcessingException("Can't get all baskets ", e);
         }
-        return null;
     }
 }

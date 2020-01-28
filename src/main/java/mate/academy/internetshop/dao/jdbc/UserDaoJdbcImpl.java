@@ -1,5 +1,6 @@
 package mate.academy.internetshop.dao.jdbc;
 
+import mate.academy.internetshop.controller.exceptions.DataProcessingException;
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Role;
@@ -56,9 +57,8 @@ public class UserDaoJdbcImpl implements UserDao {
             }
             return Optional.of(user);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't get user in db ", e);
         }
-        return Optional.empty();
     }
 
     @Override
@@ -86,9 +86,8 @@ public class UserDaoJdbcImpl implements UserDao {
             roleDaoJdbc.setUserRole(user);
             return user;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't create user ", e);
         }
-        return null;
     }
 
     @Override
@@ -108,9 +107,8 @@ public class UserDaoJdbcImpl implements UserDao {
             stmt.execute();
             return user;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't update user ", e);
         }
-        return null;
     }
 
     @Override
@@ -127,9 +125,8 @@ public class UserDaoJdbcImpl implements UserDao {
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't delete by id user ", e);
         }
-        return false;
     }
 
     @Override
@@ -152,7 +149,7 @@ public class UserDaoJdbcImpl implements UserDao {
                 userList.add(userFromDb);
             }
         } catch (SQLException e) {
-            logger.error("Can't getAll() users in DB ", e);
+            throw new DataProcessingException("Can't get all users in db ", e);
         }
         return userList;
     }
@@ -178,9 +175,8 @@ public class UserDaoJdbcImpl implements UserDao {
             }
             return Optional.of(userFromDb);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't fined by email user ", e);
         }
-        return Optional.empty();
     }
 
     @Override
@@ -204,7 +200,7 @@ public class UserDaoJdbcImpl implements UserDao {
                         resultSet.getString("token"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't fined user in db by login ", e);
         }
         return userFromDb;
     }
@@ -226,8 +222,26 @@ public class UserDaoJdbcImpl implements UserDao {
             }
             return Optional.of(userFromDb);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't get user by token ", e);
         }
-        return Optional.empty();
+    }
+
+    public Set<Role> getUserRole(User user) {
+        String sql = "SELECT role_name FROM shop.users INNER JOIN shop.users_roles ON users.user_id = users_roles.user_id" +
+                " INNER JOIN shop.roles ON users_roles.role_id = roles.role_id WHERE users.user_id = ?";
+        try (Connection connection = DbConnector.connect();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setLong(1, user.getId());
+            ResultSet resultSet = stmt.executeQuery();
+            Set<Role> roles = new HashSet<>();
+            while (resultSet.next()) {
+                String role = resultSet.getString("role_name");
+                Role role1 = Role.of(role);
+                roles.add(role1);
+            }
+            return roles;
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't get user role ", e);
+        }
     }
 }

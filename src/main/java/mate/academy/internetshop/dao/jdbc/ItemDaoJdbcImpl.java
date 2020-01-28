@@ -1,5 +1,6 @@
 package mate.academy.internetshop.dao.jdbc;
 
+import mate.academy.internetshop.controller.exceptions.DataProcessingException;
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Item;
@@ -33,7 +34,7 @@ public class ItemDaoJdbcImpl implements ItemDao {
             statement.executeUpdate(sql);
             logger.info("update item in bd susses : " + item.getName());
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't update Item ", e);
         }
         return item;
     }
@@ -48,9 +49,8 @@ public class ItemDaoJdbcImpl implements ItemDao {
             logger.info("delete item in bd susses : " + item.getName());
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't delete item ", e);
         }
-        return false;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class ItemDaoJdbcImpl implements ItemDao {
             statement.executeUpdate(sql);
             logger.info("create item in bd susses : " + item.getName());
         } catch (SQLException e) {
-           e.printStackTrace();
+            throw new DataProcessingException("Can't create item ", e);
         }
         return item;
     }
@@ -84,7 +84,7 @@ public class ItemDaoJdbcImpl implements ItemDao {
                 return Optional.of(itemFromDB);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't get item in db by id ", e);
         }
         logger.info("get Optional<item> in bd susses, id= " + id);
         return Optional.empty();
@@ -94,8 +94,7 @@ public class ItemDaoJdbcImpl implements ItemDao {
     public List<Item> getAll() {
         List<Item> itemList = new ArrayList<>();
         try (Connection connection = DbConnector.connect();
-             Statement statement = connection.createStatement()
-        ) {
+             Statement statement = connection.createStatement()) {
             String sql = "SELECT * FROM shop.items";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -107,7 +106,7 @@ public class ItemDaoJdbcImpl implements ItemDao {
                 itemList.add(itemFromDB);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't get all items ", e);
         }
         logger.info("getAll List<Item> in bd susses");
         return itemList;
@@ -123,8 +122,7 @@ public class ItemDaoJdbcImpl implements ItemDao {
             logger.info("deleteById item in bd susses, id= " + itemId);
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't delete by id item in db ", e);
         }
-        return false;
     }
 }

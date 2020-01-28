@@ -1,5 +1,6 @@
 package mate.academy.internetshop.dao.jdbc;
 
+import mate.academy.internetshop.controller.exceptions.DataProcessingException;
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.dao.UserDao;
@@ -64,9 +65,8 @@ public class OrderDaoJdbcImpl implements OrderDao {
             Order order = new Order(orderId, user, itemsFromBd);
             return Optional.of(order);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't get order by id in db ", e);
         }
-        return Optional.empty();
     }
 
     @Override
@@ -83,7 +83,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
             }
             addItems(order, order.getItems());
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't create order ", e);
         }
         return order;
     }
@@ -102,7 +102,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't change order items ", e);
         }
     }
 
@@ -117,7 +117,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
             deleteAllItems(order);
             addItems(order, order.getItems());
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't update order ", e);
         }
         return order;
     }
@@ -140,7 +140,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
                 items.add(item);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't get items in order ", e);
         }
         return items;
     }
@@ -157,7 +157,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
             statement.setLong(1, order.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't delete all items ", e);
         }
     }
 
@@ -180,9 +180,8 @@ public class OrderDaoJdbcImpl implements OrderDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't delete order in db ", e);
         }
-        return false;
     }
 
     @Override
@@ -204,9 +203,8 @@ public class OrderDaoJdbcImpl implements OrderDao {
             }
             return orders;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't get all orders in db", e);
         }
-        return null;
     }
 
     @Override
@@ -229,8 +227,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
             }
             return orders;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't get all orders for user in db ", e);
         }
-        return null;
     }
 }

@@ -1,5 +1,6 @@
 package mate.academy.internetshop.dao.jdbc;
 
+import mate.academy.internetshop.controller.exceptions.DataProcessingException;
 import mate.academy.internetshop.dao.RoleDao;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Role;
@@ -23,27 +24,6 @@ public class RoleDaoJdbcImpl implements RoleDao {
     private static Logger logger = Logger.getLogger(RoleDaoJdbcImpl.class);
 
     @Override
-    public Set<Role> getUserRole(User user) {
-        String sql = "SELECT role_name FROM shop.users INNER JOIN shop.users_roles ON users.user_id = users_roles.user_id" +
-                " INNER JOIN shop.roles ON users_roles.role_id = roles.role_id WHERE users.user_id = ?";
-        try (Connection connection = DbConnector.connect();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setLong(1, user.getId());
-            ResultSet resultSet = stmt.executeQuery();
-            Set<Role> roles = new HashSet<>();
-            while (resultSet.next()) {
-                String role = resultSet.getString("role_name");
-                Role role1 = Role.of(role);
-                roles.add(role1);
-            }
-            return roles;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
     public boolean setUserRole(User user) {
         String sql = "INSERT INTO shop.users_roles (user_id, role_id) VALUE (?, ?);";
         try (Connection connection = DbConnector.connect();
@@ -54,9 +34,8 @@ public class RoleDaoJdbcImpl implements RoleDao {
             stmt.execute();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't set 'user' role ", e);
         }
-        return false;
     }
 
     @Override
@@ -70,8 +49,7 @@ public class RoleDaoJdbcImpl implements RoleDao {
             stmt.execute();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't set 'admin' role ", e);
         }
-        return false;
     }
 }
