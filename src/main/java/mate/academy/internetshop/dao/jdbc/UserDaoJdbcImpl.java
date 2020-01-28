@@ -8,10 +8,7 @@ import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.util.DbConnector;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -69,7 +66,7 @@ public class UserDaoJdbcImpl implements UserDao {
         String sql = String.format("INSERT INTO shop.users (name, surname, email, phone, " +
                 "login, password, token) VALUES (?, ?, ?, ?, ?, ?, ?)");
         try (Connection connection = DbConnector.connect();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getSurname());
             stmt.setString(3, user.getEmail());
@@ -78,6 +75,15 @@ public class UserDaoJdbcImpl implements UserDao {
             stmt.setString(6, user.getPassword());
             stmt.setString(7, user.getToken());
             stmt.execute();
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            while (rs.next()) {
+                Long userId = rs.getLong(1);
+                user.setId(userId);
+            }
+
+            RoleDaoJdbcImpl roleDaoJdbc = new RoleDaoJdbcImpl();
+            roleDaoJdbc.setUserRole(user);
             return user;
         } catch (SQLException e) {
             e.printStackTrace();

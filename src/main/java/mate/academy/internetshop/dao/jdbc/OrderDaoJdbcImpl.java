@@ -45,20 +45,17 @@ public class OrderDaoJdbcImpl implements OrderDao {
 
             Long orderId = null, userId = null;
             List<Long> items = new ArrayList<>();
-
             while (rs.next()) {
                 orderId = rs.getLong("order_id");
                 userId = rs.getLong("user_id");
                 items.add(rs.getLong("item_id"));
             }
-
             List<Item> itemsFromBd = new ArrayList<>();
             for (Long i : items) {
                 if (itemDao.get(i).isPresent()) {
                     itemsFromBd.add(itemDao.get(i).get());
                 }
             }
-
             User user = null;
             Optional<User> optUser = userDao.get(userId);
             if (optUser.isPresent()) {
@@ -75,7 +72,6 @@ public class OrderDaoJdbcImpl implements OrderDao {
     @Override
     public Order create(Order order) {
         String sql = "INSERT INTO shop.orders (user_id) VALUES (?);";
-
         try (Connection connection = DbConnector.connect();
              PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, order.getUser().getId());
