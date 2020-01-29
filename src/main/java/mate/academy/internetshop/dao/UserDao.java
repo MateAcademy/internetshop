@@ -18,4 +18,6 @@ public interface UserDao extends GenericDao<User, Long> {
     Optional<User> getByToken(String token);
 
     Set<Role> getUserRole(User user);
+
+    Set<String> getUserRoleName(User user);
 }

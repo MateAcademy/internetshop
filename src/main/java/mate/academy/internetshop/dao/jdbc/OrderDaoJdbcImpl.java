@@ -212,7 +212,8 @@ public class OrderDaoJdbcImpl implements OrderDao {
     @Override
     public List<Order> getAllOrdersForUser(User user) {
         List<Order> orders = new ArrayList<>();
-        String sql = "SELECT * FROM shop.orders INNER JOIN shop.orders_items ON orders.order_id = orders_items.order_id WHERE user_id = ?;";
+        String sql = "SELECT * FROM shop.orders INNER JOIN shop.orders_items ON orders.order_id = orders_items.order_id" +
+                " WHERE user_id = ?;";
         try (Connection connection = DbConnector.connect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, user.getId());

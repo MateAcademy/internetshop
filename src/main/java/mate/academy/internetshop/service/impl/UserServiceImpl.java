@@ -29,6 +29,11 @@ public class UserServiceImpl implements UserService {
         return userDao.create(user);
     }
 
+    @Override
+    public Set<String> getUserRoleName(User user) {
+        return userDao.getUserRoleName(user);
+    }
+
     private String getToken() {
         return UUID.randomUUID().toString();
     }

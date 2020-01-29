@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Order;
+import mate.academy.internetshop.model.Role;
+import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.OrderService;
 import mate.academy.internetshop.service.UserService;
@@ -30,7 +32,16 @@ public class GetAllOrdersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        List<Order> orderList = orderService.getAll();
+        Long userId = (Long) req.getSession(true).getAttribute("userId");
+        User user = userService.get(userId);
+
+        List<Order> orderList;
+        if (userService.getUserRoleName(user).contains("ADMIN")) {
+            orderList = orderService.getAll();
+        } else {
+             orderList = orderService.getAllOrdersForUser(user);
+        }
+
         req.setAttribute("orders", orderList);
         req.getRequestDispatcher("/WEB-INF/views/order.jsp").forward(req, resp);
     }

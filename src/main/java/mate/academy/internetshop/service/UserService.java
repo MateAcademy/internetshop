@@ -30,4 +30,6 @@ public interface UserService {
     Optional<User> getByToken(String token);
 
     Set<Role> getUserRole(User user);
+
+    Set<String> getUserRoleName(User user);
 }

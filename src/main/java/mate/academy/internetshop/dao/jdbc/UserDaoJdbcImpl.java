@@ -221,9 +221,9 @@ public class UserDaoJdbcImpl implements UserDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+}
         return userFromDb;
-    }
+                }
 
     @Override
     public Set<Role> getUserRole(User user) {
@@ -239,6 +239,26 @@ public class UserDaoJdbcImpl implements UserDao {
                 String role = resultSet.getString("role_name");
                 Role role1 = Role.of(role);
                 roles.add(role1);
+            }
+            return roles;
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't get user role ", e);
+        }
+    }
+
+    @Override
+    public Set<String> getUserRoleName(User user) {
+        String sql = "SELECT role_name FROM shop.users INNER JOIN shop.users_roles " +
+                "ON users.user_id = users_roles.user_id INNER JOIN shop.roles " +
+                "ON users_roles.role_id = roles.role_id WHERE users.user_id = ?";
+        try (Connection connection = DbConnector.connect();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setLong(1, user.getId());
+            ResultSet resultSet = stmt.executeQuery();
+            Set<String> roles = new HashSet<>();
+            while (resultSet.next()) {
+                String role = resultSet.getString("role_name");
+                roles.add(role);
             }
             return roles;
         } catch (SQLException e) {

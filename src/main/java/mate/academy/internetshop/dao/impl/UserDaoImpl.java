@@ -97,4 +97,9 @@ public class UserDaoImpl implements UserDao {
     public Set<Role> getUserRole(User user) {
         return null;
     }
+
+    @Override
+    public Set<String> getUserRoleName(User user) {
+        return null;
+    }
 }

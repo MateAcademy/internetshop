@@ -64,9 +64,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getAllOrdersForUser(User user) {
-        return Storage.orders.stream()
-                .filter(x -> x.equals(user))
-                .collect(Collectors.toList());
+        return orderDao.getAllOrdersForUser(user);
     }
 
     @Override
