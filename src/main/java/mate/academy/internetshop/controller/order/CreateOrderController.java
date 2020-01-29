@@ -35,13 +35,14 @@ public class CreateOrderController extends HttpServlet {
         Long userId = (Long) req.getSession(true).getAttribute("userId");
         Basket basket = bucketService.getByUserId(userId);
 
+        Long basketId = basket.getId();
         List<Item> listItemFromBucket = basket.getItems();
 
         User user = userService.get(userId);
         if (listItemFromBucket.size() != 0) {
             Order order = new Order(user, listItemFromBucket);
-            bucketService.delete(userId);
-            orderService.update(order);
+            bucketService.delete(basketId);
+            orderService.create(order);
         }
         List<Order> orderList = orderService.getAll();
         req.setAttribute("orders", orderList);

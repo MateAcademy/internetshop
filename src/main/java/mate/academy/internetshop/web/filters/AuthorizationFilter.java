@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static mate.academy.internetshop.model.Role.RoleName.ADMIN;
+import static mate.academy.internetshop.model.Role.RoleName.USER;
 
 /**
  * @author Sergey Klunniy
@@ -30,7 +31,7 @@ public class AuthorizationFilter implements Filter {
 
     private static String EMPTY_STRING = "";
 
-    private Map<String, Role.RoleName> protectedUrls = new HashMap<>();
+    private static Map<String, Role.RoleName> protectedUrls = new HashMap<>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -51,7 +52,7 @@ public class AuthorizationFilter implements Filter {
         }
 
         String requestedUrl = req.getRequestURI().replace(req.getContextPath(), EMPTY_STRING);
-//         Role.RoleName roleName = protectedUrls.get(req.getRequestURI());
+ //        Role.RoleName roleName = protectedUrls.get(req.getRequestURI());
         Role.RoleName roleName = protectedUrls.get(requestedUrl);
         if (roleName == null) {
             processAuthenticated(chain, req, resp);
@@ -87,7 +88,6 @@ public class AuthorizationFilter implements Filter {
     }
 
     private boolean verifyRole(User user, Role.RoleName roleName) {
-//TODO: это пока не работает, нужно исправить
         return user.getRoles().stream().anyMatch(r -> r.getRoleName().equals(roleName));
    }
 

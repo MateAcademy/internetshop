@@ -21,7 +21,7 @@ public interface BucketService {
 
     Basket update(Basket basket);
 
-    boolean delete(Long bucketId);
+    boolean delete(Long basketId);
 
     boolean delete(Basket basket);
 

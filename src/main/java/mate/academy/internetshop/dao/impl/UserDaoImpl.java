@@ -3,9 +3,11 @@ package mate.academy.internetshop.dao.impl;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
 
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.db.Storage;
+import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 
 import javax.naming.AuthenticationException;
@@ -89,5 +91,10 @@ public class UserDaoImpl implements UserDao {
         return Storage.users.stream()
                 .filter(u -> u.getToken().equals(token))
                 .findFirst();
+    }
+
+    @Override
+    public Set<Role> getUserRole(User user) {
+        return null;
     }
 }

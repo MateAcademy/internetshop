@@ -27,7 +27,6 @@ public class Basket {
     }
 
     public Basket(Long userId) {
-        this();
         this.userId = userId;
     }
 

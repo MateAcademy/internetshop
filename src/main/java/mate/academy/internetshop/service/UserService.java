@@ -2,7 +2,9 @@ package mate.academy.internetshop.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
+import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 
 import javax.naming.AuthenticationException;
@@ -26,4 +28,6 @@ public interface UserService {
     User login(String login, String password) throws AuthenticationException;
 
     Optional<User> getByToken(String token);
+
+    Set<Role> getUserRole(User user);
 }

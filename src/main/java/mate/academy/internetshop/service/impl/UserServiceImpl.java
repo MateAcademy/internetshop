@@ -2,12 +2,13 @@ package mate.academy.internetshop.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import mate.academy.internetshop.dao.UserDao;
-import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
+import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
 
@@ -58,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAll() {
-        return Storage.users;
+        return userDao.getAll();
     }
 
     @Override
@@ -70,6 +71,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getByToken(String token) {
         return userDao.getByToken(token);
+    }
+
+    @Override
+    public Set<Role> getUserRole(User user) {
+
+        return userDao.getUserRole(user) ;
     }
 
 }

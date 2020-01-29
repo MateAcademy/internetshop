@@ -1,6 +1,6 @@
 package mate.academy.internetshop.dao.jdbc;
 
-import mate.academy.internetshop.controller.exceptions.DataProcessingException;
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Role;
@@ -9,7 +9,11 @@ import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.util.DbConnector;
 import org.apache.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -155,31 +159,6 @@ public class UserDaoJdbcImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
-        String sql = "SELECT * FROM shop.users WHERE email = ?";
-        User userFromDb = null;
-        try (Connection connection = DbConnector.connect()) {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, email);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                userFromDb = new User(
-                        resultSet.getLong("user_id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("surname"),
-                        resultSet.getString("email"),
-                        resultSet.getString("phone"),
-                        resultSet.getString("login"),
-                        resultSet.getString("password"),
-                        resultSet.getString("token"));
-            }
-            return Optional.of(userFromDb);
-        } catch (SQLException e) {
-            throw new DataProcessingException("Can't fined by email user ", e);
-        }
-    }
-
-    @Override
     public User login(String login, String password) {
         String query = "SELECT * FROM  shop.users WHERE login = ? and password = ?;";
         User userFromDb = null;
@@ -188,6 +167,47 @@ public class UserDaoJdbcImpl implements UserDao {
             stmt.setString(1, login);
             stmt.setString(2, password);
             ResultSet resultSet = stmt.executeQuery();
+            userFromDb = getUserFromResaltSet(resultSet);
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't fined user in db by login ", e);
+        }
+        return userFromDb;
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        String sql = "SELECT * FROM shop.users WHERE email = ?";
+        User userFromDb;
+        try (Connection connection = DbConnector.connect()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            userFromDb = getUserFromResaltSet(resultSet);
+            return Optional.of(userFromDb);
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't fined by email user ", e);
+        }
+    }
+
+    @Override
+    public Optional<User> getByToken(String token) {
+        String sql = "SELECT * FROM shop.users WHERE token = ?";
+        User userFromDb;
+        try (Connection connection = DbConnector.connect()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, token);
+            ResultSet resultSet = statement.executeQuery();
+            userFromDb = getUserFromResaltSet(resultSet);
+            userFromDb.setRoles(getUserRole(userFromDb));
+            return Optional.of(userFromDb);
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't get user by token ", e);
+        }
+    }
+
+    private User getUserFromResaltSet(ResultSet resultSet) {
+        User userFromDb = null;
+        try {
             if (resultSet.next()) {
                 userFromDb = new User(
                         resultSet.getLong("user_id"),
@@ -200,35 +220,16 @@ public class UserDaoJdbcImpl implements UserDao {
                         resultSet.getString("token"));
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't fined user in db by login ", e);
+            e.printStackTrace();
         }
         return userFromDb;
     }
 
     @Override
-    public Optional<User> getByToken(String token) {
-        String sql = "SELECT * FROM shop.users WHERE token = ?";
-        User userFromDb = null;
-        try (Connection connection = DbConnector.connect()) {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, token);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                userFromDb = new User(
-                        resultSet.getLong("user_id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("login"),
-                        resultSet.getString("password"));
-            }
-            return Optional.of(userFromDb);
-        } catch (SQLException e) {
-            throw new DataProcessingException("Can't get user by token ", e);
-        }
-    }
-
     public Set<Role> getUserRole(User user) {
-        String sql = "SELECT role_name FROM shop.users INNER JOIN shop.users_roles ON users.user_id = users_roles.user_id" +
-                " INNER JOIN shop.roles ON users_roles.role_id = roles.role_id WHERE users.user_id = ?";
+        String sql = "SELECT role_name FROM shop.users INNER JOIN shop.users_roles " +
+                "ON users.user_id = users_roles.user_id INNER JOIN shop.roles " +
+                "ON users_roles.role_id = roles.role_id WHERE users.user_id = ?";
         try (Connection connection = DbConnector.connect();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, user.getId());

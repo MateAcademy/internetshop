@@ -1,6 +1,6 @@
 package mate.academy.internetshop.dao.jdbc;
 
-import mate.academy.internetshop.controller.exceptions.DataProcessingException;
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.dao.UserDao;
@@ -187,18 +187,20 @@ public class OrderDaoJdbcImpl implements OrderDao {
     @Override
     public List<Order> getAll() {
         List<Order> orders = new ArrayList<>();
-        String sql = "SELECT * FROM shop.orders INNER JOIN shop.orders_items ON orders.order_id = orders_items.order_id;";
+//        String sql = "SELECT * FROM shop.orders INNER JOIN shop.orders_items ON orders.order_id = orders_items.order_id;";
+        String sql = "SELECT * FROM shop.orders;";
         try (Connection connection = DbConnector.connect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Long orderId = rs.getLong("order_id");
                 Long userId = rs.getLong("user_id");
-                Long itemId = rs.getLong("item_id");
+
                 List<Item> items = new ArrayList<>();
-                Item item = itemDao.get(itemId).get();
-                items.add(item);
+
                 Order order = new Order(orderId, userDao.get(userId).get(), items);
+                items.addAll(getItems(order));
+                order.setItems(items);
                 orders.add(order);
             }
             return orders;

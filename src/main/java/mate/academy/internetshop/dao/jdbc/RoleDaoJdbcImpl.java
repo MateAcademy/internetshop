@@ -1,19 +1,15 @@
 package mate.academy.internetshop.dao.jdbc;
 
-import mate.academy.internetshop.controller.exceptions.DataProcessingException;
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.dao.RoleDao;
 import mate.academy.internetshop.lib.Dao;
-import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.util.DbConnector;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Sergey Klunniy

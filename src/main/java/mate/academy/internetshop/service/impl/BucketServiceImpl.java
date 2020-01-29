@@ -29,7 +29,7 @@ public class BucketServiceImpl implements BucketService {
         if (basketDao.getByUserId(userId).isPresent()) {
             return basketDao.getByUserId(userId).get();
         }
-        return new Basket(userId);
+        return create(new Basket(userId));
     }
 
     @Override
@@ -61,8 +61,8 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public Basket get(Long id) {
-        Optional<Basket> optBucket = basketDao.get(id);
+    public Basket get(Long idBasket) {
+        Optional<Basket> optBucket = basketDao.get(idBasket);
         if (optBucket.isPresent()) {
             return optBucket.get();
         }
@@ -75,8 +75,8 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public boolean delete(Long bucketId) {
-        return basketDao.deleteById(bucketId);
+    public boolean delete(Long basketId) {
+        return basketDao.deleteById(basketId);
     }
 
     @Override
@@ -87,5 +87,6 @@ public class BucketServiceImpl implements BucketService {
     @Override
     public void deleteItem(Basket basket, Item item) {
         basket.getItems().remove(item);
+//        update(basket);
     }
 }

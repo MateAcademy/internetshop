@@ -1,6 +1,6 @@
 package mate.academy.internetshop.dao.jdbc;
 
-import mate.academy.internetshop.controller.exceptions.DataProcessingException;
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.dao.BasketDao;
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.dao.UserDao;
@@ -37,27 +37,40 @@ public class BasketDaoJdbcImpl implements BasketDao {
     private static UserDao userDao;
 
     @Override
-    public Optional<Basket> getByUserId(Long userId) {
-        String sql = "SELECT * FROM shop.baskets INNER JOIN shop.items_baskets " +
-                "ON baskets.basket_id = items_baskets.basket_id WHERE user_id = ?;";
+    public Optional<Basket> get(Long idBasket) {
+        String sql = "SELECT * FROM shop.baskets INNER JOIN shop.items_baskets ON baskets.basket_id = items_baskets.basket_id " +
+                "WHERE baskets.basket_id = ?;";
         try (Connection connection = DbConnector.connect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, userId);
+            statement.setLong(1, idBasket);
             ResultSet rs = statement.executeQuery();
-            Long basketId = null, userIdfromBd = null, itemId;
-            List<Item> items = new ArrayList<>();
+
+            Long basketId = null;
+            Long userId = null;
+            List<Long> items = new ArrayList<>();
+
             while (rs.next()) {
                 basketId = rs.getLong("basket_id");
-                userIdfromBd = rs.getLong("user_id");
-                itemId = rs.getLong("item_id");
-                Item item = itemDao.get(itemId).get();
-                items.add(item);
+                userId = rs.getLong("user_id");
+                items.add(rs.getLong("item_id"));
             }
-            Basket basket = new Basket(basketId, userIdfromBd, items);
-            logger.info("Get all optional baskets from db");
+
+            List<Item> itemsFromBd = new ArrayList<>();
+            for (Long i : items) {
+                if (itemDao.get(i).isPresent()) {
+                    itemsFromBd.add(itemDao.get(i).get());
+                }
+            }
+
+            User user = null;
+            Optional<User> optUser = userDao.get(userId);
+            if (optUser.isPresent()) {
+                user = optUser.get();
+            }
+            Basket basket = new Basket(basketId, user.getId(), itemsFromBd);
             return Optional.of(basket);
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't get all items from bucket by user id", e);
+            throw new DataProcessingException("Can't get basket by basket idBasket ", e);
         }
     }
 
@@ -101,39 +114,41 @@ public class BasketDaoJdbcImpl implements BasketDao {
     }
 
     @Override
-    public Optional<Basket> get(Long id) {
-        String sql = "SELECT * FROM shop.baskets INNER JOIN shop.items_baskets ON baskets.basket_id = items_baskets.basket_id " +
-                "WHERE baskets.basket_id = ?;";
+    public Optional<Basket> getByUserId(Long userId) {
+        String sql = "SELECT * FROM shop.baskets LEFT JOIN shop.items_baskets ON baskets.basket_id = items_baskets.basket_id " +
+                "WHERE baskets.user_id = ?;";
         try (Connection connection = DbConnector.connect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, id);
+            statement.setLong(1, userId);
             ResultSet rs = statement.executeQuery();
 
-            Long basketId = null, userId = null;
+            Long basketId = null;
             List<Long> items = new ArrayList<>();
 
             while (rs.next()) {
                 basketId = rs.getLong("basket_id");
-                userId = rs.getLong("user_id");
                 items.add(rs.getLong("item_id"));
             }
 
-            List<Item> itemsFromBd = new ArrayList<>();
-            for (Long i : items) {
-                if (itemDao.get(i).isPresent()) {
-                    itemsFromBd.add(itemDao.get(i).get());
+            if (basketId == null) {
+                return Optional.empty();
+            } else {
+                List<Item> itemsFromBd = new ArrayList<>();
+                for (Long i : items) {
+                    if (itemDao.get(i).isPresent()) {
+                        itemsFromBd.add(itemDao.get(i).get());
+                    }
                 }
+                User user = null;
+                Optional<User> optUser = userDao.get(userId);
+                if (optUser.isPresent()) {
+                    user = optUser.get();
+                }
+                Basket basket = new Basket(basketId, user.getId(), itemsFromBd);
+                return Optional.of(basket);
             }
-
-            User user = null;
-            Optional<User> optUser = userDao.get(userId);
-            if (optUser.isPresent()) {
-                user = optUser.get();
-            }
-            Basket basket = new Basket(basketId, user.getId(), itemsFromBd);
-            return Optional.of(basket);
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't get basket by basket id ", e);
+            throw new DataProcessingException("Can't getByUserId basket by basket id ", e);
         }
     }
 
@@ -153,7 +168,7 @@ public class BasketDaoJdbcImpl implements BasketDao {
         return basket;
     }
 
-    private void deleteAllItems(Basket basket) {
+    public void deleteAllItems(Basket basket) {
         String query = "DELETE FROM shop.items_baskets WHERE basket_id = ?;";
         try (Connection connection = DbConnector.connect();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -175,7 +190,7 @@ public class BasketDaoJdbcImpl implements BasketDao {
 
     @Override
     public boolean delete(Basket basket) {
-        deleteItems(basket, basket.getItems());
+        deleteAllItems(basket);
         String query = "DELETE FROM shop.baskets WHERE basket_id = ?;";
         try (Connection connection = DbConnector.connect();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -211,7 +226,7 @@ public class BasketDaoJdbcImpl implements BasketDao {
             }
             return baskets;
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't get all baskets ", e);
+            throw new DataProcessingException("Can't getByUserId all baskets ", e);
         }
     }
 }
