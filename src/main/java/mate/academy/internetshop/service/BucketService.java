@@ -2,30 +2,30 @@ package mate.academy.internetshop.service;
 
 import java.util.List;
 
-import mate.academy.internetshop.model.Bucket;
+import mate.academy.internetshop.model.Basket;
 import mate.academy.internetshop.model.Item;
 
 public interface BucketService {
 
-    Bucket getByUserId(Long userId);
+    Basket getByUserId(Long userId);
 
-    void addItem(Bucket bucket, Item item);
+    void addItem(Basket basket, Item item);
 
-    Bucket addItem(Long bucketId, Long itemId);
+    Basket addItem(Long bucketId, Long itemId);
 
-    Bucket create(Bucket bucket);
+    Basket create(Basket basket);
 
-    List<Item> getAllItems(Bucket bucket);
+    List<Item> getAllItems(Basket basket);
 
-    Bucket get(Long bucketId);
+    Basket get(Long bucketId);
 
-    Bucket update(Bucket bucket);
+    Basket update(Basket basket);
 
-    boolean delete(Long bucketId);
+    boolean delete(Long basketId);
 
-    boolean delete(Bucket bucket);
+    boolean delete(Basket basket);
 
-    void deleteItem(Bucket bucket, Item item);
+    void deleteItem(Basket basket, Item item);
 
-    public List<Bucket> getAll();
+    public List<Basket> getAll();
 }

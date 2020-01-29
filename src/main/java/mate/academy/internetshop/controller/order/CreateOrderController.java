@@ -1,9 +1,10 @@
 package mate.academy.internetshop.controller.order;
 
 import mate.academy.internetshop.lib.Inject;
-import mate.academy.internetshop.model.Bucket;
+import mate.academy.internetshop.model.Basket;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
+import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.OrderService;
 import mate.academy.internetshop.service.UserService;
@@ -32,13 +33,16 @@ public class CreateOrderController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long userId = (Long) req.getSession(true).getAttribute("userId");
-        Bucket bucket = bucketService.getByUserId(userId);
+        Basket basket = bucketService.getByUserId(userId);
 
-        List<Item> listItemFromBucket = bucket.getItems();
+        Long basketId = basket.getId();
+        List<Item> listItemFromBucket = basket.getItems();
+
+        User user = userService.get(userId);
         if (listItemFromBucket.size() != 0) {
-            Order order = new Order(userId, listItemFromBucket);
-            bucketService.delete(userId);
-            orderService.update(order);
+            Order order = new Order(user, listItemFromBucket);
+            bucketService.delete(basketId);
+            orderService.create(order);
         }
         List<Order> orderList = orderService.getAll();
         req.setAttribute("orders", orderList);

@@ -1,11 +1,11 @@
 <%@ page import="mate.academy.internetshop.service.BucketService" %>
-<%@ page import="mate.academy.internetshop.model.Bucket" %>
+<%@ page import="mate.academy.internetshop.model.Basket" %>
 <jsp:useBean id="items" scope="request" type="java.util.List<mate.academy.internetshop.model.Item>"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <html>
 <head>
-    <title>Show bucket</title>
+    <title>Show basket</title>
     <style type="text/css">
         button.new {
             background: -moz-linear-gradient(#00BBD6, #EBFFFF);

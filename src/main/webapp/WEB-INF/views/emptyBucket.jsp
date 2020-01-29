@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <html>
 <head>
-    <title>Show bucket empty list</title>
+    <title>Show basket empty list</title>
     <style type="text/css">
         button.new {
             background: -moz-linear-gradient(#00BBD6, #EBFFFF);
@@ -35,7 +35,7 @@
     </tr>
 </table>
 <form action="/servlet/showAllItems">
-    <p><button class="new">Add item in your bucket</button></p>
+    <p><button class="new">Add item in your basket</button></p>
 </form>
 <form action="/servlet/mainController">
     <p><button class="new">BACK TO HOME</button></p>

@@ -18,6 +18,11 @@ public class Role {
         this.roleName = roleName;
     }
 
+    public Role(Long id, String roleName) {
+        this.id = id;
+        this.roleName = RoleName.valueOf(roleName);
+    }
+
     public Long getId() {
         return id;
     }
@@ -36,5 +41,10 @@ public class Role {
 
     public static Role of(String roleName) {
        return new Role(RoleName.valueOf(roleName));
+    }
+
+    @Override
+    public String toString() {
+        return "role=" + roleName;
     }
 }

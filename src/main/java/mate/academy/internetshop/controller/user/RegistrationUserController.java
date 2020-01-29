@@ -47,7 +47,7 @@ public class RegistrationUserController extends HttpServlet {
             Cookie cookie = new Cookie("MATE", newUser.getToken());
             resp.addCookie(cookie);
             logger.info("registration new user");
-            resp.sendRedirect(req.getContextPath() + "/servlet/show-all-users");
+            resp.sendRedirect(req.getContextPath() + "/servlet/mainController");
         } else {
             logger.warn("registration error new user!");
             req.setAttribute("error", "Your password not equals, enter new password:");

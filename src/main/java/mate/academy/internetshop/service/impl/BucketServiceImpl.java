@@ -3,11 +3,11 @@ package mate.academy.internetshop.service.impl;
 import java.util.List;
 import java.util.Optional;
 
-import mate.academy.internetshop.dao.BucketDao;
+import mate.academy.internetshop.dao.BasketDao;
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
-import mate.academy.internetshop.model.Bucket;
+import mate.academy.internetshop.model.Basket;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.service.BucketService;
 
@@ -15,54 +15,54 @@ import mate.academy.internetshop.service.BucketService;
 public class BucketServiceImpl implements BucketService {
 
     @Inject
-    private static BucketDao bucketDao;
+    private static BasketDao basketDao;
     @Inject
     private static ItemDao itemDao;
 
     @Override
-    public List<Bucket> getAll() {
-        return bucketDao.getAll();
+    public List<Basket> getAll() {
+        return basketDao.getAll();
     }
 
     @Override
-    public Bucket getByUserId(Long userId) {
-        if (bucketDao.getByUserId(userId).isPresent()) {
-            return bucketDao.getByUserId(userId).get();
+    public Basket getByUserId(Long userId) {
+        if (basketDao.getByUserId(userId).isPresent()) {
+            return basketDao.getByUserId(userId).get();
         }
-        return new Bucket(userId);
+        return create(new Basket(userId));
     }
 
     @Override
-    public void addItem(Bucket bucket, Item item) {
-        bucket.addItem(item);
-        bucketDao.update(bucket);
+    public void addItem(Basket basket, Item item) {
+        basket.addItem(item);
+        basketDao.update(basket);
     }
 
     @Override
-    public Bucket addItem(Long bucketId, Long itemId) {
-        Bucket bucket = bucketDao.get(bucketId).get();
+    public Basket addItem(Long bucketId, Long itemId) {
+        Basket basket = basketDao.get(bucketId).get();
         Optional<Item> optItem = itemDao.get(itemId);
         if (optItem.isPresent()) {
             Item item = optItem.get();
-            bucket.getItems().add(item);
-            return bucketDao.update(bucket);
+            basket.getItems().add(item);
+            return basketDao.update(basket);
         }
         return null;
     }
 
     @Override
-    public Bucket create(Bucket bucket) {
-        return bucketDao.create(bucket);
+    public Basket create(Basket basket) {
+        return basketDao.create(basket);
     }
 
     @Override
-    public List<Item> getAllItems(Bucket bucket) {
-        return bucketDao.get(bucket.getUserId()).get().getItems();
+    public List<Item> getAllItems(Basket basket) {
+        return basketDao.get(basket.getUserId()).get().getItems();
     }
 
     @Override
-    public Bucket get(Long id) {
-        Optional<Bucket> optBucket = bucketDao.get(id);
+    public Basket get(Long idBasket) {
+        Optional<Basket> optBucket = basketDao.get(idBasket);
         if (optBucket.isPresent()) {
             return optBucket.get();
         }
@@ -70,22 +70,23 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public Bucket update(Bucket bucket) {
-        return bucketDao.update(bucket);
+    public Basket update(Basket basket) {
+        return basketDao.update(basket);
     }
 
     @Override
-    public boolean delete(Long bucketId) {
-        return bucketDao.deleteById(bucketId);
+    public boolean delete(Long basketId) {
+        return basketDao.deleteById(basketId);
     }
 
     @Override
-    public boolean delete(Bucket bucket) {
-        return bucketDao.delete(bucket);
+    public boolean delete(Basket basket) {
+        return basketDao.delete(basket);
     }
 
     @Override
-    public void deleteItem(Bucket bucket, Item item) {
-        bucket.getItems().remove(item);
+    public void deleteItem(Basket basket, Item item) {
+        basket.getItems().remove(item);
+//        update(basket);
     }
 }

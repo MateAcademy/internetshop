@@ -27,7 +27,6 @@ public class DeleteItemController extends HttpServlet {
         Long itemIdL = Long.valueOf(itemId);
         logger.info("delete item in bd " + itemService.get(itemIdL).getName());
         itemService.delete(itemIdL);
-
         resp.sendRedirect(req.getContextPath() + "/servlet/getAllItems");
     }
 }

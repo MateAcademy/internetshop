@@ -38,23 +38,22 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         if (req.getCookies() == null) {
-            processUnAuticated(req, resp);
+            processUnAuthentificated(req, resp);
             return;
         }
         for (Cookie cookie : req.getCookies()) {
             if (cookie.getName().equals("MATE")) {
                 Optional<User> user = userService.getByToken(cookie.getValue());
                 if (user.isPresent()) {
-
                     chain.doFilter(req, resp);
                     return;
                 }
             }
         }
-        processUnAuticated(req, resp);
+        processUnAuthentificated(req, resp);
     }
 
-    private void processUnAuticated(HttpServletRequest req, HttpServletResponse resp)
+    private void processUnAuthentificated(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
         resp.sendRedirect(req.getContextPath() + "/login");
     }

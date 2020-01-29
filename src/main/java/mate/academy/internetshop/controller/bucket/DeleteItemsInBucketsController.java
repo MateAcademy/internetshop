@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mate.academy.internetshop.lib.Inject;
-import mate.academy.internetshop.model.Bucket;
+import mate.academy.internetshop.model.Basket;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.ItemService;
@@ -31,15 +31,15 @@ public class DeleteItemsInBucketsController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long userId = (Long) req.getSession(true).getAttribute("userId");
-        Bucket bucket = bucketService.getByUserId(userId);
+        Basket basket = bucketService.getByUserId(userId);
 
         String stringItemId =  req.getParameter("item_id");
         Long id = Long.valueOf(stringItemId);
-        List<Item> items = bucket.getItems();
+        List<Item> items = basket.getItems();
         Item item = itemService.get(id);
         items.remove(item);
-        logger.info("delete item in bucket " + item.getName());
-        bucketService.update(bucket);
+        logger.info("delete item in basket " + item.getName());
+        bucketService.update(basket);
 
         req.setAttribute("items", items);
         req.getRequestDispatcher("/WEB-INF/views/showBucket.jsp").forward(req, resp);

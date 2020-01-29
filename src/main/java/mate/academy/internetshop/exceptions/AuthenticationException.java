@@ -1,4 +1,4 @@
-package mate.academy.internetshop.controller.exceptions;
+package mate.academy.internetshop.exceptions;
 
 /**
  * @author Sergey Klunniy

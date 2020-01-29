@@ -1,6 +1,10 @@
 package mate.academy.internetshop.controller;
 
+import mate.academy.internetshop.dao.BasketDao;
+import mate.academy.internetshop.dao.jdbc.BasketDaoJdbcImpl;
 import mate.academy.internetshop.lib.Inject;
+import mate.academy.internetshop.model.Basket;
+import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
 import org.apache.log4j.Logger;
@@ -13,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author Sergey Klunniy
@@ -23,6 +29,9 @@ public class LoginController extends HttpServlet {
 
     @Inject
     private static UserService userService;
+
+    @Inject
+    private static BasketDao basketDao;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -38,6 +47,14 @@ public class LoginController extends HttpServlet {
         String password = req.getParameter("psw");
         try {
             User user = userService.login(login, password);
+            Set<Role> userRole = userService.getUserRole(user);
+            user.setRoles(userRole);
+
+            Optional<Basket> optBasket = basketDao.getByUserId(user.getId());
+            if (!optBasket.isPresent()) {
+                Basket basket = new Basket(user.getId());
+                basketDao.create(basket);
+            }
 
             HttpSession session = req.getSession(true);
             session.setAttribute("userId", user.getId());

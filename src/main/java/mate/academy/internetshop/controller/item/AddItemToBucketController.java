@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mate.academy.internetshop.lib.Inject;
-import mate.academy.internetshop.model.Bucket;
+import mate.academy.internetshop.model.Basket;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.ItemService;
@@ -37,9 +37,9 @@ public class AddItemToBucketController extends HttpServlet {
         Long idItem = Long.valueOf(req.getParameter("item_id"));
         Item item = itemService.get(idItem);
 
-        Bucket bucket = bucketService.getByUserId(userId);
-        bucketService.addItem(bucket, item);
-        logger.info("of item to bucket " + item.getName() );
+        Basket basket = bucketService.getByUserId(userId);
+        bucketService.addItem(basket, item);
+        logger.info("of item to basket " + item.getName() );
 
         resp.sendRedirect(req.getContextPath() + "/servlet/showAllItems");
     }
