@@ -11,6 +11,7 @@ import mate.academy.internetshop.lib.Service;
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
+import mate.academy.internetshop.util.HashUtil;
 
 import javax.naming.AuthenticationException;
 
@@ -29,13 +30,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public  byte[]  getSalt(String login) {
+    public  byte[] getSalt(String login) {
         return userDao.getSalt(login);
     }
 
     @Override
     public User create(User user) {
         user.setToken(getToken());
+        user.setSalt(HashUtil.getSalt());
+        user.setPassword(HashUtil.hashPassword(user.getPassword(), user.getSalt()));
         return userDao.create(user);
     }
 

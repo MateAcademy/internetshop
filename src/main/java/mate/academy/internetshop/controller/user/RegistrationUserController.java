@@ -39,13 +39,8 @@ public class RegistrationUserController extends HttpServlet {
             newUser.setEmail(req.getParameter("email"));
             newUser.setPhone(req.getParameter("phone"));
             newUser.setLogin(req.getParameter("login"));
-
-            byte[] salt = HashUtil.getSalt();
-            newUser.setSalt(salt);
-            newUser.setPassword(HashUtil.hashPassword(password, salt));
-
+            newUser.setPassword(req.getParameter("psw"));
             userService.create(newUser);
-
             HttpSession session = req.getSession(true);
             session.setAttribute("userId", newUser.getId());
 

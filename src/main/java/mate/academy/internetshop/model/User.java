@@ -80,16 +80,4 @@ public class User {
                 ", roles=" + roles.toString() +
                 '}';
     }
-
-//        public static void main(String[] args) {
-//        //получить с бд пароль    пользователя а его за логином найти
-//          User userFromDb = new User();
-//          userFromDb.setPassword(hashPassword("hello world" , salt));
-//          userFromDb.setSalt(salt);
-//
-//
-//
-//                return hashPassword(password, salt).equals(userFromDb.getPassword());
-//
-//     }
 }

@@ -36,7 +36,7 @@ public class Role {
     }
 
     public enum RoleName {
-        USER, ADMIN
+        USER, ADMIN;
     }
 
     public static Role of(String roleName) {
