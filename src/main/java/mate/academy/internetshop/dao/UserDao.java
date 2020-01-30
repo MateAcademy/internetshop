@@ -11,6 +11,10 @@ import java.util.Set;
  * @author Sergey Klunniy
  */
 public interface UserDao extends GenericDao<User, Long> {
+    String getPassword(String login);
+
+    byte[]  getSalt(String login);
+
     Optional<User> findByEmail(String email);
 
     User login(String login, String password) throws AuthenticationException;

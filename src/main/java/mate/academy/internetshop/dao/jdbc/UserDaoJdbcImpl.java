@@ -29,6 +29,42 @@ public class UserDaoJdbcImpl implements UserDao {
     private static Logger logger = Logger.getLogger(UserDaoJdbcImpl.class);
 
     @Override
+    public String getPassword(String login) {
+        String sql = "SELECT password FROM shop.users WHERE login = ?";
+        try (Connection connection = DbConnector.connect()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, login);
+            ResultSet resultSet = statement.executeQuery();
+            String password = null;
+            while (resultSet.next()) {
+                password= resultSet.getString("password");
+            }
+
+            return password;
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't fined password by login ", e);
+        }
+    }
+
+    @Override
+    public byte[] getSalt(String login) {
+        String sql = "SELECT salt FROM shop.users WHERE login = ?";
+        try (Connection connection = DbConnector.connect()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, login);
+            ResultSet resultSet = statement.executeQuery();
+            byte[] salt = null;
+            while (resultSet.next()) {
+                 salt = resultSet.getBytes("salt");
+            }
+
+            return salt;
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't fined salt by login ", e);
+        }
+    }
+
+    @Override
     public Optional<User> get(Long userId) {
         String sql = "SELECT * FROM shop.users INNER JOIN shop.users_roles ON users.user_id = users_roles.user_id" +
                 " INNER JOIN shop.roles ON users_roles.role_id = roles.role_id WHERE users.user_id = ?";
@@ -68,7 +104,7 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public User create(User user) {
         String sql = String.format("INSERT INTO shop.users (name, surname, email, phone, " +
-                "login, password, token) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                "login, password, token, salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         try (Connection connection = DbConnector.connect();
              PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, user.getName());
@@ -78,6 +114,7 @@ public class UserDaoJdbcImpl implements UserDao {
             stmt.setString(5, user.getLogin());
             stmt.setString(6, user.getPassword());
             stmt.setString(7, user.getToken());
+            stmt.setBytes(8, user.getSalt());
             stmt.execute();
 
             ResultSet rs = stmt.getGeneratedKeys();
@@ -161,7 +198,7 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public User login(String login, String password) {
         String query = "SELECT * FROM  shop.users WHERE login = ? and password = ?;";
-        User userFromDb = null;
+        User userFromDb;
         try (Connection connection = DbConnector.connect();
              PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, login);

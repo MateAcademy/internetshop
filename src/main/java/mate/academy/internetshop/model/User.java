@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.security.MessageDigest;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,11 +20,11 @@ public class User {
     private String phone;
     private String login;
     private String password;
+    private byte[] salt;
     private String token;
     private Set<Role> roles = new HashSet<>();
 
     public User() { }
-
 
     public User(Long id, String name, String login, String password) {
         this.id = id;
@@ -80,9 +81,15 @@ public class User {
                 '}';
     }
 
-    //    public static void main(String[] args) {
-//        User user = new User();
-//        user.addRole(Role.of("ADMIN"));
-//        System.out.println(user);
-//    }
+//        public static void main(String[] args) {
+//        //получить с бд пароль    пользователя а его за логином найти
+//          User userFromDb = new User();
+//          userFromDb.setPassword(hashPassword("hello world" , salt));
+//          userFromDb.setSalt(salt);
+//
+//
+//
+//                return hashPassword(password, salt).equals(userFromDb.getPassword());
+//
+//     }
 }

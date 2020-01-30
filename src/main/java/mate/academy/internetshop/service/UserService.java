@@ -13,6 +13,10 @@ import javax.naming.AuthenticationException;
  * @author Sergey Klunniy
  */
 public interface UserService {
+    String getPassword(String login);
+
+    byte[] getSalt(String login);
+
     User create(User user);
 
     User get(Long idUser);

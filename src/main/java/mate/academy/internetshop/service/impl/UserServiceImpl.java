@@ -24,6 +24,16 @@ public class UserServiceImpl implements UserService {
     private static UserDao userDao;
 
     @Override
+    public String getPassword(String login) {
+        return userDao.getPassword(login);
+    }
+
+    @Override
+    public  byte[]  getSalt(String login) {
+        return userDao.getSalt(login);
+    }
+
+    @Override
     public User create(User user) {
         user.setToken(getToken());
         return userDao.create(user);

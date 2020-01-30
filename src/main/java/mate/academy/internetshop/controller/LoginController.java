@@ -7,6 +7,7 @@ import mate.academy.internetshop.model.Basket;
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
+import mate.academy.internetshop.util.HashUtil;
 import org.apache.log4j.Logger;
 
 import javax.naming.AuthenticationException;
@@ -46,23 +47,35 @@ public class LoginController extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("psw");
         try {
-            User user = userService.login(login, password);
-            Set<Role> userRole = userService.getUserRole(user);
-            user.setRoles(userRole);
 
-            Optional<Basket> optBasket = basketDao.getByUserId(user.getId());
-            if (!optBasket.isPresent()) {
-                Basket basket = new Basket(user.getId());
-                basketDao.create(basket);
+            byte [] salt = userService.getSalt(login);
+
+            System.out.println(new String(salt));
+            if (HashUtil.hashPassword(password, salt).equals(userService.getPassword(login))) {
+
+                User user = userService.login(login, HashUtil.hashPassword(password, salt));
+                Set<Role> userRole = userService.getUserRole(user);
+                user.setRoles(userRole);
+
+                Optional<Basket> optBasket = basketDao.getByUserId(user.getId());
+                if (!optBasket.isPresent()) {
+                    Basket basket = new Basket(user.getId());
+                    basketDao.create(basket);
+                }
+
+                HttpSession session = req.getSession(true);
+                session.setAttribute("userId", user.getId());
+
+                Cookie cookie = new Cookie("MATE", user.getToken());
+                logger.info("user login " + user.getLogin());
+                resp.addCookie(cookie);
+                resp.sendRedirect(req.getContextPath() + "/servlet/mainController");
+            } else {
+                throw new AuthenticationException();
             }
 
-            HttpSession session = req.getSession(true);
-            session.setAttribute("userId", user.getId());
 
-            Cookie cookie = new Cookie("MATE", user.getToken());
-            logger.info("user login " + user.getLogin());
-            resp.addCookie(cookie);
-            resp.sendRedirect(req.getContextPath() + "/servlet/mainController");
+
 
         } catch (AuthenticationException e) {
             logger.warn("user didn't authentication + " + e);

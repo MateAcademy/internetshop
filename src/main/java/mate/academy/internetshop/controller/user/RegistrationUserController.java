@@ -7,6 +7,7 @@ import javax.servlet.http.*;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
+import mate.academy.internetshop.util.HashUtil;
 import org.apache.log4j.Logger;
 
 /**
@@ -38,7 +39,11 @@ public class RegistrationUserController extends HttpServlet {
             newUser.setEmail(req.getParameter("email"));
             newUser.setPhone(req.getParameter("phone"));
             newUser.setLogin(req.getParameter("login"));
-            newUser.setPassword(password);
+
+            byte[] salt = HashUtil.getSalt();
+            newUser.setSalt(salt);
+            newUser.setPassword(HashUtil.hashPassword(password, salt));
+
             userService.create(newUser);
 
             HttpSession session = req.getSession(true);

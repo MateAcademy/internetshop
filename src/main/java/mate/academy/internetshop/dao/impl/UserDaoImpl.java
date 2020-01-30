@@ -68,6 +68,16 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public String getPassword(String login) {
+        return null;
+    }
+
+    @Override
+    public byte[] getSalt(String login) {
+        return null;
+    }
+
+    @Override
     public Optional<User> findByEmail(String email) {
         return Storage.users.stream()
                 .filter(o -> o.getEmail().equals(email))
