@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.security.MessageDigest;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,15 +25,15 @@ public class User {
 
     public User() { }
 
+    public User(Long id) {
+        this.id = id;
+    }
+
     public User(Long id, String name, String login, String password) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.password = password;
-    }
-
-    public User(Long id) {
-        this.id = id;
     }
 
     public User(String name, String surname, String email, String phone,
