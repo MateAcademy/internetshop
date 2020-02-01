@@ -34,5 +34,4 @@ public class AnnotatedClassMap {
     public static Object getImplementation(Class interfaceClass) {
         return classMap.get(interfaceClass);
     }
-
 }

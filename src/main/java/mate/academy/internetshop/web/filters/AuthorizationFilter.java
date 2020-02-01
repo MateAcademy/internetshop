@@ -1,9 +1,9 @@
 package mate.academy.internetshop.web.filters;
 
-import mate.academy.internetshop.lib.Inject;
-import mate.academy.internetshop.model.Role;
-import mate.academy.internetshop.model.User;
-import mate.academy.internetshop.service.UserService;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -14,13 +14,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
-import static mate.academy.internetshop.model.Role.RoleName.ADMIN;
-import static mate.academy.internetshop.model.Role.RoleName.USER;
+import mate.academy.internetshop.lib.Inject;
+import mate.academy.internetshop.model.Role;
+import mate.academy.internetshop.model.User;
+import mate.academy.internetshop.service.UserService;
 
 /**
  * @author Sergey Klunniy
@@ -31,11 +29,11 @@ public class AuthorizationFilter implements Filter {
 
     private static String EMPTY_STRING = "";
 
-    private static Map<String, Role.RoleName> protectedUrls = new HashMap<>();
+    private Map<String, Role.RoleName> protectedUrls = new HashMap<>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        protectedUrls.put("/servlet/show-all-users", ADMIN);
+        protectedUrls.put("/servlet/show-all-users", Role.RoleName.ADMIN);
     }
 
     @Override
@@ -52,7 +50,6 @@ public class AuthorizationFilter implements Filter {
         }
 
         String requestedUrl = req.getRequestURI().replace(req.getContextPath(), EMPTY_STRING);
- //        Role.RoleName roleName = protectedUrls.get(req.getRequestURI());
         Role.RoleName roleName = protectedUrls.get(requestedUrl);
         if (roleName == null) {
             processAuthenticated(chain, req, resp);
@@ -89,19 +86,21 @@ public class AuthorizationFilter implements Filter {
 
     private boolean verifyRole(User user, Role.RoleName roleName) {
         return user.getRoles().stream().anyMatch(r -> r.getRoleName().equals(roleName));
-   }
+    }
 
     private void processDenied(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.getRequestDispatcher("/WEB-INF/views/accessDenied.jsp").forward(req, resp);
     }
 
-    private void processAuthenticated(FilterChain chain, HttpServletRequest req, HttpServletResponse resp)
+    private void processAuthenticated(FilterChain chain, HttpServletRequest req,
+                                      HttpServletResponse resp)
             throws IOException, ServletException {
         chain.doFilter(req, resp);
     }
 
-    private void processUnAuthenticated(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void processUnAuthenticated(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException {
         resp.sendRedirect(req.getContextPath() + "/login");
     }
 

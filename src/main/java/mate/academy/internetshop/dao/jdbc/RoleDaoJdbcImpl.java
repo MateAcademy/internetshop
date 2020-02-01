@@ -1,15 +1,15 @@
 package mate.academy.internetshop.dao.jdbc;
 
-import mate.academy.internetshop.exceptions.DataProcessingException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import mate.academy.internetshop.dao.RoleDao;
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.util.DbConnector;
 import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 /**
  * @author Sergey Klunniy
@@ -23,7 +23,7 @@ public class RoleDaoJdbcImpl implements RoleDao {
     public boolean setUserRole(User user) {
         String sql = "INSERT INTO shop.users_roles (user_id, role_id) VALUE (?, ?);";
         try (Connection connection = DbConnector.connect();
-             PreparedStatement stmt = connection.prepareStatement(sql)
+                PreparedStatement stmt = connection.prepareStatement(sql)
         ) {
             stmt.setString(1, String.valueOf(user.getId()));
             stmt.setString(2, String.valueOf(2));
@@ -38,7 +38,7 @@ public class RoleDaoJdbcImpl implements RoleDao {
     public boolean setAdminRole(User user) {
         String sql = "INSERT INTO shop.users_roles (user_id, role_id) VALUE (?, ?);";
         try (Connection connection = DbConnector.connect();
-             PreparedStatement stmt = connection.prepareStatement(sql)
+                PreparedStatement stmt = connection.prepareStatement(sql)
         ) {
             stmt.setString(1, String.valueOf(user.getId()));
             stmt.setString(2, String.valueOf(1));

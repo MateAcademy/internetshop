@@ -2,7 +2,11 @@ package mate.academy.internetshop.controller.user;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.http.*;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.User;
@@ -38,9 +42,8 @@ public class RegistrationUserController extends HttpServlet {
             newUser.setEmail(req.getParameter("email"));
             newUser.setPhone(req.getParameter("phone"));
             newUser.setLogin(req.getParameter("login"));
-            newUser.setPassword(password);
+            newUser.setPassword(req.getParameter("psw"));
             userService.create(newUser);
-
             HttpSession session = req.getSession(true);
             session.setAttribute("userId", newUser.getId());
 

@@ -3,8 +3,14 @@ package mate.academy.internetshop.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import mate.academy.internetshop.service.idgenerators.BucketIdGenerator;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class Basket {
 
     private Long id;
@@ -15,10 +21,8 @@ public class Basket {
         this.id = BucketIdGenerator.getGeneratedId();
     }
 
-    public Basket(Long id, Long userId, List<Item> items) {
-        this.id = id;
+    public Basket(Long userId) {
         this.userId = userId;
-        this.items = items;
     }
 
     public Basket(Long userId, List<Item> items) {
@@ -26,40 +30,12 @@ public class Basket {
         this.items = items;
     }
 
-    public Basket(Long userId) {
-        this.userId = userId;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
-
-    public void addItem(Item item) {
-        items.add(item);
-    }
-
     @Override
     public String toString() {
         return "Basket{" + "id=" + id + ", userId=" + userId + ", items=" + items + '}';
+    }
+
+    public void addItem(Item item) {
+        this.items.add(item);
     }
 }

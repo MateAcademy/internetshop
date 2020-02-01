@@ -5,14 +5,18 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.naming.AuthenticationException;
+
+import mate.academy.internetshop.dao.BasketDao;
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
+
+import mate.academy.internetshop.model.Basket;
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
-
-import javax.naming.AuthenticationException;
+import mate.academy.internetshop.util.HashUtil;
 
 /**
  * @author Sergey Klunniy
@@ -23,9 +27,24 @@ public class UserServiceImpl implements UserService {
     @Inject
     private static UserDao userDao;
 
+    @Inject
+    private static BasketDao basketDao;
+
+    @Override
+    public String getPassword(String login) {
+        return userDao.getPassword(login);
+    }
+
+    @Override
+    public byte[] getSalt(String login) {
+        return userDao.getSalt(login);
+    }
+
     @Override
     public User create(User user) {
         user.setToken(getToken());
+        user.setSalt(HashUtil.getSalt());
+        user.setPassword(HashUtil.hashPassword(user.getPassword(), user.getSalt()));
         return userDao.create(user);
     }
 
@@ -70,7 +89,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(String login, String password)
             throws AuthenticationException {
-        return userDao.login(login, password);
+        byte[] salt = getSalt(login);
+
+        if (HashUtil.hashPassword(password, salt).equals(getPassword(login))) {
+            User user = userDao.login(login, HashUtil.hashPassword(password, salt));
+            Set<Role> userRole = getUserRole(user);
+            user.setRoles(userRole);
+            Optional<Basket> optBasket = basketDao.getByUserId(user.getId());
+            if (!optBasket.isPresent()) {
+                Basket basket = new Basket(user.getId());
+                basketDao.create(basket);
+            }
+            return user;
+        }
+        return null;
     }
 
     @Override
@@ -80,8 +112,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Set<Role> getUserRole(User user) {
-
-        return userDao.getUserRole(user) ;
+        return userDao.getUserRole(user);
     }
-
 }

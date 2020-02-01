@@ -1,11 +1,11 @@
 package mate.academy.internetshop.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @AllArgsConstructor
 @Getter
@@ -19,21 +19,21 @@ public class User {
     private String phone;
     private String login;
     private String password;
+    private byte[] salt;
     private String token;
     private Set<Role> roles = new HashSet<>();
 
     public User() { }
 
+    public User(Long id) {
+        this.id = id;
+    }
 
     public User(Long id, String name, String login, String password) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.password = password;
-    }
-
-    public User(Long id) {
-        this.id = id;
     }
 
     public User(String name, String surname, String email, String phone,
@@ -47,7 +47,8 @@ public class User {
         token = name + surname;
     }
 
-    public User(Long id, String name, String surname, String email, String phone, String login, String password, String token) {
+    public User(Long id, String name, String surname, String email, String phone,
+                String login, String password, String token) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -58,31 +59,27 @@ public class User {
         this.token = token;
     }
 
-    public User(String name, String surname, String email, String phone, String login, String password, String token) {
+    public User(String name, String surname, String email, String phone, String login,
+                String password, String token) {
         this(name, surname, email, phone,login,password);
         this.token = token;
     }
 
-    public void addRole(Role role) { roles.add(role); }
+    public void addRole(Role role) {
+        roles.add(role);
+    }
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", token='" + token + '\'' +
-                ", roles=" + roles.toString() +
-                '}';
+        return "User{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", surname='" + surname + '\''
+                + ", email='" + email + '\''
+                + ", phone='" + phone + '\''
+                + ", login='" + login + '\''
+                + ", password='" + password + '\''
+                + ", token='" + token + '\''
+                + ", roles=" + roles.toString() + '}';
     }
-
-    //    public static void main(String[] args) {
-//        User user = new User();
-//        user.addRole(Role.of("ADMIN"));
-//        System.out.println(user);
-//    }
 }

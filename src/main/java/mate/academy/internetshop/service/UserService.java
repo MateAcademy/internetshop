@@ -4,15 +4,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.naming.AuthenticationException;
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
-
-import javax.naming.AuthenticationException;
 
 /**
  * @author Sergey Klunniy
  */
 public interface UserService {
+    String getPassword(String login);
+
+    byte[] getSalt(String login);
+
     User create(User user);
 
     User get(Long idUser);

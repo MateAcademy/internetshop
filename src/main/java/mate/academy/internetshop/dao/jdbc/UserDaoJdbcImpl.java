@@ -1,14 +1,5 @@
 package mate.academy.internetshop.dao.jdbc;
 
-import mate.academy.internetshop.exceptions.DataProcessingException;
-import mate.academy.internetshop.dao.UserDao;
-import mate.academy.internetshop.lib.Dao;
-import mate.academy.internetshop.model.Role;
-import mate.academy.internetshop.model.User;
-
-import mate.academy.internetshop.util.DbConnector;
-import org.apache.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +9,16 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+
 import java.util.Set;
+import mate.academy.internetshop.dao.UserDao;
+import mate.academy.internetshop.exceptions.DataProcessingException;
+import mate.academy.internetshop.lib.Dao;
+import mate.academy.internetshop.model.Role;
+import mate.academy.internetshop.model.User;
+
+import mate.academy.internetshop.util.DbConnector;
+import org.apache.log4j.Logger;
 
 /**
  * @author Sergey Klunniy
@@ -29,11 +29,49 @@ public class UserDaoJdbcImpl implements UserDao {
     private static Logger logger = Logger.getLogger(UserDaoJdbcImpl.class);
 
     @Override
+    public String getPassword(String login) {
+        String sql = "SELECT password FROM shop.users WHERE login = ?";
+        try (Connection connection = DbConnector.connect()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, login);
+            ResultSet resultSet = statement.executeQuery();
+            String password = null;
+            while (resultSet.next()) {
+                password = resultSet.getString("password");
+            }
+
+            return password;
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't fined password by login ", e);
+        }
+    }
+
+    @Override
+    public byte[] getSalt(String login) {
+        String sql = "SELECT salt FROM shop.users WHERE login = ?";
+        try (Connection connection = DbConnector.connect()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, login);
+            ResultSet resultSet = statement.executeQuery();
+            byte[] salt = null;
+            while (resultSet.next()) {
+                salt = resultSet.getBytes("salt");
+            }
+
+            return salt;
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't fined salt by login ", e);
+        }
+    }
+
+    @Override
     public Optional<User> get(Long userId) {
-        String sql = "SELECT * FROM shop.users INNER JOIN shop.users_roles ON users.user_id = users_roles.user_id" +
-                " INNER JOIN shop.roles ON users_roles.role_id = roles.role_id WHERE users.user_id = ?";
+        String sql = "SELECT * FROM shop.users INNER JOIN shop.users_roles "
+                + "ON users.user_id = users_roles.user_id"
+                + " INNER JOIN shop.roles ON users_roles.role_id = roles.role_id "
+                + "WHERE users.user_id = ?";
         try (Connection connection = DbConnector.connect();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, userId);
 
             ResultSet resultSet = stmt.executeQuery();
@@ -67,10 +105,11 @@ public class UserDaoJdbcImpl implements UserDao {
 
     @Override
     public User create(User user) {
-        String sql = String.format("INSERT INTO shop.users (name, surname, email, phone, " +
-                "login, password, token) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        String sql = String.format("INSERT INTO shop.users (name, surname, email, phone, "
+                + "login, password, token, salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         try (Connection connection = DbConnector.connect();
-             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement stmt = connection.prepareStatement(sql,
+                        Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getSurname());
             stmt.setString(3, user.getEmail());
@@ -78,6 +117,7 @@ public class UserDaoJdbcImpl implements UserDao {
             stmt.setString(5, user.getLogin());
             stmt.setString(6, user.getPassword());
             stmt.setString(7, user.getToken());
+            stmt.setBytes(8, user.getSalt());
             stmt.execute();
 
             ResultSet rs = stmt.getGeneratedKeys();
@@ -96,10 +136,10 @@ public class UserDaoJdbcImpl implements UserDao {
 
     @Override
     public User update(User user) {
-        String sql = "UPDATE shop.users SET name=?, surname=?, email=?, phone=?, " +
-                "login=?, password=?, token=? WHERE user_id = ?";
+        String sql = "UPDATE shop.users SET name=?, surname=?, email=?, phone=?, "
+                + "login=?, password=?, token=? WHERE user_id = ?";
         try (Connection connection = DbConnector.connect();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getSurname());
             stmt.setString(3, user.getEmail());
@@ -124,7 +164,7 @@ public class UserDaoJdbcImpl implements UserDao {
     public boolean deleteById(Long userId) {
         String sql = "DELETE FROM shop.users WHERE user_id = ?";
         try (Connection connection = DbConnector.connect();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, userId);
             stmt.executeUpdate();
             return true;
@@ -161,9 +201,9 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public User login(String login, String password) {
         String query = "SELECT * FROM  shop.users WHERE login = ? and password = ?;";
-        User userFromDb = null;
+        User userFromDb;
         try (Connection connection = DbConnector.connect();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
+                PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, login);
             stmt.setString(2, password);
             ResultSet resultSet = stmt.executeQuery();
@@ -221,17 +261,17 @@ public class UserDaoJdbcImpl implements UserDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-}
+        }
         return userFromDb;
-                }
+    }
 
     @Override
     public Set<Role> getUserRole(User user) {
-        String sql = "SELECT role_name FROM shop.users INNER JOIN shop.users_roles " +
-                "ON users.user_id = users_roles.user_id INNER JOIN shop.roles " +
-                "ON users_roles.role_id = roles.role_id WHERE users.user_id = ?";
+        String sql = "SELECT role_name FROM shop.users INNER JOIN shop.users_roles "
+                + "ON users.user_id = users_roles.user_id INNER JOIN shop.roles "
+                + "ON users_roles.role_id = roles.role_id WHERE users.user_id = ?";
         try (Connection connection = DbConnector.connect();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, user.getId());
             ResultSet resultSet = stmt.executeQuery();
             Set<Role> roles = new HashSet<>();
@@ -248,11 +288,11 @@ public class UserDaoJdbcImpl implements UserDao {
 
     @Override
     public Set<String> getUserRoleName(User user) {
-        String sql = "SELECT role_name FROM shop.users INNER JOIN shop.users_roles " +
-                "ON users.user_id = users_roles.user_id INNER JOIN shop.roles " +
-                "ON users_roles.role_id = roles.role_id WHERE users.user_id = ?";
+        String sql = "SELECT role_name FROM shop.users INNER JOIN shop.users_roles "
+                + "ON users.user_id = users_roles.user_id INNER JOIN shop.roles "
+                + "ON users_roles.role_id = roles.role_id WHERE users.user_id = ?";
         try (Connection connection = DbConnector.connect();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, user.getId());
             ResultSet resultSet = stmt.executeQuery();
             Set<String> roles = new HashSet<>();

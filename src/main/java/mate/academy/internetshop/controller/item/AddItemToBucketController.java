@@ -39,7 +39,7 @@ public class AddItemToBucketController extends HttpServlet {
 
         Basket basket = bucketService.getByUserId(userId);
         bucketService.addItem(basket, item);
-        logger.info("of item to basket " + item.getName() );
+        logger.info("of item to basket " + item.getName());
 
         resp.sendRedirect(req.getContextPath() + "/servlet/showAllItems");
     }

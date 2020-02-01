@@ -87,6 +87,5 @@ public class BucketServiceImpl implements BucketService {
     @Override
     public void deleteItem(Basket basket, Item item) {
         basket.getItems().remove(item);
-//        update(basket);
     }
 }

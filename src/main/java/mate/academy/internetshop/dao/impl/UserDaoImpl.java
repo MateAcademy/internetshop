@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
-
+import javax.naming.AuthenticationException;
 import mate.academy.internetshop.dao.UserDao;
+
 import mate.academy.internetshop.db.Storage;
+
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
-
-import javax.naming.AuthenticationException;
 
 /**
  * @author Sergey Klunniy
@@ -65,6 +65,16 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean delete(User user) {
         return Storage.users.remove(user);
+    }
+
+    @Override
+    public String getPassword(String login) {
+        return null;
+    }
+
+    @Override
+    public byte[] getSalt(String login) {
+        return null;
     }
 
     @Override

@@ -1,10 +1,14 @@
 package mate.academy.internetshop.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import mate.academy.internetshop.service.idgenerators.RoleIdGenerator;
 
 /**
  * @author Sergey Klunniy
  */
+@Getter
+@Setter
 public class Role {
     private final Long id;
     private RoleName roleName;
@@ -23,24 +27,12 @@ public class Role {
         this.roleName = RoleName.valueOf(roleName);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public RoleName getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(RoleName roleName) {
-        this.roleName = roleName;
-    }
-
     public enum RoleName {
         USER, ADMIN
     }
 
     public static Role of(String roleName) {
-       return new Role(RoleName.valueOf(roleName));
+        return new Role(RoleName.valueOf(roleName));
     }
 
     @Override

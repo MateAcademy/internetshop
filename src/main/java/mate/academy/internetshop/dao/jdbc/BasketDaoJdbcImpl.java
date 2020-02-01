@@ -1,18 +1,5 @@
 package mate.academy.internetshop.dao.jdbc;
 
-import mate.academy.internetshop.exceptions.DataProcessingException;
-import mate.academy.internetshop.dao.BasketDao;
-import mate.academy.internetshop.dao.ItemDao;
-import mate.academy.internetshop.dao.UserDao;
-import mate.academy.internetshop.dao.impl.BasketDaoImpl;
-import mate.academy.internetshop.lib.Dao;
-import mate.academy.internetshop.lib.Inject;
-import mate.academy.internetshop.model.Basket;
-import mate.academy.internetshop.model.Item;
-import mate.academy.internetshop.model.User;
-import mate.academy.internetshop.util.DbConnector;
-import org.apache.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +8,23 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import mate.academy.internetshop.dao.BasketDao;
+import mate.academy.internetshop.dao.ItemDao;
+import mate.academy.internetshop.dao.UserDao;
+
+import mate.academy.internetshop.dao.impl.BasketDaoImpl;
+import mate.academy.internetshop.exceptions.DataProcessingException;
+
+import mate.academy.internetshop.lib.Dao;
+import mate.academy.internetshop.lib.Inject;
+
+import mate.academy.internetshop.model.Basket;
+import mate.academy.internetshop.model.Item;
+import mate.academy.internetshop.model.User;
+
+import mate.academy.internetshop.util.DbConnector;
+import org.apache.log4j.Logger;
 
 /**
  * @author Sergey Klunniy
@@ -38,10 +42,11 @@ public class BasketDaoJdbcImpl implements BasketDao {
 
     @Override
     public Optional<Basket> get(Long idBasket) {
-        String sql = "SELECT * FROM shop.baskets INNER JOIN shop.items_baskets ON baskets.basket_id = items_baskets.basket_id " +
-                "WHERE baskets.basket_id = ?;";
+        String sql = "SELECT * FROM shop.baskets INNER JOIN shop.items_baskets ON "
+                + "baskets.basket_id = items_baskets.basket_id "
+                + "WHERE baskets.basket_id = ?;";
         try (Connection connection = DbConnector.connect();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, idBasket);
             ResultSet rs = statement.executeQuery();
 
@@ -79,7 +84,8 @@ public class BasketDaoJdbcImpl implements BasketDao {
         String sql = "INSERT INTO shop.baskets (user_id) VALUES (?);";
 
         try (Connection connection = DbConnector.connect();
-             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement statement = connection.prepareStatement(sql,
+                        Statement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, basket.getUserId());
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
@@ -101,7 +107,7 @@ public class BasketDaoJdbcImpl implements BasketDao {
 
     private void changeBasketItems(Basket basket, List<Item> items, String sql) {
         try (Connection connection = DbConnector.connect();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             for (Item item : items) {
                 statement.setLong(1, basket.getId());
                 statement.setLong(2, item.getId());
@@ -115,10 +121,11 @@ public class BasketDaoJdbcImpl implements BasketDao {
 
     @Override
     public Optional<Basket> getByUserId(Long userId) {
-        String sql = "SELECT * FROM shop.baskets LEFT JOIN shop.items_baskets ON baskets.basket_id = items_baskets.basket_id " +
-                "WHERE baskets.user_id = ?;";
+        String sql = "SELECT * FROM shop.baskets LEFT JOIN shop.items_baskets ON "
+                + "baskets.basket_id = items_baskets.basket_id "
+                + "WHERE baskets.user_id = ?;";
         try (Connection connection = DbConnector.connect();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, userId);
             ResultSet rs = statement.executeQuery();
 
@@ -156,7 +163,7 @@ public class BasketDaoJdbcImpl implements BasketDao {
     public Basket update(Basket basket) {
         String query = "UPDATE shop.baskets SET user_id = ? WHERE basket_id = ?;";
         try (Connection connection = DbConnector.connect();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, basket.getUserId());
             statement.setLong(2, basket.getId());
             statement.executeUpdate();
@@ -171,7 +178,7 @@ public class BasketDaoJdbcImpl implements BasketDao {
     public void deleteAllItems(Basket basket) {
         String query = "DELETE FROM shop.items_baskets WHERE basket_id = ?;";
         try (Connection connection = DbConnector.connect();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, basket.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -193,7 +200,7 @@ public class BasketDaoJdbcImpl implements BasketDao {
         deleteAllItems(basket);
         String query = "DELETE FROM shop.baskets WHERE basket_id = ?;";
         try (Connection connection = DbConnector.connect();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, basket.getId());
             statement.executeUpdate();
             return true;
@@ -210,9 +217,10 @@ public class BasketDaoJdbcImpl implements BasketDao {
     @Override
     public List<Basket> getAll() {
         List<Basket> baskets = new ArrayList<>();
-        String sql = "SELECT * FROM shop.baskets INNER JOIN shop.items_baskets ON baskets.basket_id = items_baskets.basket_id;";
+        String sql = "SELECT * FROM shop.baskets INNER JOIN shop.items_baskets ON "
+                + "baskets.basket_id = items_baskets.basket_id;";
         try (Connection connection = DbConnector.connect();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Long basketId = rs.getLong("basket_id");
