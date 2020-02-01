@@ -1,5 +1,5 @@
-<h1>**Internet shop**</h1>
-________________________________________________________________________________________________________________________
+<h1>Internet shop</h1>
+
 Internet shop, this is my own training project on java,
 I used and experimented with maven, some interesting 
 dependencies: log4j, junit, jstl, servlet, lombok, mysql and
