@@ -1,4 +1,4 @@
-**Internet shop**
+<h1>**Internet shop**<h/1>
 ________________________________________________________________________________________________________________________
 Internet shop, this is my own training project on java,
 I used and experimented with maven, some interesting 
