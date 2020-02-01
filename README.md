@@ -1,3 +1,5 @@
+**Internet shop**
+________________________________________________________________________________________________________________________
 Internet shop, this is my own training project on java,
 I used and experimented with maven, some interesting 
 dependencies: log4j, junit, jstl, servlet, lombok, mysql and
