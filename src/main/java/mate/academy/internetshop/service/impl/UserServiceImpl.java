@@ -5,17 +5,18 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.naming.AuthenticationException;
+
 import mate.academy.internetshop.dao.BasketDao;
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
+
 import mate.academy.internetshop.model.Basket;
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
 import mate.academy.internetshop.util.HashUtil;
-
-import javax.naming.AuthenticationException;
 
 /**
  * @author Sergey Klunniy

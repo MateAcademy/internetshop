@@ -31,11 +31,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", user=" + user +
-                ", items=" + items +
-                '}';
+        return "Order{" + "id=" + id + ", user=" + user + ", items=" + items + '}';
     }
 }
 

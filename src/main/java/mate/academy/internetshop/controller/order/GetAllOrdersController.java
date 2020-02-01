@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Order;
-import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.OrderService;
@@ -39,7 +38,7 @@ public class GetAllOrdersController extends HttpServlet {
         if (userService.getUserRoleName(user).contains("ADMIN")) {
             orderList = orderService.getAll();
         } else {
-             orderList = orderService.getAllOrdersForUser(user);
+            orderList = orderService.getAllOrdersForUser(user);
         }
 
         req.setAttribute("orders", orderList);

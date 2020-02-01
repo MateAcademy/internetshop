@@ -1,11 +1,11 @@
 package mate.academy.internetshop.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @AllArgsConstructor
 @Getter
@@ -47,7 +47,8 @@ public class User {
         token = name + surname;
     }
 
-    public User(Long id, String name, String surname, String email, String phone, String login, String password, String token) {
+    public User(Long id, String name, String surname, String email, String phone,
+                String login, String password, String token) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -58,25 +59,27 @@ public class User {
         this.token = token;
     }
 
-    public User(String name, String surname, String email, String phone, String login, String password, String token) {
+    public User(String name, String surname, String email, String phone, String login,
+                String password, String token) {
         this(name, surname, email, phone,login,password);
         this.token = token;
     }
 
-    public void addRole(Role role) { roles.add(role); }
+    public void addRole(Role role) {
+        roles.add(role);
+    }
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", token='" + token + '\'' +
-                ", roles=" + roles.toString() +
-                '}';
+        return "User{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", surname='" + surname + '\''
+                + ", email='" + email + '\''
+                + ", phone='" + phone + '\''
+                + ", login='" + login + '\''
+                + ", password='" + password + '\''
+                + ", token='" + token + '\''
+                + ", roles=" + roles.toString() + '}';
     }
 }

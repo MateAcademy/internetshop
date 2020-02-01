@@ -1,11 +1,10 @@
 package mate.academy.internetshop.model;
 
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import mate.academy.internetshop.service.idgenerators.ItemIdGenerator;
-
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -43,13 +42,17 @@ public class Item {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Item item = (Item) o;
-        return Objects.equals(id, item.id) &&
-                Objects.equals(name, item.name) &&
-                Objects.equals(price, item.price) &&
-                Objects.equals(description, item.description);
+        return Objects.equals(id, item.id)
+                && Objects.equals(name, item.name)
+                && Objects.equals(price, item.price)
+                && Objects.equals(description, item.description);
     }
 
     @Override
