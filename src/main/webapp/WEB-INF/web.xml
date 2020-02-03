@@ -173,4 +173,14 @@
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>hibernateCreateUserController</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.HibernateCreateUserController</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>hibernateCreateUserController</servlet-name>
+        <url-pattern>/createUserHibernate</url-pattern>
+    </servlet-mapping>
+
 </web-app>

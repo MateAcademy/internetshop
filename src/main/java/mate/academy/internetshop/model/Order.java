@@ -14,6 +14,8 @@ public class Order {
     private User user;
     private List<Item> items;
 
+    public Order () {}
+
     public Order(User user, List<Item> items) {
         this.user = user;
         this.items = items;

@@ -4,24 +4,34 @@ import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import mate.academy.internetshop.service.idgenerators.ItemIdGenerator;
+
+import javax.persistence.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@Entity
+@Table(name = "items")
 public class Item {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "item_id")
     private Long id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "price", columnDefinition = "DECIMAL")
     private Double price;
+
+    @Column(name = "description")
     private String description;
+
+    public Item() { }
 
     public Item(Long id) {
         this.id = id;
-    }
-
-    public Item() {
-        id = ItemIdGenerator.getGeneratedId();
     }
 
     public Item(String name, Double price) {

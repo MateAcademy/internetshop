@@ -23,7 +23,6 @@ import org.apache.log4j.Logger;
 /**
  * @author Sergey Klunniy
  */
-@Dao
 public class UserDaoJdbcImpl implements UserDao {
 
     private static Logger logger = Logger.getLogger(UserDaoJdbcImpl.class);

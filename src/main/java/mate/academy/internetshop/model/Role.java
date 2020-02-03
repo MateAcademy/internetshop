@@ -10,11 +10,10 @@ import mate.academy.internetshop.service.idgenerators.RoleIdGenerator;
 @Getter
 @Setter
 public class Role {
-    private final Long id;
+    private Long id;
     private RoleName roleName;
 
     public Role() {
-        this.id = RoleIdGenerator.getGeneratedId();
     }
 
     public Role(RoleName roleName) {

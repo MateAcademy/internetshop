@@ -17,9 +17,7 @@ public class Basket {
     private Long userId;
     private List<Item> items = new ArrayList<>();
 
-    public Basket() {
-        this.id = BucketIdGenerator.getGeneratedId();
-    }
+    public Basket() { }
 
     public Basket(Long userId) {
         this.userId = userId;

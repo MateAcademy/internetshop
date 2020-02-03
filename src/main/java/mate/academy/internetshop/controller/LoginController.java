@@ -39,6 +39,9 @@ public class LoginController extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         String login = req.getParameter("login");
         String password = req.getParameter("psw");
+
+
+
         try {
             User user = userService.login(login, password);
             HttpSession session = req.getSession(true);
