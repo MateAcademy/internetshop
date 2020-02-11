@@ -76,6 +76,7 @@ Configure **Tomcat** local server:
 Create a schema in any SQL database.
 
 Execute query from file **init_db.sql** to create all the tables required by this app.
+
     src                 
      └── main            
          └── resourses        
