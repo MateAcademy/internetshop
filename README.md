@@ -46,6 +46,7 @@ Available functions for **ALL** users:
  >- view a list of all users
  >- delete users from the store
 <hr>
+
 # <a name="structure"></a>Project Structure
 - Java 11
 - Maven 4.0.0
@@ -55,17 +56,25 @@ Available functions for **ALL** users:
 - maven-checkstyle-plugin
 - mysql-connector-java 8.0.18
 <hr>
+
 # <a name="developer-start"></a>For developer
+
 Open the project in your IDE.
+
 Add it as maven project.
+
 Import dependencies.
+
 Add sdk 11 in project structure.
+
 Configure **Tomcat** local server:
 > add artifact;
 >
 > add sdk 11;
+
 <hr>
 Create a schema in any SQL database.
+
 Execute query from file **init_db.sql** to create all the tables required by this app.
     src                 
      └── main            
@@ -90,8 +99,11 @@ Change a path in **log4j.properties**. It has to reach your logFile.
      └── main            
          └── resourses        
                 └── log4j.properties 
+                
 Run the project.
+
 input **/inject** in address bar in your browser to create 2 users :
+
 ##### role = ADMIN
 >login = admin
 >
@@ -101,7 +113,9 @@ input **/inject** in address bar in your browser to create 2 users :
 >login = user
 >
 >password = user
+
 <hr>
+
  <a name="authors"></a>Author:
  
  [Sergiy Klunniy](https://github.com/MateAcademy)
