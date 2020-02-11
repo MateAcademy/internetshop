@@ -1,5 +1,5 @@
 <h1>internet shop
- <hr>
+ 
 <h4>Internet shop, this is my own training project on java, I used and experimented with maven, 
 web server Tomcat 9.0.19, some interesting dependencies: log4j, junit, jstl, servlet, lombok, 
 mysql and checkstyle-plugin. In this program I connected to the database MySQL from jdbc. 
