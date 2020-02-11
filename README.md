@@ -116,6 +116,5 @@ input **/inject** in address bar in your browser to create 2 users :
 
 <hr>
 
- <a name="authors"></a>Author:
- 
+ # <a name="authors"></a>Author:
  [Sergiy Klunniy](https://github.com/MateAcademy)
