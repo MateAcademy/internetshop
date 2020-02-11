@@ -32,7 +32,6 @@ Available functions for **ALL** users:
  >- log in
  >- log out
  
- Все скрипты по созданию таблиц вынести в отдельный файл init_db.sql в папке resources
  Available functions for users with a **USER** role only: 
  >- add to user's bucket
  >- delete from user's bucket
@@ -40,7 +39,6 @@ Available functions for **ALL** users:
  >- complete order
  >- view a lists of selected items in user`s bucket
  
- Реализовать методы CRUD для Item используя JDBC (добавить новую имплементацию для ItemDao)
  Available functions for users with an **ADMIN** role only:
  >- can visit admin menu page
  >- add items to the store
@@ -76,6 +74,7 @@ Execute query from file **init_db.sql** to create all the tables required by thi
      
 <hr>
 In **Factory** class input your **DB url**, **username** and **password** from your DB to create a connection.
+
     src                 
      └── main            
         └── java        
@@ -86,6 +85,7 @@ In **Factory** class input your **DB url**, **username** and **password** from y
                                 └── Factory.java
      
 Change a path in **log4j.properties**. It has to reach your logFile.
+
     src                 
      └── main            
          └── resourses        
@@ -102,5 +102,6 @@ input **/inject** in address bar in your browser to create 2 users :
 >
 >password = user
 <hr>
-# <a name="authors"></a>Author
+# <a name="authors"></a>Author:
+
  [Sergiy Klunniy](https://github.com/MateAcademy)
