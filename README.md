@@ -1,6 +1,11 @@
 <h1>internet shop
- 
- 
+ <hr>
+<h4>Internet shop, this is my own training project on java, I used and experimented with maven, 
+web server Tomcat 9.0.19, some interesting dependencies: log4j, junit, jstl, servlet, lombok, 
+mysql and checkstyle-plugin. In this program I connected to the database MySQL from jdbc. 
+This program is not like anything else, it works quickly and I spent a very interesting time 
+while writing it. I was obsessed with this project and tried to make it as good as possible.</h4>    
+
  
 ![](
 https://camo.githubusercontent.com/6665a0c8ffeaf2c0caf52baeab22d63849fcbf86/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6c616e6775616765732f746f702f53657267697941676565762f696e7465726e65746d61726b6574)
